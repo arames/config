@@ -27,6 +27,8 @@ bindkey -v
 bindkey "^P" history-search-backward
 bindkey "^N" history-search-forward
 bindkey "^R" history-incremental-search-backward
+bindkey "^K" up-line-or-history
+bindkey "^J" down-line-or-history
 
 
 source $ZSH_CUSTOM/aliases.zsh
