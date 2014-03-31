@@ -3,3 +3,10 @@ alias ds='diffstat'
 
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
+
+
+# Use a vim server if vim provides the feature.
+vim --version | grep +clientserver &> /dev/null
+if [ $? -eq 0 ] ; then
+	alias vim='vim --servername vimserver'
+fi
