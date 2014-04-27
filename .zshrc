@@ -2,7 +2,7 @@
 export ZSH=$HOME/.oh-my-zsh
 
 # Path to custom zsh configuration files.
-export ZSH_CUSTOM=$HOME/repos/config/zsh
+export ZSH_CUSTOM=$HOME/repos/config/.config/zsh
 ZSH_THEME="quiet"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
