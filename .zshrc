@@ -29,6 +29,10 @@ bindkey "^N" history-beginning-search-forward
 bindkey "^R" history-incremental-pattern-search-backward
 bindkey "^K" up-line-or-history
 bindkey "^J" down-line-or-history
+# Edit the command line in the editor.
+autoload edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
 
 
 source $ZSH_CUSTOM/aliases.zsh
