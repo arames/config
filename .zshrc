@@ -1,3 +1,12 @@
+platform='unknown'
+unamestr=`uname`
+if [[ $OSTYPE == linux* ]]; then
+	platform='linux'
+elif [[ $OSTYPE == darwin* ]]; then
+	platform='macos'
+fi
+
+
 # Path to the oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
