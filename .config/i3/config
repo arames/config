@@ -20,6 +20,10 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
+# Keyboard layouts
+bindsym $mod+Shift+f exec setxkbmap fr
+bindsym $mod+Shift+g exec setxkbmap us
+
 # Presentation ============================================================={{{1
 
 new_window normal
@@ -106,6 +110,8 @@ bindsym $win+c exec dmenu_run
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
+# Lock the screen.
+bindsym Ctrl+$alt+l exec i3lock --color=000000
 
 # Status bar ==============================================================={{{1
 
