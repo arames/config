@@ -21,8 +21,8 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # Keyboard layouts
-bindsym $mod+Shift+f exec setxkbmap fr
-bindsym $mod+Shift+g exec setxkbmap us
+bindsym $mod+Shift+z exec setxkbmap fr
+bindsym $mod+Shift+x exec setxkbmap us
 
 # Presentation ============================================================={{{1
 
@@ -45,6 +45,7 @@ bindsym $mod+bracketright split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen
+bindsym $mod+Shift+f fullscreen global
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
