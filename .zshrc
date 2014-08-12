@@ -32,12 +32,8 @@ export PATH=$HOME/bin:$PATH
 # Use the vim mode.
 bindkey -v
 
-# Quick shortcuts to access the history.
-bindkey "^P" history-beginning-search-backward
-bindkey "^N" history-beginning-search-forward
-bindkey "^R" history-incremental-pattern-search-backward
-bindkey "^K" up-line-or-history
-bindkey "^J" down-line-or-history
+source $ZSH_CUSTOM/shortcuts.zsh
+
 # Edit the command line in the editor.
 autoload edit-command-line
 zle -N edit-command-line
