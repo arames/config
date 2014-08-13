@@ -1,5 +1,5 @@
 alias grep='grep --color=auto --exclude=".tags" --exclude-dir=".git"'
-alias ds='diffstat'
+alias -g ds='| diffstat'
 
 if [[ "$platform" == 'linux' ]]; then
 	alias pbcopy='xclip -selection clipboard'
