@@ -27,12 +27,17 @@ export EDITOR='vim'
 
 export PATH="/home/aleram01/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
 export PATH=$HOME/bin:$PATH
+export PATH=$PATH:"/home/aleram01/work/v8/tools/depot_tools/"
 
 
 # Use the vim mode.
 bindkey -v
 
-source $ZSH_CUSTOM/shortcuts.zsh
+bindkey "^P" history-beginning-search-backward
+bindkey "^N" history-beginning-search-forward
+bindkey "^R" history-incremental-pattern-search-backward
+bindkey "^K" up-line-or-history
+bindkey "^J" down-line-or-history
 
 # Edit the command line in the editor.
 autoload edit-command-line
@@ -40,4 +45,20 @@ zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
 
 
-source $ZSH_CUSTOM/aliases.zsh
+alias grep='grep --color=auto --exclude=".tags" --exclude-dir=".git"'
+alias -g ds='| diffstat'
+
+if [[ "$platform" == 'linux' ]]; then
+	alias pbcopy='xclip -selection clipboard'
+	alias pbpaste='xclip -selection clipboard -o'
+fi
+
+# Use a vim server if vim provides the feature.
+vim --version | grep +clientserver &> /dev/null
+if [ $? -eq 0 ] ; then
+	alias vim='vim --servername vimserver'
+fi
+
+
+# .vimrc specific options =================================================={{{1
+# vim: set foldmethod=marker:
