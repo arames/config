@@ -1,0 +1,15 @@
+function prompt_quiet_setup {
+setopt LOCAL_OPTIONS
+unsetopt XTRACE KSH_ARRAYS
+prompt_opts=(cr percent subst)
+
+# Load required functions.
+autoload -Uz add-zsh-hook
+
+# Define prompts.
+PROMPT=$'
+%n@%m|%D{%D %H:%M}| %F{cyan}%/%f
+'
+}
+
+prompt_quiet_setup "$@"
