@@ -1,3 +1,14 @@
+export EDITOR='vim'
+export VISUAL='vim'
+
+# Prezto framework ========================================================={{{1
+# Source Prezto. Do this before anything else.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+
+# General configuration ===================================================={{{1
 platform='unknown'
 unamestr=`uname`
 if [[ $OSTYPE == linux* ]]; then
@@ -6,22 +17,23 @@ elif [[ $OSTYPE == darwin* ]]; then
 	platform='macos'
 fi
 
-
-# Path to the oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
-
-# Path to custom zsh configuration files.
+# Path to custom zsh helpers.
 export ZSH_CUSTOM=$HOME/repos/config/.config/zsh
-ZSH_THEME="quiet"
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git)
+# Output redirection can overwrite existing files silently.
+# If NOCLOBBER is set instead, overwriting an existing file requires using `>!`.
+setopt CLOBBER
 
-if [ -d $ZSH ] ; then
-	source $ZSH/oh-my-zsh.sh
-fi
+# Prompt configuration ====================================================={{{1
+
+# The prompt is set in ~.zpreztorc. The following lines require reset of the
+# prompt every minute to keep the date in the prompt up-to-date.
+TMOUT=60
+TRAPALRM() {
+	zle reset-prompt
+}
+
+# Other configuration ======================================================{{{1
 
 export EDITOR='vim'
 
