@@ -1,4 +1,6 @@
-# Custom gdbinit. A lot of stuff is imported from
+# Custom gdbinit.
+# Use `help user`
+# A lot of stuff is imported from
 # https://github.com/gdbinit/Gdbinit/blob/master/gdbinit
 
 # Documentation pointers:
@@ -26,6 +28,10 @@ define msg_error
 	end
 	printf "==================================== (gdbinit) ERROR END ===\n"
 end
+document msg_error
+[utils function] Syntax: msg_error <string>
+| Print <string>, surrounded by an error wrapper.
+end
 
 # Architecture configuration ==============================================={{{1
 
@@ -40,7 +46,7 @@ define check_arch_conf
 	end
 end
 document check_arch_conf
-Syntax: check_arch_conf
+[utils function] Syntax: check_arch_conf
 | Check that the gdb scripts debugging arch configuration is correct.
 end
 
@@ -116,7 +122,7 @@ define skip
 	printf "Now at\n"
 	disasm 1
 end
-document disasm
+document skip
 Syntax: skip [n=1]
 | Skip over the next <n> instructions. Useful to execute past a breakpoint.
 end
