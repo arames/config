@@ -7,7 +7,9 @@ if [ ! -n "$ZSH_BACKUP_DIR" ]; then
 fi
 
 function usage {
-	echo Usage: $(basename "$0") "[-h/--help] [FILE...]"
+	echo Usage: $(basename "$0") "[-h/--help]"
+	echo "Must be run from a git branch initialized with stgit. Export the"
+	echo "current series of patches and back it up."
 	echo "Options:"
 	echo "  -h,--help   Print this message."
 }
@@ -16,7 +18,7 @@ zparseopts h=opt_help -help=opt_help
 
 [[ -n $opt_help ]] && usage && return 0
 
-[[ $# -ge 1 ]] || (usage && return 1)
+[[ $# -eq 0 ]] || (usage && return 1)
 
 backup_dir=$ZSH_BACKUP_DIR
 
@@ -28,9 +30,12 @@ fi
 
 
 date_tag=`date +%F_%R`
+repo_name=$(basename `git rev-parse --show-toplevel`)
+[[ $? -eq 0 ]] || usage
+branch_name=`git rev-parse --abbrev-ref HEAD`
+[[ $? -eq 0 ]] || usage
 
-for arg; do
-	backup_dst=${backup_dir}/${date_tag}_${arg}
-	echo cp --recursive $arg $backup_dst
-	cp --recursive $arg $backup_dst
-done
+
+backup_target=${backup_dir}/${date_tag}_${repo_name}.${branch_name}
+echo stg export --numbered --dir=$backup_target
+stg export --numbered --dir=$backup_target

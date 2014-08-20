@@ -39,8 +39,9 @@ TRAPALRM() {
 
 # Look for function definitions in $ZSH_CUSTOM/functions/.
 fpath=( $ZSH_CUSTOM/functions/ "${fpath[@]}" )
-# List the functions to autoload.
+# List the functions to autoload. Use the '--help' option for details.
 autoload -Uz backup_files
+autoload -Uz stgb
 
 # Other configuration ======================================================{{{1
 
