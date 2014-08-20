@@ -1,0 +1,36 @@
+#!/usr/bin/zsh
+
+if [ ! -n "$ZSH_BACKUP_DIR" ]; then
+	ZSH_BACKUP_DIR=$HOME/backup
+	echo "WARNING: ZSH_BACKUP_DIR is not set. Using default $ZSH_BACKUP_DIR."
+	echo "         You can set \$ZSH_BACKUP_DIR in your .zshrc to configure this statically."
+fi
+
+function usage {
+	echo Usage: $(basename "$0") "[-h/--help] [-b BACKUP_DIR] [FILE...]"
+	echo "Options:"
+	echo "  -h,--help   Print this message."
+}
+
+zparseopts h=opt_help -help=opt_help
+
+[[ -n $opt_help ]] && usage && return 0
+
+[[ $# -ge 1 ]] || (usage && return 1)
+
+backup_dir=$ZSH_BACKUP_DIR
+
+if [ -e $backup_dir ] && [ ! -d backup ]; then
+	echo "ERROR: $backup_dir exists and is not a directory."
+	return 1
+fi
+[[ -d $backup_dir ]] || mkdir $backup_dir
+
+
+date_tag=`date +%F_%R`
+
+for arg; do
+	backup_dst=${backup_dir}/${date_tag}_${arg}
+	echo cp --recursive $arg $backup_dst
+	cp --recursive $arg $backup_dst
+done

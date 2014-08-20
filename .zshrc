@@ -18,7 +18,9 @@ elif [[ $OSTYPE == darwin* ]]; then
 fi
 
 # Path to custom zsh helpers.
-export ZSH_CUSTOM=$HOME/repos/config/.config/zsh
+ZSH_CUSTOM=$HOME/repos/config/.config/zsh
+# Path where zsh scripts will backup data when needed.
+ZSH_BACKUP_DIR=$HOME/backup
 
 # Output redirection can overwrite existing files silently.
 # If NOCLOBBER is set instead, overwriting an existing file requires using `>!`.
@@ -32,6 +34,13 @@ TMOUT=60
 TRAPALRM() {
 	zle reset-prompt
 }
+
+# Custom functions ========================================================={{{1
+
+# Look for function definitions in $ZSH_CUSTOM/functions/.
+fpath=( $ZSH_CUSTOM/functions/ "${fpath[@]}" )
+# List the functions to autoload.
+autoload -Uz backup_files
 
 # Other configuration ======================================================{{{1
 
