@@ -33,6 +33,12 @@ new_float normal
 hide_edge_borders both
 
 
+# System keys =============================================================={{{1
+
+# Sound control with amixer.
+bindsym XF86AudioRaiseVolume exec amixer -q set Master 2dB+ unmute
+bindsym XF86AudioLowerVolume exec amixer -q set Master 2dB- unmute
+bindsym XF86AudioMute exec amixer -q set Master toggle
 
 
 # Organisation ============================================================={{{1
