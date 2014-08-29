@@ -11,19 +11,12 @@ general {
         interval = 5
 }
 
-order += "ethernet eth0"
 order += "disk /"
 order += "disk /home/"
 order += "volume master"
 order += "cpu_usage"
 order += "load"
 order += "tztime local"
-
-ethernet eth0 {
-        # if you use %speed, i3status requires root privileges
-        format_up = "E: %ip (%speed)"
-        format_down = "E: down"
-}
 
 disk "/" {
         format = "/%avail"
