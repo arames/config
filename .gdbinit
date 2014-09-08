@@ -94,12 +94,17 @@ end
 
 define disasm
 	set $disasm_n = 10
+	set $disasm_n_max = 200
 	set $disasm_address = $pc
 	if $argc >= 1
 		set $disasm_n = $arg0
 	end
 	if $argc >= 2
 		set $disasm_address = $arg1
+	end
+	if $disasm_n > $disasm_n_max
+		printf "Required disassembly of %d instructions. Disassembling d only.\n", $disasm_n, $disasm_n_max
+		set $disasm_n = $disasm_n_max
 	end
 	eval "x /%di $disasm_address", $disasm_n
 end
