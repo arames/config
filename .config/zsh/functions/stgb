@@ -29,7 +29,7 @@ fi
 [[ -d $backup_dir ]] || mkdir $backup_dir
 
 
-date_tag=`date +%F_%R`
+date_tag=`date +%F_%R:%S`
 repo_name=$(basename `git rev-parse --show-toplevel`)
 [[ $? -eq 0 ]] || usage
 branch_name=`git rev-parse --abbrev-ref HEAD`
@@ -37,5 +37,5 @@ branch_name=`git rev-parse --abbrev-ref HEAD`
 
 
 backup_target=${backup_dir}/${date_tag}_${repo_name}.${branch_name}
-echo stg export --dir=$backup_target
-stg export --dir=$backup_target
+echo stg export --numbered --dir=$backup_target
+stg export --numbered --dir=$backup_target
