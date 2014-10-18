@@ -1,0 +1,26 @@
+# Slate configuration file.
+# See https://github.com/jigish/slate
+
+config defaultToCurrentScreen true
+config nudgePercentOf screenSize
+config resizePercentOf screenSize
+
+
+
+# Abstract positions
+alias full move screenOriginX;screenOriginY screenSizeX;screenSizeY
+alias lefthalf move screenOriginX;screenOriginY screenSizeX/2;screenSizeY
+alias righthalf move screenOriginX+screenSizeX/2;screenOriginY screenSizeX/2;screenSizeY
+alias topleft corner top-left resize:screenSizeX/2;screenSizeY/2
+alias topright corner top-right resize:screenSizeX/2;screenSizeY/2
+alias bottomleft corner bottom-left resize:screenSizeX/2;screenSizeY/2
+alias bottomright corner bottom-right resize:screenSizeX/2;screenSizeY/2
+
+#bind g:cmd grid padding:5 0:6,2 1:8,3
+bind r:alt ${full}
+bind q:alt ${lefthalf}
+bind w:alt ${righthalf}
+bind a:alt ${topleft}
+bind s:alt ${topright}
+bind z:alt ${bottomleft}
+bind x:alt ${bottomright}
