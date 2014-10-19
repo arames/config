@@ -47,9 +47,7 @@ autoload -Uz stgb
 
 export EDITOR='vim'
 
-export PATH="/home/aleram01/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
 export PATH=$HOME/bin:$PATH
-export PATH=$PATH:"/home/aleram01/work/tools/google_depot_tools/"
 
 
 # Use the vim mode.
