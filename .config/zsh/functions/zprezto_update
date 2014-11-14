@@ -1,6 +1,14 @@
 #!/usr/bin/zsh
 
-CURRENT_DIR=$PWD
+
+function usage {
+	echo Usage: $(basename "$0")
+}
+
+zparseopts h=opt_help -help=opt_help
+[[ -n $opt_help ]] && usage && return 0
+[[ $# -eq 0 ]] || (usage && return 1)
+
 cd ~/.zprezto/
 git pull && git submodule update --init --recursive
-cd $CURRENT_DIR
+cd -
