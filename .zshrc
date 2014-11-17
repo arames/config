@@ -49,6 +49,9 @@ autoload -Uz zprezto_update
 export EDITOR='vim'
 
 export PATH=$HOME/bin:$PATH
+if [[ -s "$HOME/.zshpath" ]]; then
+  source "$HOME/.zshpath"
+fi
 
 
 # Use the vim mode.
