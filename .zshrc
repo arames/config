@@ -18,7 +18,7 @@ elif [[ $OSTYPE == darwin* ]]; then
 fi
 
 # Path to custom zsh helpers.
-ZSH_CUSTOM=$HOME/repos/config/.config/zsh
+ZSH_CUSTOM=$HOME/.config/config/zsh
 # Path where zsh scripts will backup data when needed.
 ZSH_BACKUP_DIR=$HOME/backup
 
