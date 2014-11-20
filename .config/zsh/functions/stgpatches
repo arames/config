@@ -17,10 +17,6 @@ repo_name=$(basename `git rev-parse --show-toplevel`)
 branch_name=`git rev-parse --abbrev-ref HEAD`
 out_dir=stg_patches_${date_tag}_${repo_name}.${branch_name}
 
-# Export the patches.
-echo stg export --numbered --dir=$out_dir
-stg export --numbered --dir=$out_dir
-
 # Create parent patches.
 tracked_branch=$(git rev-parse --symbolic-full-name @\{u\})
 base_commit=$(git rev-parse ${tracked_branch})
