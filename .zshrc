@@ -42,6 +42,7 @@ fpath=( $ZSH_CUSTOM/functions/ "${fpath[@]}" )
 # List the functions to autoload. Use the '--help' option for details.
 autoload -Uz backup_files
 autoload -Uz stgb
+autoload -Uz stgpatches
 autoload -Uz zprezto_update
 
 # Other configuration ======================================================{{{1
