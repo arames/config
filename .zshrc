@@ -35,6 +35,13 @@ TRAPALRM() {
 	zle reset-prompt
 }
 
+# Completion configuration ================================================={{{1
+
+# Insert a common prefix before using the menu.
+setopt list_ambiguous
+# Don't automatically select the first completion entry.
+unsetopt menu_complete
+
 # Custom functions ========================================================={{{1
 
 # Look for function definitions in $ZSH_CUSTOM/functions/.
