@@ -88,12 +88,16 @@ if [[ "$platform" == 'linux' ]]; then
 	alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 fi
 
-# Use a vim server if vim provides the feature.
-vim --version | grep +clientserver &> /dev/null
-if [ $? -eq 0 ] ; then
-	alias vim='vim --servername vimserver'
-fi
+# Stop using this with neovim.
+## Use a vim server if vim provides the feature.
+#vim --version | grep +clientserver &> /dev/null
+#if [ $? -eq 0 ] ; then
+#	alias vim='vim --servername vimserver'
+#fi
 
+if [[ $TERM == "xterm" ]]; then
+	TERM="xterm-256color"
+fi
 
 # .vimrc specific options =================================================={{{1
 # vim: set foldmethod=marker:
