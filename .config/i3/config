@@ -140,6 +140,12 @@ bar {
 assign [class="Thunderbird"] 9: comm
 assign [class="Skype"] 9: comm
 
+# Startup =================================================================={{{1
+
+exec --no-startup-id thunderbird
+exec --no-startup-id skype
+#exec --no-startup-id i3-msg 'workspace 8; exec firefox;'
+
 # Misc ====================================================================={{{1
 
 # Take a screenshot.
@@ -173,7 +179,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+d focus child
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
