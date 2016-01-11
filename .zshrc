@@ -94,7 +94,6 @@ fi
 #if [ $? -eq 0 ] ; then
 #	alias vim='vim --servername vimserver'
 #fi
-alias vim='nvim'
 
 if [[ $TERM == "xterm" ]]; then
 	TERM="xterm-256color"
