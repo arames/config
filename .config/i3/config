@@ -137,14 +137,12 @@ bar {
 # Workspaces ==============================================================={{{1
 
 # Workspace 9: communicationn
-#assign [class="Thunderbird"] 9: comm
 assign [class="Skype"] 9: comm
 
 # Startup =================================================================={{{1
 
-#exec --no-startup-id thunderbird
 exec --no-startup-id skype
-exec --no-startup-id i3-msg 'workspace 8; exec firefox;'
+exec --no-startup-id i3-msg 'workspace 8; exec chromium;'
 
 # Misc ====================================================================={{{1
 
