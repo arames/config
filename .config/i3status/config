@@ -12,7 +12,7 @@ general {
 }
 
 order += "disk /"
-order += "disk /home/"
+order += "disk /work/"
 order += "volume master"
 order += "cpu_usage"
 order += "load"
@@ -22,8 +22,8 @@ disk "/" {
         format = "/%avail"
 }
 
-disk "/home/" {
-        format = "/home/%avail"
+disk "/work/" {
+        format = "/work/%avail"
 }
 
 volume master {
