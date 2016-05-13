@@ -20,7 +20,7 @@ fi
 # Path to custom zsh helpers.
 ZSH_CUSTOM=$HOME/.config/config/.config/zsh
 # Path where zsh scripts will backup data when needed.
-ZSH_BACKUP_DIR=$HOME/backup
+ZSH_BACKUP_DIR=/backup
 
 # Output redirection can overwrite existing files silently.
 # If NOCLOBBER is set instead, overwriting an existing file requires using `>!`.
