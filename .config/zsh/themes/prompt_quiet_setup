@@ -8,7 +8,7 @@ autoload -Uz add-zsh-hook
 
 # Define prompts.
 PROMPT=$'
-%n@%m|%D{%D %H:%M}| %F{yellow}%/%f
+%n@%m|%D{%D %H:%M}| %F{yellow}%~%f
 '
 }
 
