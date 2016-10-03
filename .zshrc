@@ -80,6 +80,7 @@ bindkey -M vicmd v edit-command-line
 
 alias grep='grep --color=auto --exclude=".tags" --exclude-dir=".git"'
 alias -g ds='| diffstat'
+alias -g v-='| vim -'
 
 if [[ "$platform" == 'linux' ]]; then
 	alias pbcopy='xclip -selection clipboard'
