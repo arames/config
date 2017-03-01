@@ -1,13 +1,3 @@
-export EDITOR='vim'
-export VISUAL='vim'
-
-# Prezto framework ========================================================={{{1
-# Source Prezto. Do this before anything else.
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-fi
-
-
 # General configuration ===================================================={{{1
 platform='unknown'
 unamestr=`uname`
@@ -28,14 +18,23 @@ setopt CLOBBER
 
 # Prompt configuration ====================================================={{{1
 
-# The prompt is set in ~.zpreztorc. The following lines require reset of the
-# prompt every minute to keep the date in the prompt up-to-date.
-TMOUT=60
-TRAPALRM() {
-	zle reset-prompt
-}
+PROMPT='%n@%m:%F{yellow}%~%f %# '
+
+# History configuration ===================================================={{{1
+
+HISTFILE=~/.zsh_history
+HISTSIZE=1000000
+SAVEHIST=1000000
+
+# See `man zshoptions` for details.
+setopt append_history
+setopt hist_ignore_all_dups
+setopt hist_verify
 
 # Completion configuration ================================================={{{1
+
+autoload -U compinit
+compinit
 
 # Insert a common prefix before using the menu.
 setopt list_ambiguous
@@ -50,34 +49,12 @@ fpath=( $ZSH_CUSTOM/functions/ "${fpath[@]}" )
 autoload -Uz backup_files
 autoload -Uz stgb
 autoload -Uz stgpatches
-autoload -Uz zprezto_update
 
-# Other configuration ======================================================{{{1
+# Aliases =================================================================={{{1
 
-export EDITOR='vim'
-
-export PATH=$HOME/bin:$PATH
-if [[ -s "$HOME/.zshpath" ]]; then
-  source "$HOME/.zshpath"
-fi
-
-
-# Use the vim mode.
-bindkey -v
-
-bindkey "^P" history-beginning-search-backward
-bindkey "^N" history-beginning-search-forward
-bindkey "^R" history-incremental-pattern-search-backward
-bindkey "^E" history-incremental-pattern-search-forward
-bindkey "^K" up-line-or-history
-bindkey "^J" down-line-or-history
-
-# Edit the command line in the editor.
-autoload edit-command-line
-zle -N edit-command-line
-bindkey -M vicmd v edit-command-line
-
-
+alias ll='ls -l'
+alias la='ls -a'
+alias lla='ls -la'
 alias grep='grep --color=auto --exclude=".tags" --exclude-dir=".git"'
 alias -g ds='| diffstat'
 alias -g v-='| vim -'
@@ -95,6 +72,32 @@ fi
 #if [ $? -eq 0 ] ; then
 #	alias vim='vim --servername vimserver'
 #fi
+
+# Command line editing ====================================================={{{1
+
+export EDITOR='vim'
+export VISUAL='vim'
+
+if [[ -s "$HOME/.zshpath" ]]; then
+  source "$HOME/.zshpath"
+fi
+
+# Use the vim mode.
+bindkey -v
+
+bindkey "^P" history-beginning-search-backward
+bindkey "^N" history-beginning-search-forward
+bindkey "^R" history-incremental-pattern-search-backward
+bindkey "^E" history-incremental-pattern-search-forward
+bindkey "^K" up-line-or-history
+bindkey "^J" down-line-or-history
+
+# Edit the command line in the editor.
+autoload edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
+
+# Other configuration ======================================================{{{1
 
 if [[ $TERM == "xterm" ]]; then
 	TERM="xterm-256color"
