@@ -29,7 +29,7 @@ SAVEHIST=1000000
 # See `man zshoptions` for details.
 setopt append_history
 setopt hist_ignore_all_dups
-setopt hist_verify
+#setopt hist_verify
 
 # Completion configuration ================================================={{{1
 
@@ -84,6 +84,10 @@ fi
 
 # Use the vim mode.
 bindkey -v
+bindkey "^W" backward-kill-word
+bindkey "^H" backward-delete-char
+bindkey "^U" kill-line
+bindkey "^?" backward-delete-char
 
 bindkey "^P" history-beginning-search-backward
 bindkey "^N" history-beginning-search-forward
