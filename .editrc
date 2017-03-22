@@ -1,0 +1,3 @@
+bind -v
+lldb:bind  ed-redisplay
+lldb:bind ^I lldb_complete
