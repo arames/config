@@ -33,13 +33,7 @@ setopt hist_ignore_all_dups
 
 # Completion configuration ================================================={{{1
 
-autoload -U compinit
-compinit
-
-# Insert a common prefix before using the menu.
-setopt list_ambiguous
-# Don't automatically select the first completion entry.
-unsetopt menu_complete
+source $ZSH_CUSTOM/completion.zsh
 
 # Custom functions ========================================================={{{1
 
