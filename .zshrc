@@ -1,6 +1,6 @@
 # General configuration ===================================================={{{1
+
 platform='unknown'
-unamestr=`uname`
 if [[ $OSTYPE == linux* ]]; then
 	platform='linux'
 elif [[ $OSTYPE == darwin* ]]; then
@@ -8,41 +8,71 @@ elif [[ $OSTYPE == darwin* ]]; then
 fi
 
 # Path to custom zsh helpers.
-ZSH_CUSTOM=$HOME/.config/config/.config/zsh
+ZSH_CUSTOM=$HOME/.config/zsh
+
 # Path where zsh scripts will backup data when needed.
-ZSH_BACKUP_DIR=/backup
+ZSH_BACKUP_DIR=${ZSH_BACKUP_DIR:=/backup}
+
+
+setopt no_beep              # Don't beep!
+setopt interactive_comments # Allow comments in interactive shells.
+setopt extended_glob        # Better pattern matching.
 
 # Output redirection can overwrite existing files silently.
-# If NOCLOBBER is set instead, overwriting an existing file requires using `>!`.
-setopt CLOBBER
+setopt clobber
+
+
 
 # Prompt configuration ====================================================={{{1
 
-PROMPT='%n@%m:%F{yellow}%~%f %# '
+PROMPT=$'%T %n@%m:%F{yellow}%~%f\n%# '
+# Automatically refresh the prompt every 10 seconds to update the clock.
+TMOUT=10
+TRAPALRM() { zle reset-prompt }
+
 
 # History configuration ===================================================={{{1
 
-HISTFILE=~/.zsh_history
+setopt append_history         # Zsh sessions append to the history file instead of rewriting it.
+setopt extended_history       # Save command's timestamps.
+setopt inc_append_history     # Don't wait until the shell exits to add commands to the history.
+setopt hist_expire_dups_first # When trimming history, remove oldest duplicates first.
+setopt hist_ignore_all_dups   # Don't duplicate commands in the history.
+setopt hist_find_no_dups      # Skip duplicates when searching through history.
+setopt hist_reduce_blanks     # Remove superfluous blanks.
+setopt hist_verify            # When using history expansion, expand instead of executing immediately.
+
+HISTFILE=$ZSH_CUSTOM/history
 HISTSIZE=1000000
 SAVEHIST=1000000
 
-# See `man zshoptions` for details.
-setopt append_history
-setopt hist_ignore_all_dups
-#setopt hist_verify
 
-# Completion configuration ================================================={{{1
 
-source $ZSH_CUSTOM/completion.zsh
+# Command line editing ====================================================={{{1
 
-# Custom functions ========================================================={{{1
+export EDITOR='vim'
+export VISUAL='vim'
 
-# Look for function definitions in $ZSH_CUSTOM/functions/.
-fpath=( $ZSH_CUSTOM/functions/ "${fpath[@]}" )
-# List the functions to autoload. Use the '--help' option for details.
-autoload -Uz backup_files
-autoload -Uz stgb
-autoload -Uz stgpatches
+bindkey -v # Use the vim editing mode.
+
+bindkey "^W" backward-kill-word
+bindkey "^H" backward-delete-char
+bindkey "^U" backward-kill-line
+#bindkey "^?" backward-delete-char
+
+bindkey "^P" history-beginning-search-backward
+bindkey "^N" history-beginning-search-forward
+bindkey "^R" history-incremental-pattern-search-backward
+bindkey "^E" history-incremental-pattern-search-forward
+bindkey "^K" up-line-or-history
+bindkey "^J" down-line-or-history
+
+# Edit the command line in the editor.
+autoload edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
+
+
 
 # Aliases =================================================================={{{1
 
@@ -60,46 +90,20 @@ if [[ "$platform" == 'linux' ]]; then
 	alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 fi
 
-# Stop using this with neovim.
-## Use a vim server if vim provides the feature.
-#vim --version | grep +clientserver &> /dev/null
-#if [ $? -eq 0 ] ; then
-#	alias vim='vim --servername vimserver'
-#fi
 
-# Command line editing ====================================================={{{1
 
-export EDITOR='vim'
-export VISUAL='vim'
+# Completion configuration ================================================={{{1
 
-if [[ -s "$HOME/.zshpath" ]]; then
-  source "$HOME/.zshpath"
-fi
+source $ZSH_CUSTOM/completion.zsh
 
-# Use the vim mode.
-bindkey -v
-bindkey "^W" backward-kill-word
-bindkey "^H" backward-delete-char
-bindkey "^U" kill-line
-bindkey "^?" backward-delete-char
+# Custom functions ========================================================={{{1
 
-bindkey "^P" history-beginning-search-backward
-bindkey "^N" history-beginning-search-forward
-bindkey "^R" history-incremental-pattern-search-backward
-bindkey "^E" history-incremental-pattern-search-forward
-bindkey "^K" up-line-or-history
-bindkey "^J" down-line-or-history
-
-# Edit the command line in the editor.
-autoload edit-command-line
-zle -N edit-command-line
-bindkey -M vicmd v edit-command-line
-
-# Other configuration ======================================================{{{1
-
-if [[ $TERM == "xterm" ]]; then
-	TERM="xterm-256color"
-fi
+# Look for function definitions in $ZSH_CUSTOM/functions/.
+fpath=( $ZSH_CUSTOM/functions/ "${fpath[@]}" )
+# List the functions to autoload. Use the '--help' option for details.
+autoload -Uz backup_files
+autoload -Uz stgb
+autoload -Uz stgpatches
 
 # .vimrc specific options =================================================={{{1
 # vim: set foldmethod=marker:

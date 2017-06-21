@@ -8,6 +8,7 @@ fi
 
 function usage {
 	echo Usage: $(basename "$0") "[-h/--help] [FILE...]"
+	echo "Back up files to $ZSH_BACKUP_DIR."
 	echo "Options:"
 	echo "  -h,--help   Print this message."
 }
