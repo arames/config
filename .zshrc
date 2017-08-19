@@ -106,5 +106,11 @@ autoload -Uz backup_files
 autoload -Uz stgb
 autoload -Uz stgpatches
 
+# Misc configuration ======================================================={{{1
+
+# rust cargo location
+export CARGO_HOME=~/.config/cargo
+export PATH=$PATH:$CARGO_HOME/bin
+
 # .vimrc specific options =================================================={{{1
 # vim: set foldmethod=marker:
