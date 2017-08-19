@@ -80,6 +80,7 @@ alias ll='ls -l'
 alias la='ls -a'
 alias lla='ls -la'
 alias grep='grep --color=auto --exclude=".tags" --exclude-dir=".git"'
+alias vim='nvim'
 alias -g ds='| diffstat'
 alias -g v-='| vim -'
 
