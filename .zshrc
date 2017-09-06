@@ -108,8 +108,10 @@ autoload -Uz stgpatches
 
 # Misc configuration ======================================================={{{1
 
+export XDG_CONFIG_HOME=~/.config
+
 # rust cargo location
-export CARGO_HOME=~/.config/cargo
+export CARGO_HOME=$XDG_CONFIG_HOME/cargo
 export PATH=$PATH:$CARGO_HOME/bin
 
 # .vimrc specific options =================================================={{{1
