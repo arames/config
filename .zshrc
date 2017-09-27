@@ -5,6 +5,8 @@ if [[ $OSTYPE == linux* ]]; then
 	platform='linux'
 elif [[ $OSTYPE == darwin* ]]; then
 	platform='macos'
+	# Fix zsh functions path to point to brew completions first.
+	fpath=( /usr/local/share/zsh/functions "${fpath[@]}" )
 fi
 
 # Path to custom zsh helpers.
