@@ -52,8 +52,9 @@ SAVEHIST=1000000
 
 # Command line editing ====================================================={{{1
 
-export EDITOR='vim'
-export VISUAL='vim'
+export EDITOR='nvim'
+export GIT_EDITOR='nvim'
+export VISUAL='nvim'
 
 bindkey -v # Use the vim editing mode.
 
@@ -66,8 +67,12 @@ bindkey "^P" history-beginning-search-backward
 bindkey "^N" history-beginning-search-forward
 bindkey "^R" history-incremental-pattern-search-backward
 bindkey "^E" history-incremental-pattern-search-forward
-bindkey "^K" up-line-or-history
-bindkey "^J" down-line-or-history
+
+# For my use-case, using Ctrl-P and Ctrl-N on an empty line achieves the same
+# result. This way I can use Ctrl-K and Ctrl-J with tmux/vim and the
+# vim-tmux-navigator plugin.
+#bindkey "^K" up-line-or-history
+#bindkey "^J" down-line-or-history
 
 # Edit the command line in the editor.
 autoload edit-command-line
@@ -115,6 +120,8 @@ export XDG_CONFIG_HOME=~/.config
 # rust cargo location
 export CARGO_HOME=$XDG_CONFIG_HOME/cargo
 export PATH=$PATH:$CARGO_HOME/bin
+
+export PATH=$PATH:~/bin
 
 # .vimrc specific options =================================================={{{1
 # vim: set foldmethod=marker:
