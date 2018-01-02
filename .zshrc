@@ -113,6 +113,14 @@ autoload -Uz backup_files
 autoload -Uz stgb
 autoload -Uz stgpatches
 
+# Local configuration ======================================================{{{1
+
+ZSH_LOCAL_CONFIG="$HOME/.config/zsh/local"
+
+if [ -r $ZSH_LOCAL_CONFIG ]; then
+	source "$ZSH_LOCAL_CONFIG"
+fi
+
 # Misc configuration ======================================================={{{1
 
 export XDG_CONFIG_HOME=~/.config
@@ -122,6 +130,9 @@ export CARGO_HOME=$XDG_CONFIG_HOME/cargo
 export PATH=$PATH:$CARGO_HOME/bin
 
 export PATH=$PATH:~/bin
+
+# Homebrew access to Github.
+HOMEBREW_GITHUB_API_TOKEN="8e6c26a1d701ca6195cfe3dbdf08bd170b76b758"
 
 # .vimrc specific options =================================================={{{1
 # vim: set foldmethod=marker:
