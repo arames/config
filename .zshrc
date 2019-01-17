@@ -1,3 +1,12 @@
+# Local configuration ======================================================{{{1
+
+# Allow sourcing a local configuration first.
+ZSH_LOCAL_CONFIG=${ZSH_LOCAL_CONFIG:=$HOME/.config/zsh/local}
+
+if [ -r $ZSH_LOCAL_CONFIG ]; then
+	source "$ZSH_LOCAL_CONFIG"
+fi
+
 # General configuration ===================================================={{{1
 
 platform='unknown'
@@ -10,10 +19,10 @@ elif [[ $OSTYPE == darwin* ]]; then
 fi
 
 # Path to custom zsh helpers.
-ZSH_CUSTOM=$HOME/.config/config/zsh
+ZSH_CUSTOM=${ZSH_CUSTOM:=$HOME/.config/config/zsh}
 
 # Path where zsh scripts will backup data when needed.
-ZSH_BACKUP_DIR=${ZSH_BACKUP_DIR:=/backup}
+ZSH_BACKUP_DIR=${ZSH_BACKUP_DIR:=$HOME/backup}
 
 
 setopt no_beep              # Don't beep!
@@ -86,7 +95,6 @@ bindkey -M vicmd v edit-command-line
 alias ll='ls -l'
 alias la='ls -a'
 alias lla='ls -la'
-alias grep='grep --color=auto --exclude=".tags" --exclude-dir=".git"'
 alias vim='nvim'
 alias -g ds='| diffstat'
 alias -g v-='| vim -'
@@ -113,26 +121,17 @@ autoload -Uz backup_files
 autoload -Uz stgb
 autoload -Uz stgpatches
 
-# Local configuration ======================================================{{{1
-
-ZSH_LOCAL_CONFIG="$HOME/.config/zsh/local"
-
-if [ -r $ZSH_LOCAL_CONFIG ]; then
-	source "$ZSH_LOCAL_CONFIG"
-fi
-
 # Misc configuration ======================================================={{{1
 
 export XDG_CONFIG_HOME=~/.config
 
+export PATH=$PATH:~/bin
+
+export GREP_OPTIONS="--color=auto --exclude=.tags --exclude-dir=.git"
+
 # rust cargo location
 export CARGO_HOME=$XDG_CONFIG_HOME/cargo
 export PATH=$PATH:$CARGO_HOME/bin
-
-export PATH=$PATH:~/bin
-
-# Homebrew access to Github.
-HOMEBREW_GITHUB_API_TOKEN="8e6c26a1d701ca6195cfe3dbdf08bd170b76b758"
 
 # .vimrc specific options =================================================={{{1
 # vim: set foldmethod=marker:
