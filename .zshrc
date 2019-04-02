@@ -1,11 +1,13 @@
-# Local configuration ======================================================{{{1
+# Local configuration at start ============================================={{{1
 
 # Allow sourcing a local configuration first.
-ZSH_LOCAL_CONFIG=${ZSH_LOCAL_CONFIG:=$HOME/.config/zsh/local}
+ZSH_LOCAL_CONFIG_AT_START=${ZSH_LOCAL_CONFIG_AT_START:=$HOME/.config/zsh/local.at_start}
 
-if [ -r $ZSH_LOCAL_CONFIG ]; then
-	source "$ZSH_LOCAL_CONFIG"
+if [ -r $ZSH_LOCAL_CONFIG_AT_START ]; then
+	source "$ZSH_LOCAL_CONFIG_AT_START"
 fi
+
+
 
 # General configuration ===================================================={{{1
 
@@ -42,6 +44,7 @@ TMOUT=10
 TRAPALRM() { zle reset-prompt }
 
 
+
 # History configuration ===================================================={{{1
 
 setopt append_history         # Zsh sessions append to the history file instead of rewriting it.
@@ -67,10 +70,10 @@ export VISUAL='nvim'
 
 bindkey -v # Use the vim editing mode.
 
-bindkey "^W" backward-kill-word
-bindkey "^H" backward-delete-char
-bindkey "^U" backward-kill-line
-#bindkey "^?" backward-delete-char
+#bindkey "^W" backward-kill-word
+#bindkey "^H" backward-delete-char
+#bindkey "^U" backward-kill-line
+##bindkey "^?" backward-delete-char
 
 bindkey "^P" history-beginning-search-backward
 bindkey "^N" history-beginning-search-forward
@@ -112,6 +115,8 @@ fi
 
 source $ZSH_CUSTOM/completion.zsh
 
+
+
 # Custom functions ========================================================={{{1
 
 # Look for function definitions in $ZSH_CUSTOM/functions/.
@@ -120,6 +125,8 @@ fpath=( $ZSH_CUSTOM/functions/ "${fpath[@]}" )
 autoload -Uz backup_files
 autoload -Uz stgb
 autoload -Uz stgpatches
+
+
 
 # Misc configuration ======================================================={{{1
 
@@ -133,5 +140,23 @@ export GREP_OPTIONS="--color=auto --exclude=.tags --exclude-dir=.git"
 export CARGO_HOME=$XDG_CONFIG_HOME/cargo
 export PATH=$PATH:$CARGO_HOME/bin
 
-# .vimrc specific options =================================================={{{1
-# vim: set foldmethod=marker:
+
+
+# Local configuration at end ==============================================={{{1
+
+# Allow sourcing a local after the default configuration. This is useful when
+# the default configuration needs to be fixed up.
+# For example on macOS, to fix delete key issues, I use:
+#     # Fix delete key in standard insert mode.
+#     bindkey "^[[3~" delete-char
+#     # Fix delete key in zsh vi command mode.
+#     bindkey -M vicmd "^[[3~" delete-char
+ZSH_LOCAL_CONFIG_AT_END=${ZSH_LOCAL_CONFIG_AT_END:=$HOME/.config/zsh/local.at_end}
+if [ -r $ZSH_LOCAL_CONFIG_AT_END ]; then
+	source "$ZSH_LOCAL_CONFIG_AT_END"
+fi
+
+
+
+## .vimrc specific options =================================================={{{1
+## vim: set foldmethod=marker:
