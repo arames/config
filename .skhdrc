@@ -1,14 +1,15 @@
-# reload config
+# Reload config.
 cmd + alt - r : khd -e "reload"
 
-## open terminal
-#cmd - return : open -na /Applications/iTerm.app
-
-# focus window
+# Focus window.
 cmd - h : chunkc tiling::window --focus west
 cmd - j : chunkc tiling::window --focus south
 cmd - k : chunkc tiling::window --focus north
 cmd - l : chunkc tiling::window --focus east
+
+# Focus monitor.
+ctrl + cmd - h : chunkc tiling:monitor -f prev
+ctrl + cmd - l : chunkc tiling:monitor -f next
 
 #cmd - j : chunkc tiling::window --focus prev
 #cmd - k : chunkc tiling::window --focus next
@@ -27,6 +28,12 @@ shift + cmd - h : chunkc tiling::window --warp west
 shift + cmd - j : chunkc tiling::window --warp south
 shift + cmd - k : chunkc tiling::window --warp north
 shift + cmd - l : chunkc tiling::window --warp east
+
+shift + ctrl + cmd - h : chunkc tiling:window --send-to-monitor prev
+shift + ctrl + cmd - l : chunkc tiling:window --send-to-monitor next
+
+## open terminal
+#cmd - return : open -na /Applications/iTerm.app
 
 ## make floating window fill screen
 #shift + alt - up     : chunkc tiling::window --grid-layout 1:1:0:0:1:1
