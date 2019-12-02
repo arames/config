@@ -1,3 +1,4 @@
 bind -v
-lldb:bind  ed-redisplay
-lldb:bind ^I lldb_complete
+lldb:bind  em-inc-search-prev
+#lldb:bind  ed-redisplay
+#lldb:bind ^I lldb_complete
