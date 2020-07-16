@@ -1,0 +1,18 @@
+[color]
+	ui = auto
+
+[color "diff"]
+	whitespace = red reverse
+
+[core]
+	editor = vim
+	excludesfile = ~/.config/git/ignore
+
+[alias]
+	conflicted = diff --name-only --diff-filter=U
+
+[push]
+	default = matching
+
+[include]
+  path = ~/.config/git/local
