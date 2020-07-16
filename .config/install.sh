@@ -2,12 +2,12 @@
 
 CONFIG_REPO_PATH="$HOME/.config/config"
 
-safe git clone --bare git@github.com:arames/config.git $CONFIG_REPO_PATH
+git clone --bare git@github.com:arames/config.git $CONFIG_REPO_PATH
 function config {
   /usr/bin/git --git-dir="$CONFIG_REPO_PATH/" --work-tree=$HOME $@
 }
 
-DATE=`date +%F-%R`
+DATE=`date +%F-%R:%S`
 export BACKUP_DIR=$HOME/.config/backup/$DATE
 if [ -d $BACKUP_DIR ]; then
 	echo "The backup directory $BACKUP_DIR already exists."
@@ -25,4 +25,4 @@ fi;
 config checkout
 config config status.showUntrackedFiles no
 
-echo "Done checking out config repository.
+echo "Done checking out config repository."
