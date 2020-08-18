@@ -45,6 +45,13 @@ defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
+# Enable extra multifinger gestures (such as three finger swipe down = app expose)
+defaults write com.apple.dock showMissionControlGestureEnabled -bool true
+defaults write com.apple.dock showAppExposeGestureEnabled -bool true
+defaults write com.apple.dock showDesktopGestureEnabled -bool true
+defaults write com.apple.dock showLaunchpadGestureEnabled -bool true
+
+
 # Enable full keyboard access for all controls
 # (e.g. enable Tab in modal dialogs)
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
