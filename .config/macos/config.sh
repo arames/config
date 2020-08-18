@@ -51,6 +51,9 @@ defaults write com.apple.dock showAppExposeGestureEnabled -bool true
 defaults write com.apple.dock showDesktopGestureEnabled -bool true
 defaults write com.apple.dock showLaunchpadGestureEnabled -bool true
 
+# Enable trackpad dragging.
+defaults write com.apple.AppleMultitouchTrackpad Dragging -bool true
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Dragging -bool true
 
 # Enable full keyboard access for all controls
 # (e.g. enable Tab in modal dialogs)
