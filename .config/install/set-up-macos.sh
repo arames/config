@@ -23,7 +23,7 @@ defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
 
 # Clock
 # Display date and 24-hour time.
-defaults write com.apple.menuextra.clock DateFormat -string "EEE MMM d  H:mm"
+defaults write com.apple.menuextra.clock DateFormat -string "EEE d MMM  H:mm"
 
 ################################################################################
 # Keyboard                                                                     #
