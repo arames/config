@@ -1,0 +1,46 @@
+#!/bin/zsh
+
+
+function usage {
+	echo Usage: $(basename "$0") "[-h/--help]"
+	echo "Must be run from a git branch initialized with stgit."
+	echo "Options:"
+	echo "  -h,--help   Print this message."
+}
+
+zparseopts h=opt_help -help=opt_help
+
+[[ -n $opt_help ]] && usage && return 0
+
+date_tag=`date +%F_%R:%S`
+repo_name=$(basename `git rev-parse --show-toplevel`)
+branch_name=`git rev-parse --abbrev-ref HEAD`
+out_dir=stg_patches_${date_tag}_${repo_name}.${branch_name}
+mkdir -p $out_dir
+
+# Create parent patches.
+tracked_branch=$(git rev-parse --symbolic-full-name @\{u\})
+base_commit=$(git rev-parse ${tracked_branch})
+commit_ids=("${(@f)$(git log ${tracked_branch}..${branch_name} --pretty=format:"%H" --reverse)}")
+
+patch_index=1
+previous_id=
+for id in $commit_ids; do
+	patch_number=$(printf "%.2d" $patch_index)
+	patch_desc=$(git show --no-patch --format=%f ${id})
+
+	echo "git show $id > ${out_dir}/${patch_number}-${patch_desc}"
+	git show $id > ${out_dir}/${patch_number}-${patch_desc}
+
+	if [ -n "$previous_id" ]; then
+		echo $previous_id
+		echo "git diff ${base_commit}..${previous_id} > ${out_dir}/${patch_number}-parent"
+		git diff ${base_commit}..${previous_id} > ${out_dir}/${patch_number}-parent
+	fi
+
+	((patch_index += 1))
+	previous_id=$id
+done
+
+rm -f stg_patches
+ln --symbolic --force $out_dir stg_patches
