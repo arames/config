@@ -2,8 +2,19 @@
 
 if [ ! -n "$ZSH_BACKUP_DIR" ]; then
 	ZSH_BACKUP_DIR=$HOME/backup
+	mkdir -p "$ZSH_BACKUP_DIR"
 	echo "WARNING: ZSH_BACKUP_DIR is not set. Using default $ZSH_BACKUP_DIR."
 	echo "         You can set \$ZSH_BACKUP_DIR in your .zshrc to configure this statically."
+fi
+
+if [ ! -d "$ZSH_BACKUP_DIR" ]; then
+	mkdir -p "$ZSH_BACKUP_DIR"
+	if [ $? ]; then
+		echo "WARNING: ZSH_BACKUP_DIR $ZSH_BACKUP_DIR does not exist and could not be created."
+		echo "         Using default $ZSH_BACKUP_DIR instead."
+		ZSH_BACKUP_DIR=$HOME/backup
+		mkdir -p "$ZSH_BACKUP_DIR"
+	fi
 fi
 
 function usage {
