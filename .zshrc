@@ -38,7 +38,14 @@ setopt clobber
 
 # Prompt configuration ====================================================={{{1
 
-PROMPT=$'%T %n@%m:%F{yellow}%~%f\n%# '
+# Git info
+autoload -Uz vcs_info
+precmd() { vcs_info }
+zstyle ':vcs_info:git:*' formats '%F{blue}⎇ %b%f'
+setopt PROMPT_SUBST
+
+
+PROMPT=$'%T %n@%m:%F{yellow}%~%f ${vcs_info_msg_0_}\n%# '
 # Automatically refresh the prompt every 10 seconds to update the clock.
 TMOUT=10
 TRAPALRM() { zle reset-prompt }
