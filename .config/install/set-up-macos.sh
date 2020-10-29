@@ -69,7 +69,9 @@ defaults write com.apple.dock showLaunchpadGestureEnabled -bool true
 
 # Enable trackpad dragging.
 defaults write com.apple.AppleMultitouchTrackpad Dragging -bool true
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Dragging -bool true
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true
 
 ################################################################################
 # Dock, Dashboard, and hot corners                                             #
