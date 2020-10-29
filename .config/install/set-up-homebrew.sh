@@ -18,7 +18,7 @@ zsh \
 brew install llvm
 llvm=$(ls -d /usr/local/Cellar/llvm/* | head -n1)
 llvm_bins="$llvm/bin"
-for bin in clang-format git-clang-format; do
+for bin in clangd clang-format git-clang-format; do
   ln -s "$llvm_bins/$bin" /usr/local/bin/$bin
 done
 
