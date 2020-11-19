@@ -157,6 +157,30 @@ Plug 'vim-airline/vim-airline'
 " Provide argument objects.
 Plug 'inkarkat/argtextobj.vim'
 
+" Code completion using LSP.
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gh <Plug>(coc-declaration)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gs <Plug>(coc-rename)
+
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+set updatetime=500
+
+autocmd CursorMoved * silent call CocActionAsync('highlight')
+
+"nnoremap <silent> K :call <SID>show_documentation()<CR>
+"function! s:show_documentation()
+"  if (index(['vim','help'], &filetype) >= 0)
+"    execute 'h '.expand('<cword>')
+"  else
+"    call CocAction('doHover')
+"  endif
+"endfunction
+
 " Used sometimes ======================================={{{2
 
 " Easy parenthesis and co.
@@ -167,6 +191,10 @@ Plug 'vim-scripts/vimwiki'
 " Use the markdown syntax
 let g:vimwiki_list = [{'path': '/Users/arames/Library/Mobile Documents/com~apple~icloud~applecorporate/Documents/wiki',
                      \ 'syntax': 'markdown', 'ext': '.md'}]
+
+" Word highlighting.
+Plug 'inkarkat/vim-ingo-library'
+Plug 'inkarkat/vim-mark'
 
 "" Unused. Keeping for reference or future use =========={{{2
 "
@@ -229,12 +257,7 @@ let g:vimwiki_list = [{'path': '/Users/arames/Library/Mobile Documents/com~apple
 "" Unclassified ========================================={{{2
 "
 "" TODO: Classify all these plugins in sections above.
-"
-"" Word highlighting.
-"Plug 'inkarkat/vim-mark'
-"" Dependency of `inkarkat/vim-mark`.
-"Plug 'inkarkat/vim-ingo-library'
-"
+
 "" Display lines git diff status when editing a file in a git repository.
 "Plug 'airblade/vim-gitgutter'
 
@@ -242,35 +265,6 @@ let g:vimwiki_list = [{'path': '/Users/arames/Library/Mobile Documents/com~apple
 " Useful to edit color schemes.
 Plug 'gerw/vim-HiLinkTrace'
 "nmap <F10> :HLT<CR>
-
-"" Code completion using LSP.
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"
-"nmap <silent> gd <Plug>(coc-definition)
-"nmap <silent> gh <Plug>(coc-declaration)
-"nmap <silent> gr <Plug>(coc-references)
-""nmap <silent> gq <Plug>(coc-fix-current)
-"nmap <silent> gs <Plug>(coc-rename)
-"
-"xmap <leader>f  <Plug>(coc-format-selected)
-"nmap <leader>f  <Plug>(coc-format-selected)
-"
-""inoremap <silent><expr> <c-space> coc#refresh()
-"
-"set updatetime=1000
-"
-"
-"autocmd CursorMoved * silent call CocActionAsync('highlight')
-"
-"
-"nnoremap <silent> K :call <SID>show_documentation()<CR>
-"function! s:show_documentation()
-"  if (index(['vim','help'], &filetype) >= 0)
-"    execute 'h '.expand('<cword>')
-"  else
-"    call CocAction('doHover')
-"  endif
-"endfunction
 
 """ Unused plugins ===================={{3
 ""
