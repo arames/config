@@ -14,6 +14,9 @@ stgit \
 tmux \
 zsh \
 
+# Used for nvim `coc.vim`.
+brew install node
+
 # Install and symlink a few LLVM/Clang utilties.
 brew install llvm
 llvm=$(ls -d /usr/local/Cellar/llvm/* | head -n1)
