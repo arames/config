@@ -373,7 +373,7 @@ nnoremap <C-l> <C-w>l
 "" Grep/tags ============================================{{{2
 "
 "" Grep in current directory.
-set grepprg=grep\ -RHIn\ --exclude=\".tags\"\ --exclude-dir=\".svn\"\ --exclude-dir=\".git\"
+set grepprg=grep\ -RHIn\ --exclude=\".tags\"\ --exclude-dir=\".svn\"\ --exclude-dir=\".git\"\ --exclude-dir=\"bazel-*\"
 "set grepprg=ack
 "" Grep for the word under the cursor.
 "nnoremap K :Grep "\\<<C-r><C-w>\\>" .<CR>
