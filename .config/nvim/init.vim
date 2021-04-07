@@ -502,8 +502,8 @@ noremap - ;
 noremap _ ,
 
 " %% expands to the path of the current file.
-cabbr <expr> %% expand('%:p:h')
-cabbr <expr> $$ expand('%:p')
+cabbr <expr> %% fnameescape(expand('%:p:h'))
+cabbr <expr> $$ fnameescape(expand('%:p'))
 
 "" Easy quote of the searched pattern in command line.
 "cmap <C-e>/ "<C-r>/"
