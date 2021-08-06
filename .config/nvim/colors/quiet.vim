@@ -29,8 +29,8 @@ hi       WarningBg             guifg=#c08000 guibg=#111111 gui=bold
 
 " Usual groups
 
-hi! link Identifier            Normal
 hi! link Comment               LowInterest
+hi       Keyword               guifg=#5599cc guibg= gui=
 hi! link Todo                  LowInterestBold
 hi! link Search                HighInterestUnderline
 hi! link MatchParen            FocusBg
@@ -48,13 +48,16 @@ hi! link TabLineFill           LowInterest
 hi! link TabLineSel            NormalUnderline
 hi! link Title                 TabLine
 hi! link SignColumn            Normal
+hi! link Folded                Interest
 
 hi  Pmenu                                    guibg=#113311
 hi  PmenuSel                                 guibg=#115511
 
+hi! link Identifier            Normal
 hi! Constant                   guifg=#99bb99               gui=none
-hi  PreProc                    guifg=#993399               gui=none
-hi  Type                       guifg=#5599cc               gui=none
+hi! PreProc                    guifg=#994499               gui=none
+hi! Keyword                    guifg=#90b0e0               gui=none
+hi! link Type                  Normal
 hi! link Statement             Interest
 
 " Diff
@@ -72,6 +75,17 @@ hi! link diffChange  Interest
 hi! link diffRemoved DiffDelete
 
 " Plugin-specific groups
+
+" nvim-treesitter
+hi! link Delimiter Normal
+hi! link Operator Normal
+hi! link TSNamespace Normal
+hi! link Function Normal
+hi! link TSConstructor Normal
+hi! link TSKeywordReturn Statement
+hi!      TSMethod guifg=#55bb55
+
+" coc.nvim
 
 hi! link CocErrorFloat         Error
 hi! link CocErrorHighlight     ErrorBg

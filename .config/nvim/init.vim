@@ -1,5 +1,5 @@
 " .vimrc
-" by A. Rames <alexandre.rames@gmail.com>
+" by A. Rames <alexandre.rames@uop.re>
 "
 " The configuration is targeted at and has only been tested on terminal vim.
 
@@ -10,14 +10,10 @@ else
 endif
 
 if !has('nvim')
+  " The following have been removed in neovim.
   " Use Vim settings, rather then Vi settings.
   " This must be first, because it changes other options as a side effect.
-  " Neovim has removed this.
   set nocompatible
-endif
-
-if !has('nvim')
-  " This has been removed in neovim.
   set shell=/bin/bash
 endif
 
@@ -30,10 +26,52 @@ set wildignore=*.bak,*.o,*.e,*~ " Wildmenu: ignore these extensions.
 set wildmenu                    " Command-line completion in an enhanced mode.
 set wildmode=list:longest       " Complete longest common string, then list.
 set showcmd                     " Display incomplete commands.
-"set clipboard=unnamedplus      " copying copies to the system clipboard.
+set noerrorbells                " No bells.
+let mapleader = ","
+
+" This is unusable, because it prevents the use-case:
+" * copy from external application
+" * `cw` to cut word
+" * paste content of clipboard
+" The content of the clipboard is overriden by the cut word.
+" set clipboard=unnamedplus       " Copying copies to the system clipboard.
+
+" Presentation ============================================================={{{1
+
+set termguicolors               " Use gui colors in the terminal.
+colorscheme quiet
+" Use different cursor styles in different modes.
+set guicursor=a:block,i-ci:ver10,r-cr:hor10
+set winminheight=0              " Minimum size of splits is 0.
+set nowrap                      " Do not wrap lines.
+let &sbr = nr2char(8618).' '    " Show ↪ at the beginning of wrapped lines.
+set scrolloff=5                 " Show at least 5 lines around the cursor.
+
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+
+set number                      " Display line numbers.
+set relativenumber              " Display relative line numbers.
+" Display relative line numbers in normal mode and absolute line numbers
+" in insert mode.
+augroup relativenumbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+" Always display absolute line numbers in the quick-fix windows for easy
+" ':cc <n>' commands.
+autocmd BufEnter,FocusGained,InsertLeave * if &ft == "qf" | setlocal norelativenumber | endif
+
+" Unused options, kept for reference ==================={{{2
+
+" nvim-treesitter takes care of highlighting
+"syntax enable                   " Enable syntax highlighting.
+"set cursorline                  " Highlight the line where the cursor is.
+" This is taken care of by vim-airline.
+"set ruler                       " Show the cursor position all the time.
 
 " Load/save and automatic backup ==========================================={{{1
-
 
 let &directory=s:dir_vim_config.'/swap'
 let &viewdir=s:dir_vim_config.'/view'
@@ -58,7 +96,6 @@ if !isdirectory(&undodir)
   exec "silent !chmod 750 " . &undodir
 endif
 
-
 " Backup files.
 set backup
 " Keep a history of the edits so changes from a previous session can be
@@ -76,12 +113,11 @@ autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
       \   exe "normal! g`\"" |
       \ endif
 
-set autoread     " Automatically reload files changed on the disk.
-set autowrite    " Write a modified buffer on each :next , ...
+set autoread  " Automatically reload files changed on the disk.
+set autowrite " Write a modified buffer on each :next , ...
 
 " Autodetect filetype on first save.
 autocmd BufWritePost * if &ft == "" | filetype detect | endif
-
 
 " Plugins =================================================================={{{1
 
@@ -90,52 +126,37 @@ autocmd BufWritePost * if &ft == "" | filetype detect | endif
 
 call plug#begin(s:dir_vim_config.'/plugged')
 
-"" Testing =============================================={{{2
-
-
-
-Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
-
-"Plug 'chrisbra/Colorizer'
-"
-"Plug 'prabirshrestha/async.vim'
-"Plug 'prabirshrestha/vim-lsp'
-"if executable('clangd')
-"    autocmd User lsp_setup call lsp#register_server({
-"        \ 'name': 'clangd',
-"        \ 'cmd': {server_info->['clangd', '-background-index']},
-"        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-"        \ })
-"endif
-""let g:lsp_log_verbose = 1
-""let g:lsp_log_file = expand('~/vim-lsp.log')
-"
-"Plug 'prabirshrestha/asyncomplete.vim'
-"Plug 'prabirshrestha/asyncomplete-lsp.vim'
-"" TODO: Not seeing preview
-" set completeopt+=preview
-""autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-
-"nnoremap ,g :LspDefinition<CR>
-"nnoremap ,r :LspReferences<CR>
-"nnoremap ,p :LspPreviousReference<CR>
-"nnoremap ,n :LspNextReference<CR>
-"nnoremap ,s :LspRename<CR>
-"nnoremap <C-<Space>> :LspPeekDefinition
-
 " Used frequently ======================================{{{2
+
+" Easily navigate between tmux panes and vim instances.
+Plug 'christoomey/vim-tmux-navigator'
+
+" Better status line.
+Plug 'vim-airline/vim-airline'
+
+" Used mostly as a replacement for fzf.
+Plug 'nvim-telescope/telescope.nvim'
+" Its dependencies.
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+
+" Display color codes.
+Plug 'norcalli/nvim-colorizer.lua'
+
+" Quickly move around.
+Plug 'phaazon/hop.nvim'
+nnoremap ]w <cmd>HopWord<CR>
+nnoremap ]l <cmd>HopLineStart<CR>
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+" For debugging.
+Plug 'nvim-treesitter/playground'
+
 
 " Case-sensitive search and replace (and more!).
 Plug 'tpope/vim-abolish'
- 
-" Fuzzy finder.
-Plug 'junegunn/fzf'
-nmap <C-p> :FZF<CR>
-
-" Quickly move around.
-Plug 'Lokaltog/vim-easymotion'
-let g:EasyMotion_leader_key = ','
-let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyz'
 
 Plug 'arames/vim-diffgofile', {
   \ 'do': 'cd ftplugin && ln -s diff_gofile.vim git_diffgofile.vim',
@@ -150,13 +171,6 @@ autocmd FileType git nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
 " Git integration.
 Plug 'tpope/vim-fugitive'
 
-Plug 'christoomey/vim-tmux-navigator'
-
-Plug 'vim-airline/vim-airline'
-
-" Provide argument objects.
-Plug 'inkarkat/argtextobj.vim'
-
 " Code completion using LSP.
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -165,8 +179,11 @@ nmap <silent> gh <Plug>(coc-declaration)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gs <Plug>(coc-rename)
 
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+xmap <leader>f <Plug>(coc-format-selected)
+nmap <leader>f <Plug>(coc-format-selected)
+
+" TODO: Add a shortcut to :CocAction
+nmap <silent> gj :CocAction<CR>
 
 set updatetime=500
 
@@ -196,8 +213,24 @@ let g:vimwiki_list = [{'path': '/Users/arames/Library/Mobile Documents/com~apple
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
 
-"" Unused. Keeping for reference or future use =========={{{2
-"
+" Unused ==============================================={{{2
+
+" Keeping for reference or future use.
+
+" Deprecated by nvim-treesitter-textobjects.
+"" Provide argument objects.
+"Plug 'inkarkat/argtextobj.vim'
+
+" Deprecated by hop.nvim.
+"" Quickly move around.
+"Plug 'Lokaltog/vim-easymotion'
+"let g:EasyMotion_leader_key = ','
+"let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyz'
+
+" Deprecated by nvim-treesitter/playground.
+"" Highlight backtrace. Useful to edit color schemes.
+"Plug 'gerw/vim-HiLinkTrace'
+
 """ Switch between header and implementation files.
 ""Plug 'vim-scripts/a.vim'
 ""nnoremap <leader>hh :A<CR>
@@ -253,96 +286,167 @@ Plug 'inkarkat/vim-mark'
 ""  "autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 ""  "autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 ""endif
+
+" Testing =============================================={{{2
+
+"Plug 'chrisbra/Colorizer'
 "
-"" Unclassified ========================================={{{2
+"Plug 'prabirshrestha/async.vim'
+"Plug 'prabirshrestha/vim-lsp'
+"if executable('clangd')
+"    autocmd User lsp_setup call lsp#register_server({
+"        \ 'name': 'clangd',
+"        \ 'cmd': {server_info->['clangd', '-background-index']},
+"        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+"        \ })
+"endif
+""let g:lsp_log_verbose = 1
+""let g:lsp_log_file = expand('~/vim-lsp.log')
 "
+"Plug 'prabirshrestha/asyncomplete.vim'
+"Plug 'prabirshrestha/asyncomplete-lsp.vim'
+"" TODO: Not seeing preview
+" set completeopt+=preview
+""autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
+"nnoremap ,g :LspDefinition<CR>
+"nnoremap ,r :LspReferences<CR>
+"nnoremap ,p :LspPreviousReference<CR>
+"nnoremap ,n :LspNextReference<CR>
+"nnoremap ,s :LspRename<CR>
+"nnoremap <C-<Space>> :LspPeekDefinition
+
+" Unclassified ========================================={{{2
+
 "" TODO: Classify all these plugins in sections above.
 
 "" Display lines git diff status when editing a file in a git repository.
 "Plug 'airblade/vim-gitgutter'
 
-" Highlight backtrace.
-" Useful to edit color schemes.
-Plug 'gerw/vim-HiLinkTrace'
-"nmap <F10> :HLT<CR>
+" Unused ==============================================={{{2
 
-""" Unused plugins ===================={{3
-""
-""" Quick file find and open.
-""Plug 'kien/ctrlp.vim'
-""
-"""" Easy commenting and uncommenting.
-"""Plug 'tpope/vim-commentary'
-"""
-""" Asynchronous grep.
-""Plug 'arames/vim-async-grep'
-"""
-"""" Allow opening a file to a specific line with 'file:line'
-"""Plug 'bogado/file-line'
-"""
-"""" Easy access to an undo tree.
-"""Plug 'mbbill/undotree'
-"""
-"""" Diff between selected blocks of code.
-"""Plug 'AndrewRadev/linediff.vim'
-"""
-"""" Languages syntax.
-"""Plug 'dart-lang/dart-vim-plugin'
-"""Plug 'plasticboy/vim-markdown'
-"""Plug 'hynek/vim-python-pep8-indent'
-"""
-"""" Easy alignment.
-"""Plug 'junegunn/vim-easy-align'
-"""vmap <Enter> <Plug>(EasyAlign)
-""
-""""Plug 'Rip-Rip/clang_complete'
-""""let g:clang_library_path='/usr/lib/llvm-3.2/lib/'
-"""
-""""" Asynchronous commands
-""""Plug 'tpope/vim-dispatch'
-""""Plug 'vim-scripts/Align'
-""""" Need to work out how to get it working for more complex projects.
-"""""Plug 'scrooloose/syntastic'
+" Deprecated by telescope.
+"" Fuzzy finder.
+"Plug 'junegunn/fzf'
+"nmap <C-p> :FZF<CR>
 
+" Deprecated by fzf.
+"" Quick file find and open.
+"Plug 'kien/ctrlp.vim'
+
+"" Easy commenting and uncommenting.
+"Plug 'tpope/vim-commentary'
+
+"" Asynchronous grep.
+"Plug 'arames/vim-async-grep'
+
+""" Allow opening a file to a specific line with 'file:line'
+""Plug 'bogado/file-line'
+
+""" Easy access to an undo tree.
+""Plug 'mbbill/undotree'
+
+""" Diff between selected blocks of code.
+""Plug 'AndrewRadev/linediff.vim'
+
+"" Languages syntax.
+"Plug 'dart-lang/dart-vim-plugin'
+"Plug 'plasticboy/vim-markdown'
+"Plug 'hynek/vim-python-pep8-indent'
+
+"" Easy alignment.
+"Plug 'junegunn/vim-easy-align'
+"vmap <Enter> <Plug>(EasyAlign)
+
+""Plug 'Rip-Rip/clang_complete'
+"let g:clang_library_path='/usr/lib/llvm-3.2/lib/'
+
+"" Asynchronous commands
+"Plug 'tpope/vim-dispatch'
+"Plug 'vim-scripts/Align'
+"" Need to work out how to get it working for more complex projects.
+"Plug 'scrooloose/syntastic'
+
+"Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
+
+" }}}2
 
 call plug#end()
 
+" Late Plugin Configuration ============================{{{2
 
-" Presentation ============================================================={{{1
+" Some lua configuration must happen after the call to `plug#end`.
 
-set termguicolors               " Use gui colors in the terminal.
-syntax on                       " Enable syntax highlighting.
-colorscheme quiet
-set ruler                       " Show the cursor position all the time.
-set guicursor=a:block,i-ci:ver10,r-cr:hor10
-" set cursorline                  " Highlight the line where the cursor is.
-set winminheight=0              " Minimum size of splits is 0.
-set nowrap                      " Do not wrap lines.
-set scrolloff=5                 " Show at least 5 lines around the cursor.
-set noerrorbells                " No bells.
-"let &sbr = nr2char(8618).' '    " Show ↪ at the beginning of wrapped lines.
+lua << EOF
+local actions = require('telescope.actions')
+require('telescope').setup{
+  defaults = {
+    mappings = {
+      i = {
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<C-b>"] = actions.preview_scrolling_up,
+        ["<C-f>"] = actions.preview_scrolling_down,
+      },
+    },
+  }
+}
+EOF
 
-set number                      " Display line numbers.
-set relativenumber              " Display relative line numbers.
-" Display relative line numbers in normal mode and absolute line numbers
-" in insert mode.
-augroup relativenumbertoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-augroup END
-"autocmd InsertEnter * :set number
-"autocmd InsertLeave * :set relativenumber
-"" Always display absolute line numbers in the quick-fix windows for easy
-"" 'cc <n>' commands.
-"autocmd BufRead * if &ft == "qf" | setlocal norelativenumber | endif
-"
-"
-"
-"" Custom color groups =================================={{{2
-"highlight MessageWarning ctermbg=88 guibg=#902020
-"highlight MessageDone    ctermbg=22
-"
+lua << EOF
+require 'colorizer'.setup({ '*'; }, { mode = 'foreground' })
+EOF
+
+lua << EOF
+require 'hop'.setup()
+EOF
+
+" TODO: Set up incremental selection: https://github.com/nvim-treesitter/nvim-treesitter#available-modules
+lua << EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = { enable = true, },
+  indent = { enable = true, },
+  textobjects = {
+    select = {
+      enable = true,
+      lookahead = true,
+      keymaps = {
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+      },
+    },
+    move = {
+      enable = true,
+      set_jumps = true,
+      goto_next_start = {
+        ["]m"] = "@function.outer",
+        ["]]"] = "@class.outer",
+      },
+      goto_next_end = {
+        ["]M"] = "@function.outer",
+        ["]["] = "@class.outer",
+      },
+      goto_previous_start = {
+        ["[m"] = "@function.outer",
+        ["[["] = "@class.outer",
+      },
+      goto_previous_end = {
+        ["[M"] = "@function.outer",
+        ["[]"] = "@class.outer",
+      },
+    },
+    swap = {
+      enable = true,
+      swap_next = { ["<leader>a"] = "@parameter.inner", },
+      swap_previous = { ["<leader>A"] = "@parameter.inner", },
+    },
+  },
+}
+EOF
+
+
 " Editing =================================================================={{{1
 
 set backspace=indent,eol,start   " Backspacing over everything in insert mode.
@@ -364,12 +468,11 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-
 "" Completion ==========================================={{{2
 "" Display a menu, insert the longest common prefix but don't select the first
 "" entry, and display some additional information if available.
 "set completeopt=menu,longest,preview
-"
+
 "" Grep/tags ============================================{{{2
 "
 "" Grep in current directory.
@@ -424,15 +527,8 @@ else
   command! TagsUpdate silent !ctags -o .tags --recurse --c-kinds=+p --c++-kinds=+p --fields=+iaS --extra=+q
 endif
 
-""" Create custom syntax file based on tags.
-""" See :help tag-highlight.
-""command! TagsSyntax !ctags -R --c-kinds=gstu --c++-kinds=+c -o- | awk 'BEGIN{printf("syntax keyword Type ")}{printf("\%s ", $1)}END{print "\n"}' > .tags.vim;
-""" Process all tags related commands.
-""command! Tags exe 'TagsUpdate' | exe 'TagsSyntax' | source .tags.vim
-"""TODO: Add highlighting for other kinds of tags.
-"
-"" Opens the definition in a vertical split.
-"" <C-w><C-]> is the default for the same in a horizontal split.
+" Opens the definition in a vertical split.
+" <C-w><C-]> is the default for the same in a horizontal split.
 nmap <C-]>       :exec("tjump "  . expand("<cword>"))<CR>
 nmap <C-w><C-]>  :exec("stjump " . expand("<cword>"))<CR>
 nmap <C-v><C-]>  :vsp <CR>:exec("tjump ".expand("<cword>"))<CR>
@@ -454,15 +550,15 @@ command! IndentLLVM        set   expandtab shiftwidth=2 tabstop=2 cinoptions=(0,
 
 " Default indentation styles
 IndentGoogle
-autocmd FileType cpp IndentGoogle
-autocmd FileType sh IndentGoogle
+autocmd FileType cpp IndentLLVM
+autocmd FileType sh IndentLLVM
 
 
-"""  Show indentation guides.
-""set list listchars=tab:\.\
-"
-"" Misc commands ========================================{{{2
-"
+""  Show indentation guides.
+"set list listchars=tab:\.\
+
+" Misc commands ========================================{{{2
+
 "" Insert current date.
 "imap <leader>date <C-R>=strftime('%Y-%m-%d')<CR>
 "nmap <leader>date i<C-R>=strftime('%Y-%m-%d')<CR><Esc>
@@ -472,26 +568,12 @@ autocmd FileType sh IndentGoogle
 "
 "" Easy paste of the search pattern without word boundaries.
 "imap <C-e>/ <C-r>/<Esc>:let @z=@/<CR>`[v`]:<C-u>s/\%V\\<\\|\\>//g<CR>:let @/=@z<CR>a
-"
-"" Background compilation ==================================================={{{1
-"let g:BgCompilation_res = '/tmp/vim.compilation.res'
-"let s:BgCompilation_command = 'silent !' . &makeprg
-"command! -nargs=* -complete=dir Make call Async(s:BgCompilation_command, 'BgCompilationStart()', 'BgCompilationDone()', g:BgCompilation_res, <f-args>)
-"function! BgCompilationStart()
-"  echohl MessageWarning | echo 'Running background compilation...' | echohl None
-"endfunction
-"function! BgCompilationDone()
-"  exec('cgetfile' . g:BgCompilation_res)
-"  echohl MessageDone | echo "Background compilation done." | echohl None
-"endfunction
-"
-"
+
 " Terminal ================================================================={{{1
 
 if has('nvim')
   tnoremap <C-]> <C-\><C-n>
 endif
-
 
 " Command line ============================================================={{{1
 
@@ -505,23 +587,16 @@ noremap _ ,
 cabbr <expr> %% fnameescape(expand('%:p:h'))
 cabbr <expr> $$ fnameescape(expand('%:p'))
 
-"" Easy quote of the searched pattern in command line.
-"cmap <C-e>/ "<C-r>/"
-
-" Moving around maps
-
 " Make <C-N> and <C-P> take the beginning of the line into account.
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
-
 
 "command! NukeTrailingWhitespace :%s/\s\+$//e
 "" We could automatcially delete trailing whitespace upon save with
 ""   autocmd BufWritePre * :%s/\s\+$//e
 "" However this becomes annoying when dealing with dirty external projects, when
 "" the deletions make it into patches.
-"
-"
+
 " Projects ================================================================={{{1
 
 augroup metalfe
@@ -535,19 +610,18 @@ augroup END
 "  autocmd BufRead,BufEnter */art/* IndentGoogle
 "  autocmd BufRead,BufEnter */art/* exec "set tags+=" . substitute(system('git rev-parse --show-toplevel'), '\n', '', 'g') . "/.tags"
 "augroup END
-"
+
 "augroup VIXL
 "  autocmd BufRead,BufEnter */vixl/* IndentGoogle
 "augroup END
-"
-""" Linux Kernel style.
-""augroup LinuxKernel
-""  autocmd BufRead,BufEnter /work/linux/* IndentLinuxKernel
-""augroup END
-""augroup KernelGit
-""  autocmd BufRead,BufEnter /work/linux/git/* set tags+=/work/linux/git/.tags
-""augroup END
 
+"" Linux Kernel style.
+"augroup LinuxKernel
+"  autocmd BufRead,BufEnter /work/linux/* IndentLinuxKernel
+"augroup END
+"augroup KernelGit
+"  autocmd BufRead,BufEnter /work/linux/git/* set tags+=/work/linux/git/.tags
+"augroup END
 
 " Misc ====================================================================={{{1
 
@@ -564,8 +638,6 @@ augroup END
 ""endw
 ""set timeout ttimeoutlen=50
 
-
-
 " Deprecated ==============================================================={{{1
 
 " Deprecated configuration items, that may be useful for future reference.
@@ -579,9 +651,6 @@ augroup END
 "cnoremap <C-b> <C-Left>
 "cnoremap <C-w> <C-Right>
 "cnoremap <C-x> <Del>
-
-"
-
 
 " .vimrc specific options =================================================={{{1
 " vim: set foldmethod=marker:
