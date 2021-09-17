@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONFIG_REPO_PATH="$HOME/.config/config"
+CONFIG_REPO_PATH="$HOME/.config/.config-repos/config"
 
 git clone --bare git@github.com:arames/config.git $CONFIG_REPO_PATH
 function config {
