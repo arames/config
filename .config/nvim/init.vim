@@ -140,20 +140,27 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
+" Extensions
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
-" Display color codes.
-Plug 'norcalli/nvim-colorizer.lua'
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
 
 " Quickly move around.
 Plug 'phaazon/hop.nvim'
 nnoremap ]w <cmd>HopWord<CR>
 nnoremap ]l <cmd>HopLineStart<CR>
 
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate cpp'}
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 " For debugging.
 Plug 'nvim-treesitter/playground'
 
+" Git integration.
+Plug 'tpope/vim-fugitive'
+
+" Display color codes.
+Plug 'norcalli/nvim-colorizer.lua'
 
 " Case-sensitive search and replace (and more!).
 Plug 'tpope/vim-abolish'
@@ -167,36 +174,6 @@ autocmd FileType diff nnoremap <buffer> <C-]> :call DiffGoFile('n')<CR>
 autocmd FileType diff nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
 autocmd FileType git nnoremap <buffer> <C-]> :call DiffGoFile('n')<CR>
 autocmd FileType git nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
-
-" Git integration.
-Plug 'tpope/vim-fugitive'
-
-" Code completion using LSP.
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gh <Plug>(coc-declaration)
-nmap <silent> gr <Plug>(coc-references)
-nmap <silent> gs <Plug>(coc-rename)
-
-xmap <leader>f <Plug>(coc-format-selected)
-nmap <leader>f <Plug>(coc-format-selected)
-
-" TODO: Add a shortcut to :CocAction
-nmap <silent> gj :CocAction<CR>
-
-set updatetime=500
-
-autocmd CursorMoved * silent call CocActionAsync('highlight')
-
-"nnoremap <silent> K :call <SID>show_documentation()<CR>
-"function! s:show_documentation()
-"  if (index(['vim','help'], &filetype) >= 0)
-"    execute 'h '.expand('<cword>')
-"  else
-"    call CocAction('doHover')
-"  endif
-"endfunction
 
 " Used sometimes ======================================={{{2
 
@@ -213,9 +190,71 @@ let g:vimwiki_list = [{'path': '/Users/arames/Library/Mobile Documents/com~apple
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
 
+" Testing =============================================={{{2
+
+" Unclassified ========================================={{{2
+
+"" TODO: Classify all these plugins in sections above.
+
+"" Display lines git diff status when editing a file in a git repository.
+"Plug 'airblade/vim-gitgutter'
+
 " Unused ==============================================={{{2
 
 " Keeping for reference or future use.
+
+"" Code completion using LSP.
+"" Deprecated by builtin LSP support, completion-nvim.
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"
+"nmap <silent> gd <Plug>(coc-definition)
+"nmap <silent> gh <Plug>(coc-declaration)
+"nmap <silent> gr <Plug>(coc-references)
+"nmap <silent> gs <Plug>(coc-rename)
+"
+"xmap <leader>f <Plug>(coc-format-selected)
+"nmap <leader>f <Plug>(coc-format-selected)
+"
+"" TODO: Add a shortcut to :CocAction
+"nmap <silent> gj :CocAction<CR>
+"
+"set updatetime=500
+"
+"autocmd CursorMoved * silent call CocActionAsync('highlight')
+
+"nnoremap <silent> K :call <SID>show_documentation()<CR>
+"function! s:show_documentation()
+"  if (index(['vim','help'], &filetype) >= 0)
+"    execute 'h '.expand('<cword>')
+"  else
+"    call CocAction('doHover')
+"  endif
+"endfunction
+
+"Plug 'prabirshrestha/async.vim'
+"Plug 'prabirshrestha/vim-lsp'
+"if executable('clangd')
+"    autocmd User lsp_setup call lsp#register_server({
+"        \ 'name': 'clangd',
+"        \ 'cmd': {server_info->['clangd', '-background-index']},
+"        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+"        \ })
+"endif
+""let g:lsp_log_verbose = 1
+""let g:lsp_log_file = expand('~/vim-lsp.log')
+"
+"Plug 'prabirshrestha/asyncomplete.vim'
+"Plug 'prabirshrestha/asyncomplete-lsp.vim'
+"" TODO: Not seeing preview
+" set completeopt+=preview
+""autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
+"nnoremap ,g :LspDefinition<CR>
+"nnoremap ,r :LspReferences<CR>
+"nnoremap ,p :LspPreviousReference<CR>
+"nnoremap ,n :LspNextReference<CR>
+"nnoremap ,s :LspRename<CR>
+"nnoremap <C-<Space>> :LspPeekDefinition
 
 " Deprecated by nvim-treesitter-textobjects.
 "" Provide argument objects.
@@ -287,44 +326,6 @@ Plug 'inkarkat/vim-mark'
 ""  "autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 ""endif
 
-" Testing =============================================={{{2
-
-"Plug 'chrisbra/Colorizer'
-"
-"Plug 'prabirshrestha/async.vim'
-"Plug 'prabirshrestha/vim-lsp'
-"if executable('clangd')
-"    autocmd User lsp_setup call lsp#register_server({
-"        \ 'name': 'clangd',
-"        \ 'cmd': {server_info->['clangd', '-background-index']},
-"        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-"        \ })
-"endif
-""let g:lsp_log_verbose = 1
-""let g:lsp_log_file = expand('~/vim-lsp.log')
-"
-"Plug 'prabirshrestha/asyncomplete.vim'
-"Plug 'prabirshrestha/asyncomplete-lsp.vim'
-"" TODO: Not seeing preview
-" set completeopt+=preview
-""autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-
-"nnoremap ,g :LspDefinition<CR>
-"nnoremap ,r :LspReferences<CR>
-"nnoremap ,p :LspPreviousReference<CR>
-"nnoremap ,n :LspNextReference<CR>
-"nnoremap ,s :LspRename<CR>
-"nnoremap <C-<Space>> :LspPeekDefinition
-
-" Unclassified ========================================={{{2
-
-"" TODO: Classify all these plugins in sections above.
-
-"" Display lines git diff status when editing a file in a git repository.
-"Plug 'airblade/vim-gitgutter'
-
-" Unused ==============================================={{{2
-
 " Deprecated by telescope.
 "" Fuzzy finder.
 "Plug 'junegunn/fzf'
@@ -389,21 +390,31 @@ require('telescope').setup{
         ["<C-f>"] = actions.preview_scrolling_down,
       },
     },
+  },
+  extensions = {
+    fzf = {
+      fuzzy = true,                    -- false will only do exact matching
+      override_generic_sorter = true,  -- override the generic sorter
+      override_file_sorter = true,     -- override the file sorter
+      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                       -- the default case_mode is "smart_case"
+    }
   }
 }
+require('telescope').load_extension('fzf')
 EOF
 
 lua << EOF
-require 'colorizer'.setup({ '*'; }, { mode = 'foreground' })
+require('colorizer').setup({ '*'; }, { mode = 'foreground' })
 EOF
 
 lua << EOF
-require 'hop'.setup()
+require('hop').setup()
 EOF
 
 " TODO: Set up incremental selection: https://github.com/nvim-treesitter/nvim-treesitter#available-modules
 lua << EOF
-require'nvim-treesitter.configs'.setup {
+require('nvim-treesitter.configs').setup {
   highlight = { enable = true, },
   indent = { enable = true, },
   textobjects = {
@@ -424,12 +435,12 @@ require'nvim-treesitter.configs'.setup {
       set_jumps = true,
       goto_next_start = {
         ["]]"] = "@class.outer",
-        ["]m"] = "@function.outer",
+        ["]f"] = "@function.outer",
         ["]a"] = "@parameter.outer",
       },
       goto_previous_start = {
         ["[["] = "@class.outer",
-        ["[m"] = "@function.outer",
+        ["[f"] = "@function.outer",
         ["[a"] = "@parameter.outer",
       },
     },
@@ -442,6 +453,51 @@ require'nvim-treesitter.configs'.setup {
 }
 EOF
 
+lua << EOF
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local configure_lsp_shortcuts = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  --buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  --buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  --buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  --buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  --buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  --buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', 'gs', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  --buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  --buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  --buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  --buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('v', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+end
+
+local on_attach = function(client, bufnr)
+  configure_lsp_shortcuts(client, bufnr)
+  require('completion').on_attach(client, bufnr)
+end
+
+require('lspconfig').clangd.setup{
+  on_attach=on_attach,
+  defaults = {
+    cmd = {"clangd", "--background-index"},
+    filetypes = {"c", "cpp", "cc", "objc", "objcpp"},
+  },
+}
+EOF
+
+set completeopt=menuone,noinsert,noselect
 
 " Editing =================================================================={{{1
 
