@@ -380,7 +380,7 @@ call plug#end()
 
 lua << EOF
 local actions = require('telescope.actions')
-require('telescope').setup{
+require('telescope').setup {
   defaults = {
     mappings = {
       i = {
@@ -488,12 +488,8 @@ local on_attach = function(client, bufnr)
   require('completion').on_attach(client, bufnr)
 end
 
-require('lspconfig').clangd.setup{
+require('lspconfig').clangd.setup {
   on_attach=on_attach,
-  defaults = {
-    cmd = {"clangd", "--background-index"},
-    filetypes = {"c", "cpp", "cc", "objc", "objcpp"},
-  },
 }
 EOF
 
