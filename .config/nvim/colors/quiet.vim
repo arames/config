@@ -7,18 +7,18 @@ let g:colors_name = "quiet"
 
 " Reference groups
 
-hi       Normal                guifg=#bbbbbb guibg=#111111 gui=none
-hi       NormalUnderline       guifg=#bbbbbb guibg=#111111 gui=underline
+hi       Normal                guifg=#aaaaaa guibg=#111111 gui=none
+hi       NormalUnderline       guifg=#aaaaaa guibg=#111111 gui=underline
 
 hi       LowInterest           guifg=#777777               gui=none
 hi       LowInterestBold       guifg=#777777               gui=bold
-hi       Interest              guifg=#c08000               gui=none
-hi       InterestBold          guifg=#c08000               gui=bold
+hi       Interest              guifg=#bb7744               gui=none
+hi       InterestBold          guifg=#bb7744               gui=bold
 hi       HighInterest          guifg=#cc2244 guibg=none    gui=none
 hi       HighInterestUnderline guifg=#cc2244 guibg=none    gui=underline
 hi       HighInterestBg        guifg=none    guibg=#cc2244 gui=none
 
-hi       Focus                 guifg=#11aa11               gui=none
+hi       Focus                 guifg=#228822               gui=none
 hi       FocusBg                             guibg=#115511 gui=none
 
 hi       Error                 guifg=#111111 guibg=#bb0000 gui=bold
@@ -30,11 +30,11 @@ hi       WarningBg             guifg=#c08000 guibg=#111111 gui=bold
 " Usual groups
 
 hi! link Comment               LowInterest
-hi       Keyword               guifg=#5599cc guibg= gui=
+hi!      Keyword               guifg=#5599cc guibg= gui=
 hi! link Todo                  LowInterestBold
 hi! link Search                HighInterestUnderline
 hi! link MatchParen            FocusBg
-hi       Visual                              guibg=#183058 gui=none
+hi!      Visual                              guibg=#183058 gui=none
 
 hi! link NonText               LowInterest
 hi! link LineNr                LowInterest
@@ -48,7 +48,7 @@ hi! link TabLineFill           LowInterest
 hi! link TabLineSel            NormalUnderline
 hi! link Title                 TabLine
 hi! link SignColumn            Normal
-hi! link Folded                Interest
+hi! link Folded                Warning
 
 hi  Pmenu                                    guibg=#113311
 hi  PmenuSel                                 guibg=#115511
@@ -56,7 +56,7 @@ hi  PmenuSel                                 guibg=#115511
 hi! link Identifier            Normal
 hi! Constant                   guifg=#99bb99               gui=none
 hi! PreProc                    guifg=#994499               gui=none
-hi! Keyword                    guifg=#90b0e0               gui=none
+"hi! Keyword                    guifg=#90b0e0               gui=none
 hi! link Type                  Normal
 hi! link Statement             Interest
 
@@ -77,23 +77,25 @@ hi! link diffRemoved DiffDelete
 " Plugin-specific groups
 
 " nvim-treesitter
-hi! link Delimiter Normal
-hi! link Operator Normal
-hi! link TSNamespace Normal
-hi! link Function Normal
-hi! link TSConstructor Normal
-hi! link TSKeywordReturn Statement
-hi!      TSMethod guifg=#55bb55
+hi!      TSMethod guifg=#5599cc
+hi! link Delimiter             Normal
+hi! link Function              Normal
+hi! link Operator              Normal
+hi! link TSConstructor         Normal
+hi! link TSKeywordReturn       Statement
+hi! link TSNamespace           Normal
+hi! link TSString              Constant
+hi! link TSStringEscape        Constant
 
 " coc.nvim
 
-hi! link CocErrorFloat         Error
-hi! link CocErrorHighlight     ErrorBg
-hi! link CocErrorSign          Error
-hi! link CocHighlightText      Focus
-hi! link CocWarningFloat       Warning
-hi! link CocWarningHighlight   WarningBg
-hi! link CocWarningSign        Warning
+"hi! link CocErrorFloat         Error
+"hi! link CocErrorHighlight     ErrorBg
+"hi! link CocErrorSign          Error
+"hi! link CocHighlightText      Focus
+"hi! link CocWarningFloat       Warning
+"hi! link CocWarningHighlight   WarningBg
+"hi! link CocWarningSign        Warning
 
 " LLVM
 hi tgKeyword ctermfg=179
