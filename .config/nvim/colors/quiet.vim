@@ -50,8 +50,8 @@ hi! link Title                 TabLine
 hi! link SignColumn            Normal
 hi! link Folded                Warning
 
-hi  Pmenu                                    guibg=#113311
-hi  PmenuSel                                 guibg=#115511
+hi! Pmenu                                    guibg=#113311
+hi! PmenuSel                                 guibg=#115511
 
 hi! link Identifier            Normal
 hi! Constant                   guifg=#99bb99               gui=none
@@ -86,6 +86,7 @@ hi! link TSKeywordReturn       Statement
 hi! link TSNamespace           Normal
 hi! link TSString              Constant
 hi! link TSStringEscape        Constant
+hi! link TSVariableBuiltin     Normal
 
 " nvim-lspconfig
 hi! link LspReference          Focus
