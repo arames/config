@@ -12,8 +12,8 @@ hi       NormalUnderline       guifg=#aaaaaa guibg=#111111 gui=underline
 
 hi       LowInterest           guifg=#777777               gui=none
 hi       LowInterestBold       guifg=#777777               gui=bold
-hi       Interest              guifg=#bb7744               gui=none
-hi       InterestBold          guifg=#bb7744               gui=bold
+hi       Interest              guifg=#bb8855               gui=none
+hi       InterestBold          guifg=#bb8855               gui=bold
 hi       HighInterest          guifg=#cc2244 guibg=none    gui=none
 hi       HighInterestUnderline guifg=#cc2244 guibg=none    gui=underline
 hi       HighInterestBg        guifg=none    guibg=#cc2244 gui=none
