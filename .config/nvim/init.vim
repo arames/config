@@ -49,6 +49,7 @@ set scrolloff=5                 " Show at least 5 lines around the cursor.
 
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
+set foldlevelstart=99
 
 set number                      " Display line numbers.
 set relativenumber              " Display relative line numbers.
@@ -191,6 +192,10 @@ Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
 
 " Testing =============================================={{{2
+
+Plug 'RRethy/vim-illuminate'
+" Only illuminate via LSP.
+let g:Illuminate_highlightUnderCursor = 0
 
 " Unclassified ========================================={{{2
 
@@ -454,18 +459,17 @@ require('nvim-treesitter.configs').setup {
 EOF
 
 lua << EOF
+local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+local opts = { noremap=true, silent=true }
+
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local configure_lsp_shortcuts = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
   -- Mappings.
-  local opts = { noremap=true, silent=true }
 
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   --buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   --buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
@@ -483,9 +487,16 @@ local configure_lsp_shortcuts = function(client, bufnr)
   buf_set_keymap('v', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
+local configure_illuminate = function(client)
+  require('illuminate').on_attach(client)
+  buf_set_keymap('n', ']r', '<cmd>lua require"illuminate".next_reference{wrap=true}<CR>', opts)
+  buf_set_keymap('n', '[r', '<cmd>lua require"illuminate".next_reference{wrap=true, reverse=true}<CR>', opts)
+end
+
 local on_attach = function(client, bufnr)
   configure_lsp_shortcuts(client, bufnr)
   require('completion').on_attach(client, bufnr)
+  configure_illuminate(client)
 end
 
 require('lspconfig').clangd.setup {

@@ -87,6 +87,13 @@ hi! link TSNamespace           Normal
 hi! link TSString              Constant
 hi! link TSStringEscape        Constant
 
+" nvim-lspconfig
+hi! link LspReference          Focus
+hi! link LspReferenceText      LspReference
+hi! link LspReferenceWrite     LspReferenceText
+hi! link LspReferenceRead      LspReferenceText
+
+
 " coc.nvim
 
 "hi! link CocErrorFloat         Error
