@@ -193,10 +193,6 @@ Plug 'inkarkat/vim-mark'
 
 " Testing =============================================={{{2
 
-Plug 'RRethy/vim-illuminate'
-" Only illuminate via LSP.
-let g:Illuminate_highlightUnderCursor = 0
-
 " Unclassified ========================================={{{2
 
 "" TODO: Classify all these plugins in sections above.
@@ -484,19 +480,20 @@ local configure_lsp_shortcuts = function(client, bufnr)
   --buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   --buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   --buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  buf_set_keymap('v', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-end
+  buf_set_keymap('v', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR><Esc>', opts)
 
-local configure_illuminate = function(client)
-  require('illuminate').on_attach(client)
-  buf_set_keymap('n', ']r', '<cmd>lua require"illuminate".next_reference{wrap=true}<CR>', opts)
-  buf_set_keymap('n', '[r', '<cmd>lua require"illuminate".next_reference{wrap=true, reverse=true}<CR>', opts)
+  if client.resolved_capabilities.document_highlight then
+      vim.cmd('augroup LSPCurrentSymbolHighlight')
+      vim.cmd('autocmd!')
+      vim.cmd('autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()')
+      vim.cmd('autocmd CursorMoved <buffer> lua vim.lsp.buf.document_highlight()')
+      vim.cmd('augroup END')
+  end
 end
 
 local on_attach = function(client, bufnr)
   configure_lsp_shortcuts(client, bufnr)
   require('completion').on_attach(client, bufnr)
-  configure_illuminate(client)
 end
 
 require('lspconfig').clangd.setup {
