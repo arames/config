@@ -150,7 +150,9 @@ Plug 'nvim-lua/completion-nvim'
 " Quickly move around.
 Plug 'phaazon/hop.nvim'
 nnoremap ]w <cmd>HopWord<CR>
+nnoremap [w <cmd>HopWord<CR>
 nnoremap ]l <cmd>HopLineStart<CR>
+nnoremap [l <cmd>HopLineStart<CR>
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate cpp'}
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
