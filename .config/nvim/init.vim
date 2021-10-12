@@ -482,7 +482,25 @@ local configure_lsp_shortcuts = function(client, bufnr)
   --buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   --buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   --buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  buf_set_keymap('v', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR><Esc>', opts)
+
+  -- The default suggested formatting binding formats the full buffer. Instead,
+  -- format ranges.
+  -- See https://github.com/neovim/nvim-lspconfig/wiki/User-contributed-tips.
+  --buf_set_keymap('v', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR><Esc>', opts)
+  function format_range_operator()
+    local old_func = vim.go.operatorfunc
+    _G.op_func_formatting = function()
+      local start = vim.api.nvim_buf_get_mark(0, '[')
+      local finish = vim.api.nvim_buf_get_mark(0, ']')
+      vim.lsp.buf.range_formatting({}, start, finish)
+      vim.go.operatorfunc = old_func
+      _G.op_func_formatting = nil
+    end
+    vim.go.operatorfunc = 'v:lua.op_func_formatting'
+    vim.api.nvim_feedkeys('g@', 'n', false)
+  end
+  vim.api.nvim_set_keymap("n", "<leader>f", "<cmd>lua format_range_operator()<CR>", {noremap = true})
+  vim.api.nvim_set_keymap("v", "<leader>f", "<cmd>lua format_range_operator()<CR>", {noremap = true})
 
   if client.resolved_capabilities.document_highlight then
       vim.cmd('augroup LSPCurrentSymbolHighlight')
@@ -659,8 +677,8 @@ cnoremap <C-p> <Up>
 
 augroup metalfe
   au!
-  autocmd BufNewFile,BufRead *.metal set filetype=cpp
-  autocmd BufNewFile,BufRead metal_* set filetype=cpp
+  "autocmd BufNewFile,BufRead *.metal set filetype=cpp
+  "autocmd BufNewFile,BufRead metal_* set filetype=cpp
   autocmd BufEnter */metalfe/* IndentLLVM
 augroup END
 
