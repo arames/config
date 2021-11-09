@@ -145,7 +145,9 @@ nnoremap <leader>ff <cmd>Telescope find_files<cr>
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
+" LSP completion
+Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+let g:coq_settings = { 'auto_start': v:true, 'display.icons.mode': 'none' }
 
 " Quickly move around.
 Plug 'phaazon/hop.nvim'
@@ -437,12 +439,12 @@ require('nvim-treesitter.configs').setup {
       enable = true,
       set_jumps = true,
       goto_next_start = {
-        ["]]"] = "@class.outer",
+        ["]c"] = "@class.outer",
         ["]f"] = "@function.outer",
         ["]a"] = "@parameter.outer",
       },
       goto_previous_start = {
-        ["[["] = "@class.outer",
+        ["[c"] = "@class.outer",
         ["[f"] = "@function.outer",
         ["[a"] = "@parameter.outer",
       },
@@ -502,22 +504,21 @@ local configure_lsp_shortcuts = function(client, bufnr)
   vim.api.nvim_set_keymap("n", "<leader>f", "<cmd>lua format_range_operator()<CR>", {noremap = true})
   vim.api.nvim_set_keymap("v", "<leader>f", "<cmd>lua format_range_operator()<CR>", {noremap = true})
 
-  if client.resolved_capabilities.document_highlight then
+  --if client.resolved_capabilities.document_highlight then
       vim.cmd('augroup LSPCurrentSymbolHighlight')
       vim.cmd('autocmd!')
       vim.cmd('autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()')
       vim.cmd('autocmd CursorMoved <buffer> lua vim.lsp.buf.document_highlight()')
       vim.cmd('augroup END')
-  end
+  --end
 end
 
-local on_attach = function(client, bufnr)
+local my_attach = function(client, bufnr)
   configure_lsp_shortcuts(client, bufnr)
-  require('completion').on_attach(client, bufnr)
 end
 
 require('lspconfig').clangd.setup {
-  on_attach=on_attach,
+  on_attach=my_attach,
 }
 EOF
 
