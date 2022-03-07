@@ -20,21 +20,13 @@ endif
 set encoding=utf-8
 set history=10000               " Keep 10000 lines of command line history.
 set mouse=a                     " Enable the mouse (eg. for resizing).
-set ignorecase                  " Ignore case in search by default.
-set smartcase                   " Case insensitive when not using uppercase.
-set wildignore=*.bak,*.o,*.e,*~ " Wildmenu: ignore these extensions.
+set ignorecase                  " Ignore case in search by default,
+set smartcase                   " but be case sensitive when using uppercase.
 set wildmenu                    " Command-line completion in an enhanced mode.
 set wildmode=list:longest       " Complete longest common string, then list.
 set showcmd                     " Display incomplete commands.
 set noerrorbells                " No bells.
 let mapleader = ","
-
-" This is unusable, because it prevents the use-case:
-" * copy from external application
-" * `cw` to cut word
-" * paste content of clipboard
-" The content of the clipboard is overriden by the cut word.
-" set clipboard=unnamedplus       " Copying copies to the system clipboard.
 
 " Presentation ============================================================={{{1
 
@@ -52,17 +44,20 @@ set foldexpr=nvim_treesitter#foldexpr()
 set foldlevelstart=99
 
 set number                      " Display line numbers.
-set relativenumber              " Display relative line numbers.
-" Display relative line numbers in normal mode and absolute line numbers
-" in insert mode.
-augroup relativenumbertoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-augroup END
-" Always display absolute line numbers in the quick-fix windows for easy
-" ':cc <n>' commands.
-autocmd BufEnter,FocusGained,InsertLeave * if &ft == "qf" | setlocal norelativenumber | endif
+
+" The relative line numbering is deprecated, in favor of using `HopLine` and
+" tree-sitter motions.
+"set relativenumber              " Display relative line numbers.
+"" Display relative line numbers in normal mode and absolute line numbers
+"" in insert mode.
+"augroup relativenumbertoggle
+"  autocmd!
+"  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+"  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+"augroup END
+"" Always display absolute line numbers in the quick-fix windows for easy
+"" ':cc <n>' commands.
+"autocmd BufEnter,FocusGained,InsertLeave * if &ft == "qf" | setlocal norelativenumber | endif
 
 " Unused options, kept for reference ==================={{{2
 
@@ -138,16 +133,17 @@ Plug 'vim-airline/vim-airline'
 " Used mostly as a replacement for fzf.
 Plug 'nvim-telescope/telescope.nvim'
 " Its dependencies.
-Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 " Extensions
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
 Plug 'neovim/nvim-lspconfig'
+" TODO
 " LSP completion
-Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
-let g:coq_settings = { 'auto_start': v:true, 'display.icons.mode': 'none' }
+"Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+"let g:coq_settings = { 'auto_start': v:true, 'display.icons.mode': 'none' }
 
 " Quickly move around.
 Plug 'phaazon/hop.nvim'
@@ -199,14 +195,12 @@ Plug 'inkarkat/vim-mark'
 
 " Unclassified ========================================={{{2
 
-"" TODO: Classify all these plugins in sections above.
-
-"" Display lines git diff status when editing a file in a git repository.
-"Plug 'airblade/vim-gitgutter'
-
 " Unused ==============================================={{{2
 
 " Keeping for reference or future use.
+
+"" Display lines git diff status when editing a file in a git repository.
+"Plug 'airblade/vim-gitgutter'
 
 "" Code completion using LSP.
 "" Deprecated by builtin LSP support, completion-nvim.
@@ -396,17 +390,8 @@ require('telescope').setup {
       },
     },
   },
-  extensions = {
-    fzf = {
-      fuzzy = true,                    -- false will only do exact matching
-      override_generic_sorter = true,  -- override the generic sorter
-      override_file_sorter = true,     -- override the file sorter
-      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-                                       -- the default case_mode is "smart_case"
-    }
-  }
 }
-require('telescope').load_extension('fzf')
+require('telescope').load_extension('fzy_native')
 EOF
 
 lua << EOF
