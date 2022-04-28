@@ -116,9 +116,10 @@ if [[ "$platform" == 'linux' ]]; then
 	alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 fi
 
-alias config="/usr/bin/git --git-dir="$HOME/.config/.config-repos/config/" --work-tree=$HOME"
-alias config_apple="/usr/bin/git --git-dir="$HOME/.config/.config-repos/config_apple/" --work-tree=$HOME"
+alias grep="grep --color=auto --exclude=.tags --exclude-dir=.git"
 
+
+alias config="/usr/bin/git --git-dir="$HOME/.config/.config-repos/config/" --work-tree=$HOME"
 
 
 # Completion configuration ================================================={{{1
@@ -143,8 +144,6 @@ autoload -Uz stgpatches
 export XDG_CONFIG_HOME=~/.config
 
 export PATH=$PATH:~/bin
-
-export GREP_OPTIONS="--color=auto --exclude=.tags --exclude-dir=.git"
 
 # rust cargo location
 export CARGO_HOME=$XDG_CONFIG_HOME/cargo
