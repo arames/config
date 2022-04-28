@@ -389,8 +389,6 @@ if $VIM_INSTALL_PLUGINS == "1"
   finish
 endif
 
-echom "arames should not reach here"
-
 " Late Plugin Configuration ============================{{{2
 
 " Some lua configuration must happen after the call to `plug#end`.
