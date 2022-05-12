@@ -50,3 +50,5 @@ branch_name=`git rev-parse --abbrev-ref HEAD`
 backup_target=${backup_dir}/${date_tag}_${repo_name}.${branch_name}
 echo stg export --numbered --dir=$backup_target
 stg export --numbered --dir=$backup_target
+echo "Patches applied on top of " > $backup_target/NOTES
+git log --oneline -n10 HEAD~$(stg ser --applied | wc -l) >> $backup_target/NOTES
