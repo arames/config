@@ -39,7 +39,7 @@ set $right l
 bindsym $mod+Return exec i3-sensible-terminal
 
 # Start dmenu (a program launcher).
-bindsym $mod+c exec dmenu_run -fn 'Ubuntu Mono:bold:pixelsize=20'
+bindsym $mod+c exec dmenu_run -fn 'Hack Regular:pixelsize=20'
 
 # Kill the focused window.
 bindsym $mod+Shift+q kill
