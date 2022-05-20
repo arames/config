@@ -464,6 +464,9 @@ lua << EOF
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
   local opts = { noremap=true, silent=true }
+  vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+  vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 
   -- Enable completion triggered by <c-x><c-o>
@@ -555,6 +558,10 @@ lua << EOF
     })
   })
   cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
+EOF
+
+lua << EOF
+require('nvim-autopairs').setup()
 EOF
 
 set completeopt=menu,menuone,noselect,preview
