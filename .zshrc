@@ -116,7 +116,7 @@ if [[ "$platform" == 'linux' ]]; then
 	alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 fi
 
-alias grep="grep --color=auto --exclude=.tags --exclude-dir=.git"
+alias grep='grep --color=auto --exclude=.tags --exclude-dir=.git --exclude-dir="bazel-*"'
 
 
 alias config="/usr/bin/git --git-dir="$HOME/.config/.config-repos/config/" --work-tree=$HOME"
