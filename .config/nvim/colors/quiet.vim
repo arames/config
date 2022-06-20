@@ -7,8 +7,8 @@ let g:colors_name = "quiet"
 
 " Reference groups
 
-hi       Normal                guifg=#aaaaaa guibg=#111111 gui=none
-hi       NormalUnderline       guifg=#aaaaaa guibg=#111111 gui=underline
+hi       Normal                guifg=#cccccc guibg=#111111 gui=none
+hi       NormalUnderline       guifg=#cccccc guibg=#111111 gui=underline
 
 hi       LowInterest           guifg=#777777               gui=none
 hi       LowInterestBold       guifg=#777777               gui=bold
