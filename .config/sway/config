@@ -35,7 +35,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+Ctrl+q exec i3lock --color=000000
 
 # Log out.
-bindsym $mod+Ctrl+Shift+q exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+bindsym $mod+Ctrl+Shift+q exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit? This will end your session.' -b 'Yes, exit' 'swaymsg exit'
 
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
