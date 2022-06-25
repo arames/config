@@ -111,10 +111,13 @@ map('', '_', ',', {noremap = true })
 -- `%%` expands to the path of the directory containing the current file.
 cmd [[cabbr <expr> %% fnameescape(expand('%:p:h'))]]
 cmd [[cabbr <expr> $$ fnameescape(expand('%:p'))]]
+cmd [[cabbr // "<C-r>/"]]
 
 -- Make <C-N> and <C-P> take the beginning of the line into account.
 cmd [[cnoremap <C-n> <Down>]]
 cmd [[cnoremap <C-p> <Up>]]
+
+cmd [[set grepprg=grep\ -RHIn\ --exclude=\".tags\"\ --exclude-dir=\".svn\"\ --exclude-dir=\".git\"\ --exclude-dir=\"bazel-*\"]]
 
 -- .vimrc specific options -------------------------------------------------{{{1
 -- vim: set foldmethod=marker:
