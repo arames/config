@@ -121,5 +121,8 @@ hi markdownH3    ctermfg=163
 hi markdownCode  ctermfg=110
 hi! link markdownCodeBlock markdownCode
 
+" Vimwiki
+hi! link VimwikiPre Constant
+
 " Custom for vimrc
 hi Green ctermfg=47
