@@ -68,13 +68,18 @@ return require('packer').startup(function(use)
   use 'jceb/vim-editqf'
 
   use {'nvim-treesitter/nvim-treesitter',
-    requires = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-      'nvim-treesitter/playground',
-    },
-    run = ':TSUpdate',
-    config = [[require('config.treesitter')]],
+       requires = {
+         'nvim-treesitter/nvim-treesitter-textobjects',
+         'nvim-treesitter/playground',
+       },
+       run = ':TSUpdate',
+       config = [[require('config.treesitter')]],
   }
+
+  use 'vim-scripts/vimwiki'
+  vim.cmd [[
+    let g:vimwiki_list = [{'path': '~/work/wiki', 'syntax': 'markdown', 'ext': '.md'}]
+  ]]
 
 
   -- Mostly used as a quick way to invoke `fzf`. Much more powerful however.
@@ -108,23 +113,26 @@ return require('packer').startup(function(use)
   use {'windwp/nvim-autopairs',
        config = [[require('config.nvim-autopairs')]],
        after = 'cmp-nvim-lsp'
-     }
+  }
 
   use 'hrsh7th/cmp-vsnip'
   use {'hrsh7th/vim-vsnip',
        config = [[require('config.vim-vsnip')]]
-     }
+  }
 
 
   -- Testing =============================================={{{2
 
-  --use { 'nvim-telescope/telescope-frecency.nvim',
-  --config = function()
-  --  require"telescope".load_extension("frecency")
-  --end,
-  --requires = {"tami5/sqlite.lua"}
-  --}
+  use {'nvim-telescope/telescope-frecency.nvim',
+       config = function() require"telescope".load_extension("frecency") end,
+       requires = {"tami5/sqlite.lua"},
+       after = {'telescope.nvim'}
+  }
 
+  -- Color Schemes ========================================{{{2
+
+  use 'fenetikm/falcon'
+  use 'rebelot/kanagawa.nvim'
 
 
   -- Packer Bootstrap -------------------------------------{{{2

@@ -111,7 +111,7 @@ map('', '_', ',', {noremap = true })
 -- `%%` expands to the path of the directory containing the current file.
 cmd [[cabbr <expr> %% fnameescape(expand('%:p:h'))]]
 cmd [[cabbr <expr> $$ fnameescape(expand('%:p'))]]
-cmd [[cabbr // "<C-r>/"]]
+cmd [[cabbr // "<C-r>/"<Space>]]
 
 -- Make <C-N> and <C-P> take the beginning of the line into account.
 cmd [[cnoremap <C-n> <Down>]]
