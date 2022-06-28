@@ -36,8 +36,8 @@ autocmd BufReadPre *
 let g:diffgofile_goto_existing_buffer = 1
 autocmd FileType diff nnoremap <buffer> <C-]> :call DiffGoFile('n')<CR>
 autocmd FileType diff nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
-"autocmd FileType git nnoremap <buffer> <C-]> :call DiffGoFile('n')<CR>
-"autocmd FileType git nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
+autocmd FileType git nnoremap <buffer> <C-]> :call DiffGoFile('n')<CR>
+autocmd FileType git nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
 
 " Used sometimes ======================================={{{2
 
