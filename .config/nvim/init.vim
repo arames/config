@@ -142,23 +142,31 @@ Plug 'tpope/vim-fugitive'
 " Display color codes.
 Plug 'norcalli/nvim-colorizer.lua'
 
-" Used mostly as a replacement for fzf.
-Plug 'nvim-telescope/telescope.nvim'
-" Its dependencies.
-Plug 'nvim-lua/plenary.nvim'
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-" Extensions
-Plug 'nvim-telescope/telescope-fzy-native.nvim'
+if has('nvim')
+  Plug 'neovim/nvim-lspconfig'
+endif
 
-Plug 'neovim/nvim-lspconfig'
+if has('nvim')
+  " Used mostly as a replacement for fzf.
+  Plug 'nvim-telescope/telescope.nvim'
+  " Its dependencies.
+  Plug 'nvim-lua/plenary.nvim'
+  " Extensions
+  Plug 'nvim-telescope/telescope-fzy-native.nvim'
+else
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
+  nnoremap <leader>ff <cmd>Files<cr>
+endif
 
-" Quickly move around.
-Plug 'phaazon/hop.nvim'
-noremap ]w <cmd>HopWord<CR>
-noremap [w <cmd>HopWord<CR>
-noremap ]l <cmd>HopLineStart<CR>
-noremap [l <cmd>HopLineStart<CR>
+if has('nvim')
+  " Quickly move around.
+  Plug 'phaazon/hop.nvim'
+  noremap ]w <cmd>HopWord<CR>
+  noremap [w <cmd>HopWord<CR>
+  noremap ]l <cmd>HopLineStart<CR>
+  noremap [l <cmd>HopLineStart<CR>
+endif
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate cpp'}
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -193,6 +201,9 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
+" `cmp-nvim-lsp` requires a snippet engine.
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
 
 Plug 'windwp/nvim-autopairs'
 
@@ -399,185 +410,10 @@ endif
 " Some lua configuration must happen after the call to `plug#end`.
 
 lua << EOF
-local actions = require('telescope.actions')
-require('telescope').setup {
-  defaults = {
-    mappings = {
-      i = {
-        ["<C-j>"] = actions.move_selection_next,
-        ["<C-k>"] = actions.move_selection_previous,
-        ["<C-b>"] = actions.preview_scrolling_up,
-        ["<C-f>"] = actions.preview_scrolling_down,
-      },
-    },
-  },
-}
-require('telescope').load_extension('fzy_native')
-EOF
-
-lua << EOF
-require('colorizer').setup({ '*'; }, { mode = 'foreground' })
-EOF
-
-lua << EOF
-require('hop').setup()
-EOF
-
-" TODO: Set up incremental selection: https://github.com/nvim-treesitter/nvim-treesitter#available-modules
-lua << EOF
-require('nvim-treesitter.configs').setup {
-  highlight = { enable = true, },
-  indent = { enable = true, },
-  textobjects = {
-    select = {
-      enable = true,
-      lookahead = true,
-      keymaps = {
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["aa"] = "@parameter.outer",
-        ["ia"] = "@parameter.inner",
-      },
-    },
-    move = {
-      enable = true,
-      set_jumps = true,
-      goto_next_start = {
-        ["]c"] = "@class.outer",
-        ["]f"] = "@function.outer",
-        ["]a"] = "@parameter.outer",
-      },
-      goto_previous_start = {
-        ["[c"] = "@class.outer",
-        ["[f"] = "@function.outer",
-        ["[a"] = "@parameter.outer",
-      },
-    },
-    swap = {
-      enable = true,
-      swap_next = { ["<leader>a"] = "@parameter.inner", },
-      swap_previous = { ["<leader>A"] = "@parameter.inner", },
-    },
-  },
-}
-EOF
-
-lua << EOF
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
-  local opts = { noremap=true, silent=true }
-  vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-  vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-
-  -- Enable completion triggered by <c-x><c-o>
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  --buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<leader>s', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-
-  -- The default suggested formatting binding formats the full buffer. Instead,
-  -- format ranges.
-  -- See https://github.com/neovim/nvim-lspconfig/wiki/User-contributed-tips.
-  --buf_set_keymap('v', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR><Esc>', opts)
-  function format_range_operator()
-    local old_func = vim.go.operatorfunc
-    _G.op_func_formatting = function()
-      local start = vim.api.nvim_buf_get_mark(0, '[')
-      local finish = vim.api.nvim_buf_get_mark(0, ']')
-      vim.lsp.buf.range_formatting({}, start, finish)
-      vim.go.operatorfunc = old_func
-      _G.op_func_formatting = nil
-    end
-    vim.go.operatorfunc = 'v:lua.op_func_formatting'
-    vim.api.nvim_feedkeys('g@', 'n', false)
-  end
-  vim.api.nvim_set_keymap("n", "<leader>f", "<cmd>lua format_range_operator()<CR>", {noremap = true})
-  vim.api.nvim_set_keymap("v", "<leader>f", "<cmd>lua format_range_operator()<CR>", {noremap = true})
-
-  if client.resolved_capabilities.document_highlight then
-      vim.cmd('augroup LSPCurrentSymbolHighlight')
-      vim.cmd('autocmd!')
-      vim.cmd('autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()')
-      vim.cmd('autocmd CursorMoved <buffer> lua vim.lsp.buf.document_highlight()')
-      vim.cmd('augroup END')
-  end
-end
-
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
-local servers = {'clangd', 'pyright'}
-for _, lsp in pairs(servers) do
-  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-  require('lspconfig')[lsp].setup {
-    capabilities = capabilities,
-    on_attach = on_attach,
-  }
-end
-EOF
-
-lua << EOF
-local cmp = require('cmp')
-cmp.setup({
-  mapping = {
-    ['<C-n>'] = function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      else
-        fallback()
-      end
-    end,
-    ['<C-p>'] = function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      else
-        fallback()
-      end
-    end,
-    ['<CR>'] = cmp.mapping.confirm(),
-    ['('] = cmp.mapping.confirm(),
-    ['<Space>'] = cmp.mapping.confirm(),
-  },
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' }
-  }, {
-    { name = 'buffer' },
-  })
-})
-EOF
-
-lua << EOF
-require('nvim-autopairs').setup()
-local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-require('cmp').event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
+require('configure_plugins')
 EOF
 
 set completeopt=menu,menuone,noselect,preview
-
-lua << EOF
-require('mkdnflow').setup({
-  perspective = {
-    priority = 'current'
-    },
-  links = {
-    transform_explicit = function(text)
-      return text
-    end
-    }
-})
-EOF
 
 " Editing =================================================================={{{1
 
