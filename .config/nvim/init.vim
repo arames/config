@@ -175,12 +175,6 @@ autocmd FileType diff nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
 autocmd FileType git nnoremap <buffer> <C-]> :call DiffGoFile('n')<CR>
 autocmd FileType git nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
 
-" Personal wiki
-Plug 'vim-scripts/vimwiki'
-" Use the markdown syntax
-let g:vimwiki_list = [{'path': '~/work/wiki',
-                     \ 'syntax': 'markdown', 'ext': '.md'}]
-
 " Used sometimes ======================================={{{2
 
 " Word highlighting.
@@ -204,12 +198,21 @@ Plug 'windwp/nvim-autopairs'
 
 Plug 'jceb/vim-editqf'
 
+Plug 'jakewvincent/mkdnflow.nvim'
+nmap <Leader>ww  :vsp ~/work/wiki/README.md<CR>
+
 
 " Unclassified ========================================={{{2
 
 " Unused ==============================================={{{2
 
 " Keeping for reference or future use.
+
+"" Personal wiki
+"Plug 'vim-scripts/vimwiki'
+"" Use the markdown syntax
+"let g:vimwiki_list = [{'path': '~/work/wiki',
+"                     \ 'syntax': 'markdown', 'ext': '.md'}]
 
 "" Display lines git diff status when editing a file in a git repository.
 "Plug 'airblade/vim-gitgutter'
@@ -562,6 +565,19 @@ require('cmp').event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_ch
 EOF
 
 set completeopt=menu,menuone,noselect,preview
+
+lua << EOF
+require('mkdnflow').setup({
+  perspective = {
+    priority = 'current'
+    },
+  links = {
+    transform_explicit = function(text)
+      return text
+    end
+    }
+})
+EOF
 
 " Editing =================================================================={{{1
 
