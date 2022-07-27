@@ -128,7 +128,13 @@ call plug#begin(s:dir_vim_config.'/plugged')
 Plug 'christoomey/vim-tmux-navigator'
 
 " Better status line.
-Plug 'vim-airline/vim-airline'
+if has('nvim')
+  Plug 'nvim-lualine/lualine.nvim'
+  " If you want to have icons in your statusline choose one of these
+  Plug 'kyazdani42/nvim-web-devicons'
+else
+  Plug 'vim-airline/vim-airline'
+endif
 
 " Easy parenthesis and co.
 Plug 'tpope/vim-surround'
@@ -212,6 +218,7 @@ Plug 'jceb/vim-editqf'
 Plug 'jakewvincent/mkdnflow.nvim'
 nmap <Leader>ww  :vsp ~/work/wiki/README.md<CR>
 
+Plug 'SmiteshP/nvim-navic'
 
 " Unclassified ========================================={{{2
 

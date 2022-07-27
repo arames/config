@@ -53,6 +53,8 @@ local on_attach = function(client, bufnr)
           desc = "Highlight document",
       })
   end
+
+  require("nvim-navic").attach(client, bufnr)
 end
 
 local servers = {'clangd', 'pyright'}

@@ -27,4 +27,4 @@ require('config.mkdnflow')
 require('config.telescope')
 require('config.treesitter')
 require('config.vim-vsnip')
-
+require('config.lualine')
