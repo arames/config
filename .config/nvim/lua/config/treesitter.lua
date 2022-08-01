@@ -42,6 +42,15 @@ require('nvim-treesitter.configs').setup {
       swap_previous = { ["<leader>A"] = "@parameter.inner", },
     },
   },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "gnn",
+      node_incremental = "+",
+      scope_incremental = "grc",
+      node_decremental = "-",
+    },
+  },
 }
 
 vim.opt.foldmethod = 'expr'

@@ -559,8 +559,8 @@ noremap - ;
 noremap _ ,
 
 " %% expands to the path of the current file.
-cabbr <expr> %% fnameescape(expand('%:p:h'))
-cabbr <expr> $$ fnameescape(expand('%:p'))
+cabbr <expr> %% fnameescape(expand('%:h'))
+cabbr <expr> $$ fnameescape(expand('%'))
 
 " Make <C-N> and <C-P> take the beginning of the line into account.
 cnoremap <C-n> <Down>
