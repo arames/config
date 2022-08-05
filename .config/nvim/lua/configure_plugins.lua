@@ -22,7 +22,6 @@ require('config.nvim-autopairs')
 
 -- Plugin configurations not caring about the order.
 require('config.colorizer')
-require('config.hop')
 require('config.leap')
 require('config.lualine')
 require('config.mkdnflow')

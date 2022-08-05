@@ -145,6 +145,9 @@ Plug 'tpope/vim-abolish'
 " Git integration.
 Plug 'tpope/vim-fugitive'
 
+" Very easily jump around.
+Plug 'ggandor/leap.nvim'
+
 " Display color codes.
 Plug 'norcalli/nvim-colorizer.lua'
 
@@ -165,15 +168,6 @@ else
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
   nnoremap <leader>ff <cmd>Files<cr>
-endif
-
-if has('nvim')
-  " Quickly move around.
-  Plug 'phaazon/hop.nvim'
-  noremap ]w <cmd>HopWord<CR>
-  noremap [w <cmd>HopWord<CR>
-  noremap ]l <cmd>HopLineStart<CR>
-  noremap [l <cmd>HopLineStart<CR>
 endif
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate cpp'}
@@ -208,8 +202,6 @@ nmap <Leader>ww  :vsp ~/work/wiki/README.md<CR>
 " `vim file:line:col`. Useful for example when using the output of `grep`.
 Plug 'lervag/file-line'
 
-Plug 'ggandor/leap.nvim'
-
 " Testing =============================================={{{2
 
 " LSP completion
@@ -230,8 +222,6 @@ Plug 'windwp/nvim-autopairs'
 
 " Display LSP context in status bar
 Plug 'SmiteshP/nvim-navic'
-
-Plug 'ggandor/leap.nvim'
 
 " Unclassified ========================================={{{2
 
