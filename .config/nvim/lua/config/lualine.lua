@@ -1,9 +1,12 @@
 local navic = require("nvim-navic")
 
+local theme = require'config.lualine-quiet'
+
 require("lualine").setup({
-    sections = {
-        lualine_c = {
-            { navic.get_location, cond = navic.is_available },
-        }
+  options = {theme = theme},
+  sections = {
+    lualine_c = {
+      {navic.get_location, cond = navic.is_available},
     }
+  }
 })

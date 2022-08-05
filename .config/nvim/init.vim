@@ -159,6 +159,8 @@ if has('nvim')
   Plug 'nvim-lua/plenary.nvim'
   " Extensions
   Plug 'nvim-telescope/telescope-fzy-native.nvim'
+  " Required for `live_grep`
+  Plug 'BurntSushi/ripgrep'
 else
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
@@ -195,6 +197,19 @@ autocmd FileType git nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
 
+" Allows editing the quickfix window.
+Plug 'jceb/vim-editqf'
+
+" Good markdown support. Used for taking notes.
+Plug 'jakewvincent/mkdnflow.nvim'
+nmap <Leader>ww  :vsp ~/work/wiki/README.md<CR>
+
+" Allow opening files to a specific line and column with the standard format
+" `vim file:line:col`. Useful for example when using the output of `grep`.
+Plug 'lervag/file-line'
+
+Plug 'ggandor/leap.nvim'
+
 " Testing =============================================={{{2
 
 " LSP completion
@@ -213,12 +228,10 @@ Plug 'hrsh7th/vim-vsnip'
 
 Plug 'windwp/nvim-autopairs'
 
-Plug 'jceb/vim-editqf'
-
-Plug 'jakewvincent/mkdnflow.nvim'
-nmap <Leader>ww  :vsp ~/work/wiki/README.md<CR>
-
+" Display LSP context in status bar
 Plug 'SmiteshP/nvim-navic'
+
+Plug 'ggandor/leap.nvim'
 
 " Unclassified ========================================={{{2
 

@@ -14,26 +14,68 @@ require('nvim-treesitter.configs').setup {
       enable = true,
       lookahead = true,
       keymaps = {
+        ["aa"] = "@parameter.outer",
+        ["ia"] = "@parameter.inner",
+        ["ab"] = "@block.outer",
+        ["ib"] = "@block.inner",
         ["ac"] = "@class.outer",
         ["ic"] = "@class.inner",
         ["af"] = "@function.outer",
         ["if"] = "@function.inner",
-        ["aa"] = "@parameter.outer",
-        ["ia"] = "@parameter.inner",
+        ["as"] = "@statement.outer",
+        ["is"] = "@statement.outer",
       },
     },
     move = {
       enable = true,
       set_jumps = true,
+      --[[
+      -- mapping : direction (start|end)? obj_type
+      -- direction: previous | next
+      -- previous: [
+      -- next: ]
+      -- start: [
+      -- end: ]
+      --
+      -- When (start|end) is omitted, we use implicitly the start.
+      --]]
       goto_next_start = {
+        ["][a"] = "@parameter.outer",
+        ["][b"] = "@block.outer",
+        ["][c"] = "@class.outer",
+        ["][f"] = "@function.outer",
+        ["][s"] = "@statement.outer",
+        ["]a"] = "@parameter.outer",
+        ["]b"] = "@block.outer",
         ["]c"] = "@class.outer",
         ["]f"] = "@function.outer",
-        ["]a"] = "@parameter.outer",
+        ["]s"] = "@statement.outer",
+      },
+      goto_next_end = {
+        ["]]a"] = "@parameter.outer",
+        ["]]b"] = "@block.outer",
+        ["]]c"] = "@class.outer",
+        ["]]f"] = "@function.outer",
+        ["]]s"] = "@statement.outer",
       },
       goto_previous_start = {
+        ["[[a"] = "@parameter.outer",
+        ["[[b"] = "@block.outer",
+        ["[[c"] = "@class.outer",
+        ["[[f"] = "@function.outer",
+        ["[[s"] = "@statement.outer",
+        ["[a"] = "@parameter.outer",
+        ["[b"] = "@block.outer",
         ["[c"] = "@class.outer",
         ["[f"] = "@function.outer",
-        ["[a"] = "@parameter.outer",
+        ["[s"] = "@statement.outer",
+      },
+      goto_previous_end = {
+        ["[]a"] = "@parameter.outer",
+        ["[]b"] = "@block.outer",
+        ["[]c"] = "@class.outer",
+        ["[]f"] = "@function.outer",
+        ["[]s"] = "@statement.outer",
       },
     },
     swap = {
