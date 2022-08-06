@@ -1,42 +1,33 @@
-local colors = {
-  focus   = '#339933',
-  color1   = '#99c794',
-  color2   = '#65737e',
-  color3   = '#343d46',
-  color4   = '#5599cc',
-  color5   = '#d8dee9',
-  color6   = '#f99157',
-  color7   = '#ec5f67',
-}
+local colors = require('quiet').colors
 
---[[
-Using coolors.co with base colors and 4 steps down for each darker color.
---]]
+local a = 1
+local b = 3
+local c = 5
 
 return {
   insert = {
-    a = {fg = '#cccccc', bg = '#339933', gui = 'bold'},
-    b = {fg = '#cccccc', bg = '#1f5c1f'},
-    c = {fg = '#cccccc', bg = '#0a1f0a'},
+    a = {fg = colors.normal[1], bg = colors.focus[a], gui = 'bold'},
+    b = {fg = colors.normal[1], bg = colors.focus[b]},
+    c = {fg = colors.normal[1], bg = colors.focus[c]},
  },
   normal = {
-    a = {fg = '#cccccc', bg = '#cd8800', gui = 'bold'},
-    b = {fg = '#cccccc', bg = '#7a5200'},
-    c = {fg = '#cccccc', bg = '#291b00'},
+    a = {fg = colors.normal[1], bg = colors.warning[a], gui = 'bold'},
+    b = {fg = colors.normal[1], bg = colors.warning[b]},
+    c = {fg = colors.normal[1], bg = colors.warning[c]},
  },
   inactive = {
-    a = {fg = '#777777', bg = '#222222', gui = 'bold'},
-    b = {fg = '#777777', bg = '#222222'},
-    c = {fg = '#777777', bg = '#222222'},
+    a = {fg = colors.normal[3], bg = colors.normal[6], gui = 'bold'},
+    b = {fg = colors.normal[3], bg = colors.normal[6]},
+    c = {fg = colors.normal[3], bg = colors.normal[6]},
  },
   visual = {
-    a = {fg = '#cccccc', bg = '#3377bb', gui = 'bold'},
-    b = {fg = '#cccccc', bg = '#235280'},
-    c = {fg = '#cccccc', bg = '#122940'},
+    a = {fg = colors.normal[1], bg = colors.info[a], gui = 'bold'},
+    b = {fg = colors.normal[1], bg = colors.info[b]},
+    c = {fg = colors.normal[1], bg = colors.info[c]},
  },
   replace = {
-    a = {fg = '#cccccc', bg = '#cc2244', gui = 'bold'},
-    b = {fg = '#cccccc', bg = '#8c182f'},
-    c = {fg = '#cccccc', bg = '#460c17'},
+    a = {fg = colors.normal[1], bg = colors.high_interest[a], gui = 'bold'},
+    b = {fg = colors.normal[1], bg = colors.high_interest[b]},
+    c = {fg = colors.normal[1], bg = colors.high_interest[c]},
  },
 }
