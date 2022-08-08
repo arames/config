@@ -1,11 +1,11 @@
 local colors = {
-  normal = {'#cccccc'},
-  focus = {'#339933'},
-  interest = {'#bb8855'},
-  high_interest = {'#cc2244'},
-  info = {'#5599cc'},
-  warning = {'#bb7c00'},
-  error = {'#cc0000'},
+  Normal = {'#cccccc'},
+  Focus = {'#339933'},
+  Interest = {'#bb8855'},
+  HighInterest = {'#cc2244'},
+  Info = {'#5599cc'},
+  Warning = {'#bb7c00'},
+  Error = {'#cc0000'},
 }
 
 
@@ -28,6 +28,22 @@ function print_colors(colors)
     print(color_name)
     for _, color in pairs(color_string_table) do
       print(color)
+    end
+  end
+end
+
+
+function print_highlight_groups(colors)
+  for color_name, color_string_table in pairs(colors) do
+    for index, color in pairs(color_string_table) do
+      print(string.format('hi %-15s guifg=%-10s guibg=%-10s',
+                          color_name .. tostring(index ~= 1 and index or ''),
+                          color,
+                          'none'))
+      print(string.format('hi %-15s guifg=%-10s guibg=%-10s',
+                          color_name .. tostring(index ~= 1 and index or '') .. 'Bg',
+                          'none',
+                          color))
     end
   end
 end
@@ -163,5 +179,7 @@ interest
 #3f301d
 #201a0f
 ]]
+
+--print_highlight_groups(colors)
 
 return {colors = colors}

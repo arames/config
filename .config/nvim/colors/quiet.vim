@@ -5,6 +5,9 @@ if exists("syntax_on")
 endif
 let g:colors_name = "quiet"
 
+" Reference groups, generated via `quiet.lua`.
+" TODO
+
 " Reference groups
 
 hi       Normal                guifg=#cccccc guibg=#111111 gui=none
