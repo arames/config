@@ -33,17 +33,32 @@ function print_colors(colors)
 end
 
 
+function guiSuffix(gui)
+  if gui == 'none' then
+    return ''
+  end
+  return gui:gsub("^%l", string.upper)
+end
+
 function print_highlight_groups(colors)
   for color_name, color_string_table in pairs(colors) do
-    for index, color in pairs(color_string_table) do
-      print(string.format('hi %-15s guifg=%-10s guibg=%-10s',
-                          color_name .. tostring(index ~= 1 and index or ''),
-                          color,
-                          'none'))
-      print(string.format('hi %-15s guifg=%-10s guibg=%-10s',
-                          color_name .. tostring(index ~= 1 and index or '') .. 'Bg',
-                          'none',
-                          color))
+    for _, gui in pairs({'none', 'bold', 'underline'}) do
+      for index, color in pairs(color_string_table) do
+        print(string.format('hi %-25s guifg=%-10s guibg=%-10s gui=%-10s',
+                            color_name .. tostring(index ~= 1 and index or '') .. guiSuffix(gui),
+                            color,
+                            'none',
+                            gui))
+      end
+    end
+    for _, gui in pairs({'none', 'bold', 'underline'}) do
+      for index, color in pairs(color_string_table) do
+        print(string.format('hi %-25s guifg=%-10s guibg=%-10s gui=%-10s',
+                            color_name .. tostring(index ~= 1 and index or '') .. 'Bg' .. guiSuffix(gui),
+                            'none',
+                            color,
+                            gui))
+      end
     end
   end
 end
