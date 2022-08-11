@@ -223,6 +223,8 @@ Plug 'windwp/nvim-autopairs'
 " Display LSP context in status bar
 Plug 'SmiteshP/nvim-navic'
 
+Plug 'tversteeg/registers.nvim'
+
 " Unclassified ========================================={{{2
 
 " Unused ==============================================={{{2
