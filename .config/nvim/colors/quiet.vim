@@ -270,7 +270,7 @@ hi! link Comment               LowInterest
 hi! link Todo                  LowInterestBold
 hi! link Search                HighInterestUnderline
 hi! link MatchParen            FocusBg
-hi! link Visual                Info4Bg
+hi! link Visual                Info5Bg
 
 hi! link NonText               LowInterest
 hi! link LineNr                LowInterest
@@ -359,6 +359,11 @@ hi! link markdownCodeBlock markdownCode
 
 " Vimwiki
 hi! link VimwikiPre Constant
+
+" Leap
+hi! link LeapMatch            HighInterest
+hi! link LeapLabelPrimary     HighInterest
+hi! link LeapLabelSecondary   HighInterest
 
 " Custom for vimrc
 hi Green ctermfg=47
