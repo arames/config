@@ -198,10 +198,6 @@ Plug 'jceb/vim-editqf'
 Plug 'jakewvincent/mkdnflow.nvim'
 nmap <Leader>ww  :vsp ~/work/wiki/README.md<CR>
 
-" Allow opening files to a specific line and column with the standard format
-" `vim file:line:col`. Useful for example when using the output of `grep`.
-Plug 'lervag/file-line'
-
 " Testing =============================================={{{2
 
 " LSP completion
@@ -378,8 +374,14 @@ Plug 'tversteeg/registers.nvim'
 "" Asynchronous grep.
 "Plug 'arames/vim-async-grep'
 
+" This breaks the functionality of opening a directory and seeing the filesystem hierarchy.
 """ Allow opening a file to a specific line with 'file:line'
 ""Plug 'bogado/file-line'
+
+" This breaks the functionality of opening a directory and seeing the filesystem hierarchy.
+"" Allow opening files to a specific line and column with the standard format
+"" `vim file:line:col`. Useful for example when using the output of `grep`.
+"Plug 'lervag/file-line'
 
 """ Easy access to an undo tree.
 ""Plug 'mbbill/undotree'
@@ -591,13 +593,15 @@ cnoremap <C-p> <Up>
 
 " Projects ================================================================={{{1
 
-"augroup metalfe
-"  au!
-"  "autocmd BufNewFile,BufRead *.metal set filetype=cpp
-"  "autocmd BufNewFile,BufRead metal_* set filetype=cpp
-"  autocmd BufEnter */metalfe/* IndentLLVM
-"augroup END
-"
+"command! IndentAP          set   expandtab shiftwidth=4 tabstop=4 cinoptions=(0,w1,i4,W4,l1,g0,h2,N-s,t0,:0,+4
+command! IndentAP          set   expandtab shiftwidth=4 tabstop=4
+augroup autopilot
+  au!
+  "autocmd BufNewFile,BufRead *.metal set filetype=cpp
+  "autocmd BufNewFile,BufRead metal_* set filetype=cpp
+  autocmd BufEnter */autopilot/* IndentAP
+augroup END
+
 "augroup ART
 "  autocmd BufRead,BufEnter */art/* IndentGoogle
 "  autocmd BufRead,BufEnter */art/* exec "set tags+=" . substitute(system('git rev-parse --show-toplevel'), '\n', '', 'g') . "/.tags"
