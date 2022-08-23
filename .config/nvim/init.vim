@@ -45,6 +45,9 @@ set foldlevelstart=99
 
 set number                      " Display line numbers.
 
+set cursorline
+set cursorlineopt=number
+
 " The relative line numbering is deprecated, in favor of using `HopLine` and
 " tree-sitter motions.
 "set relativenumber              " Display relative line numbers.

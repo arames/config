@@ -275,9 +275,8 @@ hi! link Visual                Info5Bg
 hi! link NonText               LowInterest
 hi! link LineNr                LowInterest
 hi! link Cursor                HighInterestBg
-hi! link CursorLineNr          Normal
+hi! link CursorLineNr          Interest
 hi! link VertSplit             LowInterest
-"hi! link CursorLine            LowInterest
 
 hi! link TabLine               LowInterest
 hi! link TabLineFill           LowInterest
@@ -363,7 +362,7 @@ hi! link VimwikiPre Constant
 " Leap
 hi! link LeapMatch            HighInterest
 hi! link LeapLabelPrimary     HighInterest
-hi! link LeapLabelSecondary   HighInterest
+hi! link LeapLabelSecondary   HighInterestUnderline
 
 " Custom for vimrc
 hi Green ctermfg=47
