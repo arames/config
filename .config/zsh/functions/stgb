@@ -40,7 +40,7 @@ fi
 [[ -d $backup_dir ]] || mkdir $backup_dir
 
 
-date_tag=`date +%F_%R-%S`
+date_tag=`date +%Y/%m/%d/%H-%M-%S`
 repo_name=$(basename `git rev-parse --show-toplevel`)
 [[ $? -eq 0 ]] || usage
 branch_name=`git rev-parse --abbrev-ref HEAD`
