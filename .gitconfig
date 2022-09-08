@@ -1,6 +1,10 @@
 [init]
 	defaultBranch = main
 
+[user]
+  name = "Alexandre Rames"
+  email = "arames@tesla.com"
+
 [color]
 	ui = auto
 
@@ -13,12 +17,17 @@
 
 [alias]
 	conflicted = diff --name-only --diff-filter=U
+  root = rev-parse --show-toplevel
+  sl = log --oneline -n
 
 [push]
-	default = matching
+	default = nothing
 
 [pull]
 	ff = only
 
 [include]
   path = ~/.config/git/local
+[safe]
+	directory = /home/arames/ecu_mnt/cm/autopilot
+	directory = /home/arames/ecu_mnt/ccs/autopilot
