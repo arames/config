@@ -3,7 +3,6 @@ local disabled_built_ins = {
   'man',
   'matchit',
   'matchparen',
-  'netrwPlugin',
   'shada_plugin',
   'tar',
   'tarPlugin',
