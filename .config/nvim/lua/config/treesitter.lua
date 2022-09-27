@@ -8,7 +8,10 @@ require('nvim-treesitter.configs').setup {
   sync_install = true,
 
   highlight = { enable = true, },
-  indent = { enable = true, },
+  indent = {
+    enable = true,
+    disable = {"python"}
+  },
   textobjects = {
     select = {
       enable = true,

@@ -224,6 +224,8 @@ Plug 'SmiteshP/nvim-navic'
 
 Plug 'tversteeg/registers.nvim'
 
+Plug 'hynek/vim-python-pep8-indent'
+
 " Unclassified ========================================={{{2
 
 " Unused ==============================================={{{2
@@ -395,7 +397,6 @@ Plug 'tversteeg/registers.nvim'
 "" Languages syntax.
 "Plug 'dart-lang/dart-vim-plugin'
 "Plug 'plasticboy/vim-markdown'
-"Plug 'hynek/vim-python-pep8-indent'
 
 "" Easy alignment.
 "Plug 'junegunn/vim-easy-align'
@@ -569,8 +570,8 @@ noremap - ;
 noremap _ ,
 
 " %% expands to the path of the current file.
-cabbr <expr> %% fnameescape(expand('%:p:h'))
-cabbr <expr> $$ fnameescape(expand('%:p'))
+cabbr <expr> %% fnameescape(expand('%:h'))
+cabbr <expr> $$ fnameescape(expand('%'))
 
 " Make <C-N> and <C-P> take the beginning of the line into account.
 cnoremap <C-n> <Down>
