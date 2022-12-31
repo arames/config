@@ -361,8 +361,8 @@ hi! link VimwikiPre Constant
 
 " Leap
 hi! link LeapMatch            HighInterest
-hi! link LeapLabelPrimary     HighInterest
-hi! link LeapLabelSecondary   HighInterestUnderline
+hi! link LeapLabelPrimary     HighInterest2
+hi! link LeapLabelSecondary   HighInterest4Underline
 
 " Custom for vimrc
 hi Green ctermfg=47

@@ -8,4 +8,4 @@ require('mkdnflow').setup({
     end
     }
 })
-
+vim.keymap.set({'n'}, '<Leader>ww', ":vsp ~/work/wiki/README.md<CR>")

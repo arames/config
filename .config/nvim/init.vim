@@ -1,5 +1,5 @@
 " .vimrc
-" by A. Rames <alexandre.rames@uop.re>
+" by Alexandre. Rames <alexandre.rames@uop.re>
 "
 " The configuration is targeted at and has only been tested on terminal vim.
 
@@ -26,7 +26,9 @@ set wildmenu                    " Command-line completion in an enhanced mode.
 set wildmode=list:longest       " Complete longest common string, then list.
 set showcmd                     " Display incomplete commands.
 set noerrorbells                " No bells.
-let mapleader = ","
+
+nnoremap <Space> <Nop>
+let mapleader = " "
 
 " Presentation ============================================================={{{1
 
@@ -48,7 +50,9 @@ set number                      " Display line numbers.
 set cursorline
 set cursorlineopt=number
 
-" The relative line numbering is deprecated, in favor of using `HopLine` and
+" Deprecated, kept for reference ======================={{{2
+
+" The relative line numbering is deprecated, in favor of using `Leap` and
 " tree-sitter motions.
 "set relativenumber              " Display relative line numbers.
 "" Display relative line numbers in normal mode and absolute line numbers
@@ -62,9 +66,7 @@ set cursorlineopt=number
 "" ':cc <n>' commands.
 "autocmd BufEnter,FocusGained,InsertLeave * if &ft == "qf" | setlocal norelativenumber | endif
 
-" Unused options, kept for reference ==================={{{2
-
-" nvim-treesitter takes care of highlighting
+"" nvim-treesitter takes care of highlighting
 "syntax enable                   " Enable syntax highlighting.
 "set cursorline                  " Highlight the line where the cursor is.
 " This is taken care of by vim-airline.
@@ -72,10 +74,10 @@ set cursorlineopt=number
 
 " Load/save and automatic backup ==========================================={{{1
 
-let &directory=s:dir_vim_config.'/swap'
-let &viewdir=s:dir_vim_config.'/view'
-let &backupdir=s:dir_vim_config.'/backup'
-let &undodir=s:dir_vim_config.'/undo'
+let &directory=s:dir_vim_config.'/backup/swap'
+let &viewdir=s:dir_vim_config.'/backup/view'
+let &backupdir=s:dir_vim_config.'/backup/backup'
+let &undodir=s:dir_vim_config.'/backup/undo'
 
 " Create directories if they don't already exist.
 if !isdirectory(&directory)
@@ -120,6 +122,10 @@ autocmd BufWritePost * if &ft == "" | filetype detect | endif
 
 " Plugins =================================================================={{{1
 
+" Plugins Requiring Lua Configuration =================={{{2
+
+lua require('plugins')
+
 " Use Vim-plug to manage the plugins. See https://github.com/junegunn/vim-plug
 " for details.
 
@@ -130,15 +136,6 @@ call plug#begin(s:dir_vim_config.'/plugged')
 " Easily navigate between tmux panes and vim instances.
 Plug 'christoomey/vim-tmux-navigator'
 
-" Better status line.
-if has('nvim')
-  Plug 'nvim-lualine/lualine.nvim'
-  " If you want to have icons in your statusline choose one of these
-  Plug 'kyazdani42/nvim-web-devicons'
-else
-  Plug 'vim-airline/vim-airline'
-endif
-
 " Easy parenthesis and co.
 Plug 'tpope/vim-surround'
 
@@ -148,45 +145,35 @@ Plug 'tpope/vim-abolish'
 " Git integration.
 Plug 'tpope/vim-fugitive'
 
-" Very easily jump around.
-Plug 'ggandor/leap.nvim'
-
-" Display color codes.
-Plug 'norcalli/nvim-colorizer.lua'
-
 if has('nvim')
   Plug 'neovim/nvim-lspconfig'
 endif
 
-if has('nvim')
-  " Used mostly as a replacement for fzf.
-  Plug 'nvim-telescope/telescope.nvim'
-  " Its dependencies.
-  Plug 'nvim-lua/plenary.nvim'
-  " Extensions
-  Plug 'nvim-telescope/telescope-fzy-native.nvim'
-  " Required for `live_grep`
-  Plug 'BurntSushi/ripgrep'
-else
+if !has('nvim')
+  " Better status line.
+  Plug 'vim-airline/vim-airline'
+endif
+
+if !has('nvim')
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
   nnoremap <leader>ff <cmd>Files<cr>
 endif
 
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate cpp'}
-Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-" For debugging.
-Plug 'nvim-treesitter/playground'
-
-Plug 'arames/vim-diffgofile', {
-  \ 'do': 'cd ftplugin && ln -s diff_gofile.vim git_diffgofile.vim',
-  \ 'for': ['diff', 'git']
-  \ }
-let g:diffgofile_goto_existing_buffer = 1
-autocmd FileType diff nnoremap <buffer> <C-]> :call DiffGoFile('n')<CR>
-autocmd FileType diff nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
-autocmd FileType git nnoremap <buffer> <C-]> :call DiffGoFile('n')<CR>
-autocmd FileType git nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
+"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate cpp'}
+"Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+"" For debugging.
+"Plug 'nvim-treesitter/playground'
+"
+"Plug 'arames/vim-diffgofile', {
+"  \ 'do': 'cd ftplugin && ln -s diff_gofile.vim git_diffgofile.vim',
+"  \ 'for': ['diff', 'git']
+"  \ }
+"let g:diffgofile_goto_existing_buffer = 1
+"autocmd FileType diff nnoremap <buffer> <C-]> :call DiffGoFile('n')<CR>
+"autocmd FileType diff nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
+"autocmd FileType git nnoremap <buffer> <C-]> :call DiffGoFile('n')<CR>
+"autocmd FileType git nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
 
 " Used sometimes ======================================={{{2
 
@@ -197,223 +184,219 @@ Plug 'inkarkat/vim-mark'
 " Allows editing the quickfix window.
 Plug 'jceb/vim-editqf'
 
-" Good markdown support. Used for taking notes.
-Plug 'jakewvincent/mkdnflow.nvim'
-nmap <Leader>ww  :vsp ~/work/wiki/README.md<CR>
-
-" Testing =============================================={{{2
-
-" LSP completion
-
-"Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
-"let g:coq_settings = { 'auto_start': v:true, 'display.icons.mode': 'none' }
-
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
-Plug 'hrsh7th/nvim-cmp'
-" `cmp-nvim-lsp` requires a snippet engine.
-Plug 'hrsh7th/cmp-vsnip'
-Plug 'hrsh7th/vim-vsnip'
-
-Plug 'windwp/nvim-autopairs'
-
-" Display LSP context in status bar
-Plug 'SmiteshP/nvim-navic'
-
-Plug 'tversteeg/registers.nvim'
-
-Plug 'hynek/vim-python-pep8-indent'
-
-" Unclassified ========================================={{{2
-
-" Unused ==============================================={{{2
-
-" Keeping for reference or future use.
-
-"" Personal wiki
-"Plug 'vim-scripts/vimwiki'
-"" Use the markdown syntax
-"let g:vimwiki_list = [{'path': '~/work/wiki',
-"                     \ 'syntax': 'markdown', 'ext': '.md'}]
-
-"" Display lines git diff status when editing a file in a git repository.
-"Plug 'airblade/vim-gitgutter'
-
-"" Code completion using LSP.
-"" Deprecated by builtin LSP support, completion-nvim.
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"" Testing =============================================={{{2
 "
-"nmap <silent> gd <Plug>(coc-definition)
-"nmap <silent> gh <Plug>(coc-declaration)
-"nmap <silent> gr <Plug>(coc-references)
-"nmap <silent> gs <Plug>(coc-rename)
+"" LSP completion
 "
-"xmap <leader>f <Plug>(coc-format-selected)
-"nmap <leader>f <Plug>(coc-format-selected)
+""Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+""let g:coq_settings = { 'auto_start': v:true, 'display.icons.mode': 'none' }
 "
-"" TODO: Add a shortcut to :CocAction
-"nmap <silent> gj :CocAction<CR>
+"Plug 'hrsh7th/cmp-nvim-lsp'
+"Plug 'hrsh7th/cmp-buffer'
+"Plug 'hrsh7th/cmp-path'
+"Plug 'hrsh7th/cmp-cmdline'
+"Plug 'hrsh7th/nvim-cmp'
+"" `cmp-nvim-lsp` requires a snippet engine.
+"Plug 'hrsh7th/cmp-vsnip'
+"Plug 'hrsh7th/vim-vsnip'
 "
-"set updatetime=500
+"Plug 'windwp/nvim-autopairs'
 "
-"autocmd CursorMoved * silent call CocActionAsync('highlight')
-
-"nnoremap <silent> K :call <SID>show_documentation()<CR>
-"function! s:show_documentation()
-"  if (index(['vim','help'], &filetype) >= 0)
-"    execute 'h '.expand('<cword>')
-"  else
-"    call CocAction('doHover')
-"  endif
-"endfunction
-
-"Plug 'prabirshrestha/async.vim'
-"Plug 'prabirshrestha/vim-lsp'
-"if executable('clangd')
-"    autocmd User lsp_setup call lsp#register_server({
-"        \ 'name': 'clangd',
-"        \ 'cmd': {server_info->['clangd', '-background-index']},
-"        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-"        \ })
-"endif
-""let g:lsp_log_verbose = 1
-""let g:lsp_log_file = expand('~/vim-lsp.log')
+"" Display LSP context in status bar
+"Plug 'SmiteshP/nvim-navic'
 "
-"Plug 'prabirshrestha/asyncomplete.vim'
-"Plug 'prabirshrestha/asyncomplete-lsp.vim'
-"" TODO: Not seeing preview
-" set completeopt+=preview
-""autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-
-"nnoremap ,g :LspDefinition<CR>
-"nnoremap ,r :LspReferences<CR>
-"nnoremap ,p :LspPreviousReference<CR>
-"nnoremap ,n :LspNextReference<CR>
-"nnoremap ,s :LspRename<CR>
-"nnoremap <C-<Space>> :LspPeekDefinition
-
-" Deprecated by nvim-treesitter-textobjects.
-"" Provide argument objects.
-"Plug 'inkarkat/argtextobj.vim'
-
-" Deprecated by hop.nvim.
-"" Quickly move around.
-"Plug 'Lokaltog/vim-easymotion'
-"let g:EasyMotion_leader_key = ','
-"let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyz'
-
-" Deprecated by nvim-treesitter/playground.
-"" Highlight backtrace. Useful to edit color schemes.
-"Plug 'gerw/vim-HiLinkTrace'
-
-""" Switch between header and implementation files.
-""Plug 'vim-scripts/a.vim'
-""nnoremap <leader>hh :A<CR>
+"Plug 'tversteeg/registers.nvim'
 "
-""Plug 'scrooloose/nerdtree'
+"Plug 'hynek/vim-python-pep8-indent'
 "
-"" `clang-format` integration.
-" Now provided directly by `coc.vim`.
-"Plug 'kana/vim-operator-user' " Required by `vim-clang-format`.
-"Plug 'rhysd/vim-clang-format'
-"autocmd FileType c,cpp,objc map <buffer><Leader>f <Plug>(operator-clang-format)
+"" Unclassified ========================================={{{2
 "
-" I just use the default airline theme.
-"Plug 'vim-airline/vim-airline-themes'
+"" Unused ==============================================={{{2
 "
-"" Now using `coc.vim` instead.
-""if has('python3')
-""  Plug 'Valloric/YouCompleteMe', {
-""  \ 'do': './install.py --clang-completer'
-""  \ }
-""  " A few YCM configuration files are whitelisted in `~/.vim.ycm_whitelist`. For
-""  " others, ask for confirmation before loading.
-""  let g:ycm_confirm_extra_conf = 1
-""  if filereadable(resolve(expand("~/.config/nvim/ycm_whitelist")))
-""    " This file should look something like:
-""    "   let g:ycm_extra_conf_globlist = ['path/to/project_1/*', 'path/to/project_2/*' ]
-""    source ~/.config/nvim/ycm_whitelist
+"" Keeping for reference or future use.
+"
+""" Personal wiki
+""Plug 'vim-scripts/vimwiki'
+""" Use the markdown syntax
+""let g:vimwiki_list = [{'path': '~/work/wiki',
+""                     \ 'syntax': 'markdown', 'ext': '.md'}]
+"
+""" Display lines git diff status when editing a file in a git repository.
+""Plug 'airblade/vim-gitgutter'
+"
+""" Code completion using LSP.
+""" Deprecated by builtin LSP support, completion-nvim.
+""Plug 'neoclide/coc.nvim', {'branch': 'release'}
+""
+""nmap <silent> gd <Plug>(coc-definition)
+""nmap <silent> gh <Plug>(coc-declaration)
+""nmap <silent> gr <Plug>(coc-references)
+""nmap <silent> gs <Plug>(coc-rename)
+""
+""xmap <leader>f <Plug>(coc-format-selected)
+""nmap <leader>f <Plug>(coc-format-selected)
+""
+""" TODO: Add a shortcut to :CocAction
+""nmap <silent> gj :CocAction<CR>
+""
+""set updatetime=500
+""
+""autocmd CursorMoved * silent call CocActionAsync('highlight')
+"
+""nnoremap <silent> K :call <SID>show_documentation()<CR>
+""function! s:show_documentation()
+""  if (index(['vim','help'], &filetype) >= 0)
+""    execute 'h '.expand('<cword>')
+""  else
+""    call CocAction('doHover')
 ""  endif
-""  " Don't use <Tab>. <C-n> and <C-p> are better, and we use tabs in vim-sem-tabs.
-""  let g:ycm_key_list_select_completion = ['<Down>']
-""  let g:ycm_key_list_previous_completion = ['<Up>']
-""
-""  " By default we use `clangd` with YCM. Uncomment the following to disable `clangd`.
-""  " let g:ycm_use_clangd = 0
-""  " Allow background indexing.
-""  " In particular, this allows `GoToDefinition` across compilation units.
-""  let g:ycm_clangd_args = [ '-background-index' ]
-""  " Let clangd fully control code completion.
-""  let g:ycm_clangd_uses_ycmd_caching = 0
-""  " Use installed clangd, not the YCM-bundled clangd which doesn't get updates.
-""  let g:ycm_clangd_binary_path = exepath("clangd")
-""
-""  " Fast access to YcmCompleter
-""  cabbrev ycmc YcmCompleter
-""  nnoremap ,g  :YcmCompleter GoTo<CR>
-""  nnoremap ,gg  :YcmCompleter GoTo<CR>
-""  nnoremap ,gh :YcmCompleter GoToDeclaration<CR>
-""  nnoremap ,gc :YcmCompleter GoToDefinition<CR>
-""
-""  " TODO: This bugs when editting in the command-editing window (<C-F> in
-""  " command mode).
-""  "" Automatically close the pop-up windown on move.
-""  "autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
-""  "autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+""endfunction
+"
+""Plug 'prabirshrestha/async.vim'
+""Plug 'prabirshrestha/vim-lsp'
+""if executable('clangd')
+""    autocmd User lsp_setup call lsp#register_server({
+""        \ 'name': 'clangd',
+""        \ 'cmd': {server_info->['clangd', '-background-index']},
+""        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+""        \ })
 ""endif
-
-" Deprecated by telescope.
-"" Fuzzy finder.
-"Plug 'junegunn/fzf'
-"nmap <C-p> :FZF<CR>
-
-" Deprecated by fzf.
-"" Quick file find and open.
-"Plug 'kien/ctrlp.vim'
-
-"" Easy commenting and uncommenting.
-"Plug 'tpope/vim-commentary'
-
-"" Asynchronous grep.
-"Plug 'arames/vim-async-grep'
-
-" This breaks the functionality of opening a directory and seeing the filesystem hierarchy.
-""" Allow opening a file to a specific line with 'file:line'
-""Plug 'bogado/file-line'
-
-" This breaks the functionality of opening a directory and seeing the filesystem hierarchy.
-"" Allow opening files to a specific line and column with the standard format
-"" `vim file:line:col`. Useful for example when using the output of `grep`.
-"Plug 'lervag/file-line'
-
-""" Easy access to an undo tree.
-""Plug 'mbbill/undotree'
-
-""" Diff between selected blocks of code.
-""Plug 'AndrewRadev/linediff.vim'
-
-"" Languages syntax.
-"Plug 'dart-lang/dart-vim-plugin'
-"Plug 'plasticboy/vim-markdown'
-
-"" Easy alignment.
-"Plug 'junegunn/vim-easy-align'
-"vmap <Enter> <Plug>(EasyAlign)
-
-""Plug 'Rip-Rip/clang_complete'
-"let g:clang_library_path='/usr/lib/llvm-3.2/lib/'
-
-"" Asynchronous commands
-"Plug 'tpope/vim-dispatch'
-"Plug 'vim-scripts/Align'
-"" Need to work out how to get it working for more complex projects.
-"Plug 'scrooloose/syntastic'
-
-"Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
-
-" }}}2
+"""let g:lsp_log_verbose = 1
+"""let g:lsp_log_file = expand('~/vim-lsp.log')
+""
+""Plug 'prabirshrestha/asyncomplete.vim'
+""Plug 'prabirshrestha/asyncomplete-lsp.vim'
+""" TODO: Not seeing preview
+"" set completeopt+=preview
+"""autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+"
+""nnoremap ,g :LspDefinition<CR>
+""nnoremap ,r :LspReferences<CR>
+""nnoremap ,p :LspPreviousReference<CR>
+""nnoremap ,n :LspNextReference<CR>
+""nnoremap ,s :LspRename<CR>
+""nnoremap <C-<Space>> :LspPeekDefinition
+"
+"" Deprecated by nvim-treesitter-textobjects.
+""" Provide argument objects.
+""Plug 'inkarkat/argtextobj.vim'
+"
+"" Deprecated by hop.nvim.
+""" Quickly move around.
+""Plug 'Lokaltog/vim-easymotion'
+""let g:EasyMotion_leader_key = ','
+""let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyz'
+"
+"" Deprecated by nvim-treesitter/playground.
+""" Highlight backtrace. Useful to edit color schemes.
+""Plug 'gerw/vim-HiLinkTrace'
+"
+"""" Switch between header and implementation files.
+"""Plug 'vim-scripts/a.vim'
+"""nnoremap <leader>hh :A<CR>
+""
+"""Plug 'scrooloose/nerdtree'
+""
+""" `clang-format` integration.
+"" Now provided directly by `coc.vim`.
+""Plug 'kana/vim-operator-user' " Required by `vim-clang-format`.
+""Plug 'rhysd/vim-clang-format'
+""autocmd FileType c,cpp,objc map <buffer><Leader>f <Plug>(operator-clang-format)
+""
+"" I just use the default airline theme.
+""Plug 'vim-airline/vim-airline-themes'
+""
+""" Now using `coc.vim` instead.
+"""if has('python3')
+"""  Plug 'Valloric/YouCompleteMe', {
+"""  \ 'do': './install.py --clang-completer'
+"""  \ }
+"""  " A few YCM configuration files are whitelisted in `~/.vim.ycm_whitelist`. For
+"""  " others, ask for confirmation before loading.
+"""  let g:ycm_confirm_extra_conf = 1
+"""  if filereadable(resolve(expand("~/.config/nvim/ycm_whitelist")))
+"""    " This file should look something like:
+"""    "   let g:ycm_extra_conf_globlist = ['path/to/project_1/*', 'path/to/project_2/*' ]
+"""    source ~/.config/nvim/ycm_whitelist
+"""  endif
+"""  " Don't use <Tab>. <C-n> and <C-p> are better, and we use tabs in vim-sem-tabs.
+"""  let g:ycm_key_list_select_completion = ['<Down>']
+"""  let g:ycm_key_list_previous_completion = ['<Up>']
+"""
+"""  " By default we use `clangd` with YCM. Uncomment the following to disable `clangd`.
+"""  " let g:ycm_use_clangd = 0
+"""  " Allow background indexing.
+"""  " In particular, this allows `GoToDefinition` across compilation units.
+"""  let g:ycm_clangd_args = [ '-background-index' ]
+"""  " Let clangd fully control code completion.
+"""  let g:ycm_clangd_uses_ycmd_caching = 0
+"""  " Use installed clangd, not the YCM-bundled clangd which doesn't get updates.
+"""  let g:ycm_clangd_binary_path = exepath("clangd")
+"""
+"""  " Fast access to YcmCompleter
+"""  cabbrev ycmc YcmCompleter
+"""  nnoremap ,g  :YcmCompleter GoTo<CR>
+"""  nnoremap ,gg  :YcmCompleter GoTo<CR>
+"""  nnoremap ,gh :YcmCompleter GoToDeclaration<CR>
+"""  nnoremap ,gc :YcmCompleter GoToDefinition<CR>
+"""
+"""  " TODO: This bugs when editting in the command-editing window (<C-F> in
+"""  " command mode).
+"""  "" Automatically close the pop-up windown on move.
+"""  "autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+"""  "autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+"""endif
+"
+"" Deprecated by telescope.
+""" Fuzzy finder.
+""Plug 'junegunn/fzf'
+""nmap <C-p> :FZF<CR>
+"
+"" Deprecated by fzf.
+""" Quick file find and open.
+""Plug 'kien/ctrlp.vim'
+"
+""" Easy commenting and uncommenting.
+""Plug 'tpope/vim-commentary'
+"
+""" Asynchronous grep.
+""Plug 'arames/vim-async-grep'
+"
+"" This breaks the functionality of opening a directory and seeing the filesystem hierarchy.
+"""" Allow opening a file to a specific line with 'file:line'
+"""Plug 'bogado/file-line'
+"
+"" This breaks the functionality of opening a directory and seeing the filesystem hierarchy.
+""" Allow opening files to a specific line and column with the standard format
+""" `vim file:line:col`. Useful for example when using the output of `grep`.
+""Plug 'lervag/file-line'
+"
+"""" Easy access to an undo tree.
+"""Plug 'mbbill/undotree'
+"
+"""" Diff between selected blocks of code.
+"""Plug 'AndrewRadev/linediff.vim'
+"
+""" Languages syntax.
+""Plug 'dart-lang/dart-vim-plugin'
+""Plug 'plasticboy/vim-markdown'
+"
+""" Easy alignment.
+""Plug 'junegunn/vim-easy-align'
+""vmap <Enter> <Plug>(EasyAlign)
+"
+"""Plug 'Rip-Rip/clang_complete'
+""let g:clang_library_path='/usr/lib/llvm-3.2/lib/'
+"
+""" Asynchronous commands
+""Plug 'tpope/vim-dispatch'
+""Plug 'vim-scripts/Align'
+""" Need to work out how to get it working for more complex projects.
+""Plug 'scrooloose/syntastic'
+"
+""Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
+"
+"" }}}2
 
 call plug#end()
 
@@ -423,16 +406,12 @@ if $VIM_INSTALL_PLUGINS == "1"
   finish
 endif
 
-" Late Plugin Configuration ============================{{{2
+" Lua Plugin Configuration ============================={{{2
 
-" Some lua configuration must happen after the call to `plug#end`.
+lua require('plugins')
 
-lua << EOF
-require('configure_plugins')
-EOF
-
-set completeopt=menu,menuone,noselect,preview
-
+"set completeopt=menu,menuone,noselect,preview
+"
 " Editing =================================================================={{{1
 
 set backspace=indent,eol,start   " Backspacing over everything in insert mode.
@@ -521,7 +500,7 @@ nmap <C-v><C-]>  :vsp <CR>:exec("tjump ".expand("<cword>"))<CR>
 
 " Indentation =========================================={{{2
 
-set textwidth=80
+"set textwidth=80
 set nojoinspaces
 
 " Automatically strip the comment marker when joining automated lines.
@@ -555,12 +534,6 @@ autocmd FileType sh IndentLLVM
 "" Easy paste of the search pattern without word boundaries.
 "imap <C-e>/ <C-r>/<Esc>:let @z=@/<CR>`[v`]:<C-u>s/\%V\\<\\|\\>//g<CR>:let @/=@z<CR>a
 
-" Terminal ================================================================={{{1
-
-if has('nvim')
-  tnoremap <C-]> <C-\><C-n>
-endif
-
 " Command line ============================================================={{{1
 
 " Pressing shift-; takes too much time!
@@ -569,9 +542,11 @@ noremap ; :
 noremap - ;
 noremap _ ,
 
-" %% expands to the path of the current file.
+" Command-line shortcuts that expand to the path of the current file.
 cabbr <expr> %% fnameescape(expand('%:h'))
 cabbr <expr> $$ fnameescape(expand('%'))
+cabbr <expr> %%f fnameescape(expand('%:hp'))
+cabbr <expr> $$f fnameescape(expand('%:p'))
 
 " Make <C-N> and <C-P> take the beginning of the line into account.
 cnoremap <C-n> <Down>
@@ -597,31 +572,37 @@ cnoremap <C-p> <Up>
 
 " Projects ================================================================={{{1
 
-"command! IndentAP          set   expandtab shiftwidth=4 tabstop=4 cinoptions=(0,w1,i4,W4,l1,g0,h2,N-s,t0,:0,+4
-command! IndentAP          set   expandtab shiftwidth=4 tabstop=4
-augroup autopilot
-  au!
-  "autocmd BufNewFile,BufRead *.metal set filetype=cpp
-  "autocmd BufNewFile,BufRead metal_* set filetype=cpp
-  autocmd BufEnter */autopilot/* IndentAP
-augroup END
+""command! IndentAP          set   expandtab shiftwidth=4 tabstop=4 cinoptions=(0,w1,i4,W4,l1,g0,h2,N-s,t0,:0,+4
+"command! IndentAP          set   expandtab shiftwidth=4 tabstop=4
+"augroup autopilot
+"  au!
+"  "autocmd BufNewFile,BufRead *.metal set filetype=cpp
+"  "autocmd BufNewFile,BufRead metal_* set filetype=cpp
+"  autocmd BufEnter */autopilot/* IndentAP
+"augroup END
+"
+""augroup ART
+""  autocmd BufRead,BufEnter */art/* IndentGoogle
+""  autocmd BufRead,BufEnter */art/* exec "set tags+=" . substitute(system('git rev-parse --show-toplevel'), '\n', '', 'g') . "/.tags"
+""augroup END
+"
+""augroup VIXL
+""  autocmd BufRead,BufEnter */vixl/* IndentGoogle
+""augroup END
+"
+""" Linux Kernel style.
+""augroup LinuxKernel
+""  autocmd BufRead,BufEnter /work/linux/* IndentLinuxKernel
+""augroup END
+""augroup KernelGit
+""  autocmd BufRead,BufEnter /work/linux/git/* set tags+=/work/linux/git/.tags
+""augroup END
 
-"augroup ART
-"  autocmd BufRead,BufEnter */art/* IndentGoogle
-"  autocmd BufRead,BufEnter */art/* exec "set tags+=" . substitute(system('git rev-parse --show-toplevel'), '\n', '', 'g') . "/.tags"
-"augroup END
+" Terminal ================================================================={{{1
 
-"augroup VIXL
-"  autocmd BufRead,BufEnter */vixl/* IndentGoogle
-"augroup END
-
-"" Linux Kernel style.
-"augroup LinuxKernel
-"  autocmd BufRead,BufEnter /work/linux/* IndentLinuxKernel
-"augroup END
-"augroup KernelGit
-"  autocmd BufRead,BufEnter /work/linux/git/* set tags+=/work/linux/git/.tags
-"augroup END
+"if has('nvim')
+"  tnoremap <C-]> <C-\><C-n>
+"endif
 
 " Misc ====================================================================={{{1
 
@@ -638,6 +619,6 @@ augroup END
 ""endw
 ""set timeout ttimeoutlen=50
 
-" .vimrc specific options =================================================={{{1
+" vim specific options ====================================================={{{1
 " vim: set foldmethod=marker:
 " nvim: set foldmethod=marker:
