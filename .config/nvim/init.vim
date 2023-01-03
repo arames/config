@@ -102,7 +102,11 @@ autocmd BufWritePost * if &ft == "" | filetype detect | endif
 
 " Plugins Requiring Lua Configuration =================={{{2
 
-lua require('plugins')
+if has('nvim')
+  lua require('plugins')
+endif
+
+" }}}2
 
 " Use Vim-plug to manage the plugins. See https://github.com/junegunn/vim-plug
 " for details.
@@ -110,6 +114,18 @@ lua require('plugins')
 call plug#begin(s:dir_vim_config.'/plugged')
 
 " Used frequently ======================================{{{2
+
+if !has('nvim')
+  " A few alternatives to lua plugins.
+
+  " Better status line.
+  Plug 'vim-airline/vim-airline'
+
+  " Quickly find and open files.
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
+  nnoremap <leader>ff <cmd>Files<cr>
+endif
 
 " Easily navigate between tmux panes and vim instances.
 Plug 'christoomey/vim-tmux-navigator'
@@ -122,21 +138,6 @@ Plug 'tpope/vim-abolish'
 
 " Git integration.
 Plug 'tpope/vim-fugitive'
-
-if has('nvim')
-  Plug 'neovim/nvim-lspconfig'
-endif
-
-if !has('nvim')
-  " Better status line.
-  Plug 'vim-airline/vim-airline'
-endif
-
-if !has('nvim')
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'junegunn/fzf.vim'
-  nnoremap <leader>ff <cmd>Files<cr>
-endif
 
 "Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate cpp'}
 "Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -162,8 +163,8 @@ Plug 'inkarkat/vim-mark'
 " Allows editing the quickfix window.
 Plug 'jceb/vim-editqf'
 
-"" Testing =============================================={{{2
-"
+" Testing =============================================={{{2
+
 "" LSP completion
 "
 ""Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
@@ -197,12 +198,6 @@ if $VIM_INSTALL_PLUGINS == "1"
   finish
 endif
 
-" Lua Plugin Configuration ============================={{{2
-
-lua require('plugins')
-
-"set completeopt=menu,menuone,noselect,preview
-"
 " Editing =================================================================={{{1
 
 set backspace=indent,eol,start   " Backspacing over everything in insert mode.
@@ -216,7 +211,7 @@ if has('nvim')
 endif
 
 " Turn off last search highlighting
-"nmap <Space> :nohlsearch<CR>
+nmap <Leader><Space> :nohlsearch<CR>
 
 " Move between splits.
 nnoremap <C-h> <C-w>h
