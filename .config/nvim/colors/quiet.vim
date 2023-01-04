@@ -364,5 +364,8 @@ hi! link LeapMatch            HighInterest
 hi! link LeapLabelPrimary     HighInterest2
 hi! link LeapLabelSecondary   HighInterest4Underline
 
+" nvim-cmp
+hi! link CmpItemAbbrMatch     HighInterest
+
 " Custom for vimrc
 hi Green ctermfg=47

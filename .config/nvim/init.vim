@@ -165,20 +165,21 @@ Plug 'jceb/vim-editqf'
 
 " Testing =============================================={{{2
 
-"" LSP completion
-"
-""Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
-""let g:coq_settings = { 'auto_start': v:true, 'display.icons.mode': 'none' }
-"
-"Plug 'hrsh7th/cmp-nvim-lsp'
-"Plug 'hrsh7th/cmp-buffer'
-"Plug 'hrsh7th/cmp-path'
-"Plug 'hrsh7th/cmp-cmdline'
-"Plug 'hrsh7th/nvim-cmp'
-"" `cmp-nvim-lsp` requires a snippet engine.
-"Plug 'hrsh7th/cmp-vsnip'
-"Plug 'hrsh7th/vim-vsnip'
-"
+" LSP completion ==================={{{3
+
+" TODO: Move this to use packer.
+
+Plug 'neovim/nvim-lspconfig'
+
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+" `cmp-nvim-lsp` requires a snippet engine.
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
+
 "Plug 'windwp/nvim-autopairs'
 "
 "" Display LSP context in status bar
@@ -197,6 +198,8 @@ call plug#end()
 if $VIM_INSTALL_PLUGINS == "1"
   finish
 endif
+
+lua require("configure_plugins")
 
 " Editing =================================================================={{{1
 
@@ -222,7 +225,7 @@ nnoremap <C-l> <C-w>l
 "" Completion ==========================================={{{2
 "" Display a menu, insert the longest common prefix but don't select the first
 "" entry, and display some additional information if available.
-"set completeopt=menu,longest,preview
+set completeopt=menu,menuone,noselect
 
 "" Grep/tags ============================================{{{2
 "
