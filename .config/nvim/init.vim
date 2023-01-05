@@ -41,8 +41,6 @@ set nowrap                      " Do not wrap lines.
 let &sbr = nr2char(8618).' '    " Show ↪ at the beginning of wrapped lines.
 set scrolloff=5                 " Show at least 5 lines around the cursor.
 
-set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
 set foldlevelstart=99
 
 set number                      " Display line numbers.
@@ -154,6 +152,20 @@ Plug 'tpope/vim-fugitive'
 "autocmd FileType git nnoremap <buffer> <C-]> :call DiffGoFile('n')<CR>
 "autocmd FileType git nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
 
+" LSP completion ==================={{{3
+
+" TODO: Move this to use packer.
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+" `cmp-nvim-lsp` requires a snippet engine.
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
+
 " Used sometimes ======================================={{{2
 
 " Word highlighting.
@@ -165,27 +177,14 @@ Plug 'jceb/vim-editqf'
 
 " Testing =============================================={{{2
 
-" LSP completion ==================={{{3
-
-" TODO: Move this to use packer.
-
-Plug 'neovim/nvim-lspconfig'
-
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
-Plug 'hrsh7th/nvim-cmp'
-" `cmp-nvim-lsp` requires a snippet engine.
-Plug 'hrsh7th/cmp-vsnip'
-Plug 'hrsh7th/vim-vsnip'
+" Show content of registers.
+Plug 'tversteeg/registers.nvim'
 
 "Plug 'windwp/nvim-autopairs'
-"
+
 "" Display LSP context in status bar
 "Plug 'SmiteshP/nvim-navic'
 "
-"Plug 'tversteeg/registers.nvim'
 "
 "Plug 'hynek/vim-python-pep8-indent'
 

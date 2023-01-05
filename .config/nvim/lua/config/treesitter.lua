@@ -1,17 +1,30 @@
--- TODO:
--- * Set up incremental selection: https://github.com/nvim-treesitter/nvim-treesitter#available-modules
--- * Ensure treesitter is only loaded for supported filetypes?
+require("nvim-treesitter.configs").setup {
+  ensure_installed = {
+    "c",
+    "cpp",
+    "lua",
+    "python",
+    "rust",
+    "vim",
+  },
 
-require('nvim-treesitter.configs').setup {
-  -- Ensure support for these languages is installed.
-  ensure_installed = { 'c', 'cpp', 'python', 'lua' },
   sync_install = true,
 
-  highlight = { enable = true, },
+  highlight = {
+    enable = true,
+    disable = function(lang, buf)
+      local max_filesize = 4 * 1024 * 1024 -- 4 MiB.
+      local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+      if ok and stats and stats.size > max_filesize then
+        return true
+      end
+    end,
+  },
   indent = {
     enable = true,
-    disable = {"python"}
+    --disable = {"python"}
   },
+
   textobjects = {
     select = {
       enable = true,
