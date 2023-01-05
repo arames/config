@@ -147,20 +147,6 @@ autocmd FileType diff nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
 autocmd FileType git nnoremap <buffer> <C-]> :call DiffGoFile('n')<CR>
 autocmd FileType git nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
 
-" LSP completion ==================={{{3
-
-" TODO: Move this to use packer.
-
-Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
-Plug 'hrsh7th/nvim-cmp'
-" `cmp-nvim-lsp` requires a snippet engine.
-Plug 'hrsh7th/cmp-vsnip'
-Plug 'hrsh7th/vim-vsnip'
-
 " Used sometimes ======================================={{{2
 
 " Word highlighting.
@@ -193,7 +179,6 @@ if $VIM_INSTALL_PLUGINS == "1"
   finish
 endif
 
-lua require("configure_plugins")
 
 " Editing =================================================================={{{1
 
