@@ -137,20 +137,15 @@ Plug 'tpope/vim-abolish'
 " Git integration.
 Plug 'tpope/vim-fugitive'
 
-"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate cpp'}
-"Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-"" For debugging.
-"Plug 'nvim-treesitter/playground'
-"
-"Plug 'arames/vim-diffgofile', {
-"  \ 'do': 'cd ftplugin && ln -s diff_gofile.vim git_diffgofile.vim',
-"  \ 'for': ['diff', 'git']
-"  \ }
-"let g:diffgofile_goto_existing_buffer = 1
-"autocmd FileType diff nnoremap <buffer> <C-]> :call DiffGoFile('n')<CR>
-"autocmd FileType diff nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
-"autocmd FileType git nnoremap <buffer> <C-]> :call DiffGoFile('n')<CR>
-"autocmd FileType git nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
+Plug 'arames/vim-diffgofile', {
+  \ 'do': 'cd ftplugin && ln -s diff_gofile.vim git_diffgofile.vim',
+  \ 'for': ['diff', 'git']
+  \ }
+let g:diffgofile_goto_existing_buffer = 1
+autocmd FileType diff nnoremap <buffer> <C-]> :call DiffGoFile('n')<CR>
+autocmd FileType diff nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
+autocmd FileType git nnoremap <buffer> <C-]> :call DiffGoFile('n')<CR>
+autocmd FileType git nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
 
 " LSP completion ==================={{{3
 
