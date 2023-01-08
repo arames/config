@@ -56,7 +56,6 @@ for _, lsp_server in pairs(servers) do
 end
 
 local function setup_signs()
-
   local signs = {
     Error = " ",
     Warn = " ",

@@ -1,3 +1,5 @@
+export PATH="$PATH:/home/arames/.local/bin"
+
 if [[ -f /usr/local/bin/virtualenvwrapper.sh ]]; then
   export WORKON_HOME=$HOME/.virtualenvs
   export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
@@ -16,5 +18,3 @@ else
     eval `ssh-agent | tee ~/.ssh/agent.env`
     ssh-add
 fi
-
-echo yoyo > /tmp/yoyo

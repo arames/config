@@ -103,6 +103,13 @@ return require("packer").startup(function(use)
     config = function() require("config.vsnip") end
   }
 
+  use {
+    "simrat39/rust-tools.nvim",
+    config = function() require("config.rust-tools") end,
+    --config = function() require("rust-tools").setup({}) end,
+    after = {"nvim-lspconfig"}
+  }
+
   -- Used sometimes ===================================={{{2
 
   use {
