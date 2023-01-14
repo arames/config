@@ -27,7 +27,10 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<Leader>s', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  vim.keymap.set({'v'}, '<Leader>f', function() vim.lsp.buf.format { async = false } end, bufopts)
+  vim.keymap.set({'v'}, '<Leader>f', function()
+    vim.lsp.buf.format { async = false }
+    vim.api.nvim_input "<Esc>"
+  end, bufopts)
 
   if client.server_capabilities.documentHighlightProvider then
       vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
