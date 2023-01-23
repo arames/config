@@ -158,8 +158,13 @@ Plug 'jceb/vim-editqf'
 
 " Testing =============================================={{{2
 
+" Python pep8 partial formatting.
+Plug 'smbl64/vim-black-macchiato'
+autocmd FileType python vmap <buffer> <Leader>f <plug>(BlackMacchiatoSelection)
+autocmd FileType python nmap <buffer> <Leader>f <plug>(BlackMacchiatoCurrentLine)
+
 " Show content of registers.
-Plug 'tversteeg/registers.nvim'
+" Plug 'tversteeg/registers.nvim'
 
 "Plug 'windwp/nvim-autopairs'
 
@@ -204,7 +209,7 @@ nnoremap <C-l> <C-w>l
 "" Completion ==========================================={{{2
 "" Display a menu, insert the longest common prefix but don't select the first
 "" entry, and display some additional information if available.
-set completeopt=menu,menuone,noselect
+set completeopt=menu,menuone,noselect,longest
 
 "" Grep/tags ============================================{{{2
 "
@@ -322,15 +327,12 @@ cnoremap <C-p> <Up>
 
 " Projects ================================================================={{{1
 
-""command! IndentAP          set   expandtab shiftwidth=4 tabstop=4 cinoptions=(0,w1,i4,W4,l1,g0,h2,N-s,t0,:0,+4
-"command! IndentAP          set   expandtab shiftwidth=4 tabstop=4
-"augroup autopilot
-"  au!
-"  "autocmd BufNewFile,BufRead *.metal set filetype=cpp
-"  "autocmd BufNewFile,BufRead metal_* set filetype=cpp
-"  autocmd BufEnter */autopilot/* IndentAP
-"augroup END
-"
+command! IndentAP          set   expandtab shiftwidth=4 tabstop=4
+augroup autopilot
+  au!
+  autocmd BufEnter */autopilot/* IndentAP
+augroup END
+
 ""augroup ART
 ""  autocmd BufRead,BufEnter */art/* IndentGoogle
 ""  autocmd BufRead,BufEnter */art/* exec "set tags+=" . substitute(system('git rev-parse --show-toplevel'), '\n', '', 'g') . "/.tags"

@@ -126,11 +126,11 @@ return require("packer").startup(function(use)
     config = function() require("config.mkdnflow") end
   }
 
-  -- Show content of registers.
-  use {
-    "tversteeg/registers.nvim",
-    config = function() require("registers").setup() end,
-  }
+  ---- Show content of registers.
+  --use {
+  --  "tversteeg/registers.nvim",
+  --  config = function() require("registers").setup() end,
+  --}
   
   -- }}}2
 

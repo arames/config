@@ -6,11 +6,12 @@ vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
+local on_attach_common = function(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-    -- Mappings.
+  -- Mappings.
+  set_up_common_mappings(client, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
@@ -27,10 +28,6 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<Leader>s', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  vim.keymap.set({'v'}, '<Leader>f', function()
-    vim.lsp.buf.format { async = false }
-    vim.api.nvim_input "<Esc>"
-  end, bufopts)
 
   if client.server_capabilities.documentHighlightProvider then
       vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
@@ -49,6 +46,7 @@ local on_attach = function(client, bufnr)
   require("nvim-navic").attach(client, bufnr)
 end
 
+--[[
 local servers = {'clangd', 'pyright'}
 for _, lsp_server in pairs(servers) do
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -57,6 +55,29 @@ for _, lsp_server in pairs(servers) do
     capabilities = capabilities,
   }
 end
+--]]
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+local on_attach_clangd = function(client, bufnr)
+  on_attach_common(client, bufnr)
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  vim.keymap.set({'v'}, '<Leader>f', function()
+    vim.lsp.buf.format { async = false }
+    vim.api.nvim_input "<Esc>"
+  end, bufopts)
+end
+require('lspconfig')['clangd'].setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+}
+
+local on_attach_pyright = function(client, bufnr)
+  on_attach_common(client, bufnr)
+end
+require('lspconfig')['pyright'].setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+}
 
 local function setup_signs()
   local signs = {
