@@ -37,14 +37,16 @@ return require("packer").startup(function(use)
   -- Quickly find files.
   use {
     "nvim-telescope/telescope.nvim", branch = "0.1.x",
-    requires = {{"nvim-lua/plenary.nvim"}},
-    config = function() require("config.telescope") end
+    requires = {{"nvim-tree/nvim-web-devicons"}, {"nvim-lua/plenary.nvim"}},
+    config = function()
+      require("config.telescope")
+    end
   }
 
   -- Improved status bar.
   use {
     "nvim-lualine/lualine.nvim",
-    requires = {{"kyazdani42/nvim-web-devicons"}, {"SmiteshP/nvim-navic"}},
+    requires = {{"nvim-tree/nvim-web-devicons"}, {"SmiteshP/nvim-navic"}},
     config = function() require("config.lualine") end
   }
 
@@ -67,6 +69,11 @@ return require("packer").startup(function(use)
   use {
     "norcalli/nvim-colorizer.lua",
     config = function() require("colorizer").setup({'*'; }, {mode = "foreground" }) end
+  }
+
+  use {
+    "nvim-tree/nvim-web-devicons",
+    config = function() require("nvim-web-devicons").setup() end
   }
 
   -- LSP ==========================={{{3

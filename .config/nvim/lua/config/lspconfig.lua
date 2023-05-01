@@ -11,7 +11,6 @@ local on_attach_common = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- Mappings.
-  set_up_common_mappings(client, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
@@ -67,7 +66,7 @@ local on_attach_clangd = function(client, bufnr)
   end, bufopts)
 end
 require('lspconfig')['clangd'].setup {
-  on_attach = on_attach,
+  on_attach = on_attach_clangd,
   capabilities = capabilities,
 }
 
@@ -75,7 +74,7 @@ local on_attach_pyright = function(client, bufnr)
   on_attach_common(client, bufnr)
 end
 require('lspconfig')['pyright'].setup {
-  on_attach = on_attach,
+  on_attach = on_attach_pyright,
   capabilities = capabilities,
 }
 
