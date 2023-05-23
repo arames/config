@@ -13,6 +13,8 @@ cmp.setup({
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-l>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
+    ['<C-j>'] = cmp.mapping.select_next_item(),
+    ['<C-k>'] = cmp.mapping.select_prev_item(),
     ['<CR>'] = cmp.mapping.confirm(),
     ['('] = function(fallback)
       if cmp.visible() and cmp.get_selected_entry() ~= nil then
@@ -39,9 +41,46 @@ cmp.setup.filetype('gitcommit', {
   })
 })
 
+local cmp_cmdline_overrides = {
+  -- C-n and C-p close the completion window and fall back to the defaults,
+  -- which is history up/down for me.
+  ['<C-n>'] = cmp.mapping({
+    c = function(fallback)
+      if cmp.visible() then
+        cmp.close()
+      end
+      fallback()
+    end,
+  }),
+  ['<C-p>'] = cmp.mapping({
+    c = function(fallback)
+      if cmp.visible() then
+        cmp.close()
+      end
+      fallback()
+    end,
+  }),
+  ['<C-j>'] = cmp.mapping({
+    c = function(fallback)
+      if cmp.visible() then
+        return cmp.select_next_item()
+      end
+      fallback()
+    end,
+  }),
+  ['<C-k>'] = cmp.mapping({
+    c = function(fallback)
+      if cmp.visible() then
+        return cmp.select_prev_item()
+      end
+      fallback()
+    end,
+  }),
+}
+
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline({ '/', '?' }, {
-  mapping = cmp.mapping.preset.cmdline(),
+  mapping = cmp.mapping.preset.cmdline(cmp_cmdline_overrides),
   sources = {
     { name = 'buffer' }
   }
@@ -49,7 +88,7 @@ cmp.setup.cmdline({ '/', '?' }, {
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline(),
+  mapping = cmp.mapping.preset.cmdline(cmp_cmdline_overrides),
   sources = cmp.config.sources({
     { name = 'path' }
   }, {
