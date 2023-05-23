@@ -11,9 +11,13 @@ telescope.setup {
         ["<C-f>"] = actions.preview_scrolling_down,
       },
     },
+    path_display = {"truncate"}
   },
 }
 
-vim.api.nvim_set_keymap('n', '<leader>ff', '<cmd>Telescope find_files<cr>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>fc', '<cmd>Telescope grep_string<cr>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>fd', '<cmd>Telescope live_grep<cr>', {noremap = true})
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+vim.keymap.set('n', '<leader>fw', builtin.grep_string, {})
