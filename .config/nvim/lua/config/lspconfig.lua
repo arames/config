@@ -55,6 +55,7 @@ for _, lsp_server in pairs(servers) do
   }
 end
 --]]
+local lspconfig = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local on_attach_clangd = function(client, bufnr)
@@ -65,17 +66,38 @@ local on_attach_clangd = function(client, bufnr)
     vim.api.nvim_input "<Esc>"
   end, bufopts)
 end
-require('lspconfig')['clangd'].setup {
+lspconfig.clangd.setup {
   on_attach = on_attach_clangd,
+   filetypes = { 'cpp' },
   capabilities = capabilities,
 }
 
 local on_attach_pyright = function(client, bufnr)
   on_attach_common(client, bufnr)
 end
-require('lspconfig')['pyright'].setup {
-  on_attach = on_attach_pyright,
+lspconfig.pyright.setup {
+  on_attach = on_attach_common,
+  filetypes = { 'python' },
   capabilities = capabilities,
+}
+
+local on_attach_mlir = function(client, bufnr)
+  -- Enable completion triggered by <c-x><c-o>
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+end
+
+vim.cmd('au BufRead,BufNewFile *.mlir set filetype=mlir')
+lspconfig.mlir_lsp_server.setup{
+  on_attach = on_attach_mlir,
+   cmd = { '/home/arames/work/nn-mlir/build/dev/bin/nn-mlir-lsp-server' },
+   filetypes = { 'mlir' },
 }
 
 local function setup_signs()

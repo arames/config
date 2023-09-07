@@ -273,6 +273,10 @@ nmap <C-v><C-]>  :vsp <CR>:exec("tjump ".expand("<cword>"))<CR>
 
 " Indentation =========================================={{{2
 
+autocmd BufRead,BufNewFile *.mlir set filetype=mlir
+autocmd BufRead,BufNewFile *.cpp.inc set filetype=cpp
+autocmd BufRead,BufNewFile *.h.inc set filetype=cpp
+
 "set textwidth=80
 set nojoinspaces
 

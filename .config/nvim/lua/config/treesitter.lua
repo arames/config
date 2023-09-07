@@ -5,6 +5,7 @@ require("nvim-treesitter.configs").setup {
     "diff",
     "gitcommit",
     "lua",
+    "mlir",
     "python",
     "rust",
     "vim",
