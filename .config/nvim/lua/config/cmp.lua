@@ -76,6 +76,18 @@ local cmp_cmdline_overrides = {
       fallback()
     end,
   }),
+  -- This is still not working exactly as intended. I would explete the
+  -- completwion menu to stay up after the first completion, but it closes, and
+  -- another hit of `C-l` needs to happen.
+  ['<C-l>'] = cmp.mapping({
+    c = function(fallback)
+      cmp.confirm({select = true})
+      cmp.complete()
+    end,
+  }),
+  ['<C-y>'] = {
+    c = cmp.mapping.confirm({ select = true }),
+  },
 }
 
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).

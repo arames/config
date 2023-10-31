@@ -8,6 +8,7 @@ require("nvim-treesitter.configs").setup {
     "mlir",
     "python",
     "rust",
+    "tablegen",
     "vim",
   },
 
