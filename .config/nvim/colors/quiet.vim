@@ -304,9 +304,9 @@ hi! link diffSubname           Type
 
 hi       DiffAdd              guifg=#00aa00 guibg=#111111 gui=none
 hi       DiffDelete           guifg=#cc0000 guibg=#111111 gui=none
-hi! link DiffText Normal
+hi! link DiffText    Interest
 hi! link diffAdded   DiffAdd
-hi! link diffChange  Interest
+hi! link diffChange  Normal
 hi! link diffRemoved DiffDelete
 
 " Plugin-specific groups
