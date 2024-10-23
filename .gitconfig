@@ -31,3 +31,8 @@
 [safe]
 	directory = /home/arames/ecu_mnt/cm/autopilot
 	directory = /home/arames/ecu_mnt/ccs/autopilot
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f

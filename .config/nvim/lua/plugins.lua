@@ -146,6 +146,12 @@ return require("packer").startup(function(use)
   
   -- }}}2
 
+  -- Under Test ========================================{{{2
+
+  use { "sindrets/diffview.nvim" }
+
+  -- }}}2
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if packer_bootstrap then

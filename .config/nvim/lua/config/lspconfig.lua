@@ -95,7 +95,7 @@ end
 vim.cmd('au BufRead,BufNewFile *.mlir set filetype=mlir')
 lspconfig.mlir_lsp_server.setup{
   on_attach = on_attach_mlir,
-   cmd = { '/home/arames/work/nn-mlir/build/dev/bin/nn-mlir-lsp-server' },
+   cmd = { '/home/arames/work/nn-mlir/build/main/bin/nn-mlir-lsp-server' },
    filetypes = { 'mlir' },
 }
 

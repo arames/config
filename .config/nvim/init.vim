@@ -163,6 +163,8 @@ Plug 'smbl64/vim-black-macchiato'
 autocmd FileType python vmap <buffer> <Leader>f <plug>(BlackMacchiatoSelection)
 autocmd FileType python nmap <buffer> <Leader>f <plug>(BlackMacchiatoCurrentLine)
 
+Plug 'mbbill/undotree'
+
 " Show content of registers.
 " Plug 'tversteeg/registers.nvim'
 
