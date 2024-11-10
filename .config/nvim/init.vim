@@ -223,6 +223,8 @@ if has("nvim")
   lua require("init")
 endif
 
+colorscheme hybrid
+
 " vim specific options ====================================================={{{1
 " vim: set foldmethod=marker:
 " nvim: set foldmethod=marker:
