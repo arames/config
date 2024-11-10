@@ -153,20 +153,18 @@ endif
 
 " Used frequently ======================================{{{2
 
-if !has('nvim')
-  " A few alternatives to lua plugins.
-
-  " Better status line.
-  Plugin 'vim-airline/vim-airline'
-
-  " Quickly find and open files.
-  Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plugin 'junegunn/fzf.vim'
-  nnoremap <leader>ff <cmd>Files<cr>
-endif
-
 " Easily navigate between tmux panes and vim instances.
 Plugin 'christoomey/vim-tmux-navigator'
+
+Plug 'arames/vim-diffgofile', {
+  \ 'do': 'cd ftplugin && ln -s diff_gofile.vim git_diffgofile.vim',
+  \ 'for': ['diff', 'git']
+  \ }
+let g:diffgofile_goto_existing_buffer = 1
+autocmd FileType diff nnoremap <buffer> <C-]> :call DiffGoFile('n')<CR>
+autocmd FileType diff nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
+autocmd FileType git nnoremap <buffer> <C-]> :call DiffGoFile('n')<CR>
+autocmd FileType git nnoremap <buffer> <C-v><C-]> :call DiffGoFile('v')<CR>
 
 " Word highlighting.
 Plugin 'inkarkat/vim-ingo-library'
@@ -180,11 +178,30 @@ nmap <unique> <Leader>? <Plug>MarkSearchAnyPrev
 " Git integration.
 Plugin 'tpope/vim-fugitive'
 
+" Python pep8 partial formatting.
+Plug 'smbl64/vim-black-macchiato'
+autocmd FileType python vnoremap <buffer> gq <plug>(BlackMacchiatoSelection)
+autocmd FileType python nnoremap <buffer> gq <plug>(BlackMacchiatoCurrentLine)
+
+if !has('nvim')
+  " A few alternatives to lua plugins.
+
+  " Better status line.
+  Plugin 'vim-airline/vim-airline'
+
+  " Quickly find and open files.
+  Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plugin 'junegunn/fzf.vim'
+  nnoremap <leader>ff <cmd>Files<cr>
+endif
+
 " Used sometimes ======================================={{{2
 
 " Under Testing ========================================{{{2
 
 Plugin "machakann/vim-sandwich"
+
+Plugin "rafi/awesome-vim-colorschemes"
 
 " }}}2
 

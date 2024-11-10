@@ -103,9 +103,9 @@ bindkey -M vicmd v edit-command-line
 # Aliases =================================================================={{{1
 
 alias ls='ls --color=auto'
-alias ll='ls -l'
-alias la='ls -a'
-alias lla='ls -la'
+alias ll='ls -l --human-readable'
+alias la='ls --all'
+alias lla='ll --all'
 # A quick color configuration built with ChatGPT.
 export LS_COLORS='rs=0:di=34:ln=36:mh=00:pi=40;33:so=35:do=35:bd=40;33:cd=40;33:or=40;31:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=32:*.tar=31:*.tgz=31:*.arc=31:*.arj=31:*.taz=31:*.lha=31:*.lz4=31:*.lzh=31:*.lzma=31:*.tlz=31:*.txz=31:*.tzo=31:*.t7z=31:*.zip=31:*.z=31:*.dz=31:*.gz=31:*.lrz=31:*.lz=31:*.lzo=31:*.xz=31:*.zst=31:*.bz2=31:*.tbz=31:*.deb=31:*.rpm=31:*.jpg=35:*.jpeg=35:*.gif=35:*.png=35:*.mp3=36:*.wav=36'
 

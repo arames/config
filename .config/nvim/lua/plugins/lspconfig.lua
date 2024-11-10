@@ -45,6 +45,15 @@ local on_attach_clangd = function(client, bufnr)
   --end, bufopts)
 end
 
+local on_attach_pyright = function(client, bufnr)
+  on_attach_common(client, bufnr)
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  --vim.keymap.set({'v'}, '<Leader>f', function()
+  --  vim.lsp.buf.format { async = false }
+  --  vim.api.nvim_input "<Esc>"
+  --end, bufopts)
+end
+
 local local_config = function()
   local lspconfig = require("lspconfig")
 
@@ -52,6 +61,12 @@ local local_config = function()
     on_attach = on_attach_clangd,
     filetypes = { 'cpp' },
     cmd = { "clangd", "--background-index", "-j", "4"}
+    --capabilities = capabilities,
+  }
+
+  lspconfig.pyright.setup {
+    on_attach = on_attach_pyright,
+    filetypes = { 'python' },
     --capabilities = capabilities,
   }
 

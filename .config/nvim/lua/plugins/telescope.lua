@@ -22,7 +22,8 @@ return {
           },
         },
         path_display = {"truncate"}
-      }
+      },
+      pickers = { colorscheme = { enable_preview = true } },
     }
   end
 }
