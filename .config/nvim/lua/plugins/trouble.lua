@@ -5,12 +5,12 @@ return {
   keys = {
     {
       "<leader>cx",
-      "<cmd>Trouble diagnostics<cr>",
+      "<cmd>Trouble diagnostics filter.buf=0<cr>",
       desc = "Diagnostics (Trouble)",
     },
     {
       "<leader>cl",
-      "<cmd>Trouble lsp focus=false win.position=left<cr>",
+      "<cmd>Trouble lsp focus=false win.position=bottom<cr>",
       desc = "LSP Definitions / references / ... (Trouble)",
     },
     --[[

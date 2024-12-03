@@ -55,6 +55,8 @@ set number                         " Display line numbers.
 set cursorline                     " Highlight the line number...
 set cursorlineopt=number           " ...for the current line.
 
+colorscheme quiet
+
 " Load/Save and Automatic Backup ==========================================={{{1
 
 " Backup files.
@@ -197,11 +199,13 @@ endif
 
 " Used sometimes ======================================={{{2
 
+Plugin 'mbbill/undotree'
+
 " Under Testing ========================================{{{2
 
 Plugin "machakann/vim-sandwich"
 
-Plugin "rafi/awesome-vim-colorschemes"
+" Plugin "rafi/awesome-vim-colorschemes"
 
 " }}}2
 
@@ -222,8 +226,6 @@ endif
 if has("nvim")
   lua require("init")
 endif
-
-colorscheme hybrid
 
 " vim specific options ====================================================={{{1
 " vim: set foldmethod=marker:
