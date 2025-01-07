@@ -2,15 +2,16 @@ return {
   "folke/trouble.nvim",
   opts = {},
   cmd = "Trouble",
+  auto_close = true, -- auto close wen there are no items
   keys = {
     {
       "<leader>cx",
-      "<cmd>Trouble diagnostics filter.buf=0<cr>",
+      "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
       desc = "Diagnostics (Trouble)",
     },
     {
       "<leader>cl",
-      "<cmd>Trouble lsp focus=false win.position=bottom<cr>",
+      "<cmd>Trouble lsp toggle focus=false win.position=bottom<cr>",
       desc = "LSP Definitions / references / ... (Trouble)",
     },
     --[[
