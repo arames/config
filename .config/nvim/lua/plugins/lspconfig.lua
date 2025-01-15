@@ -55,19 +55,20 @@ local on_attach_pyright = function(client, bufnr)
 end
 
 local local_config = function()
+  local capabilities = require('blink.cmp').get_lsp_capabilities()
   local lspconfig = require("lspconfig")
 
   lspconfig.clangd.setup {
     on_attach = on_attach_clangd,
     filetypes = { 'cpp' },
-    cmd = { "clangd", "--background-index", "-j", "4"}
-    --capabilities = capabilities,
+    cmd = { "clangd", "--background-index", "-j", "4"},
+    capabilities = capabilities,
   }
 
   lspconfig.pyright.setup {
     on_attach = on_attach_pyright,
     filetypes = { 'python' },
-    --capabilities = capabilities,
+    capabilities = capabilities,
   }
 
   local function setup_icons()
@@ -109,6 +110,8 @@ return {
   "neovim/nvim-lspconfig",
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
+    'saghen/blink.cmp',
+
     --"nvimtools/none-ls.nvim",
     --"williamboman/mason-lspconfig.nvim",
   },
