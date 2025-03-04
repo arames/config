@@ -22,7 +22,9 @@ return {
       ["<C-k>"] = { "select_prev", "fallback" },
       ["<C-j>"] = { "select_next", "fallback" },
       ["<C-l>"] = { "select_and_accept" },
-      ["("] = { "select_and_accept", "fallback" },
+      -- ["("] = { "select_and_accept", "fallback" },
+      ["<C-p>"] = { "fallback" },
+      ["<C-n>"] = { "fallback" },
     },
 
     appearance = {
