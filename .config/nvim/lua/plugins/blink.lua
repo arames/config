@@ -27,6 +27,24 @@ return {
       ["<C-n>"] = { "fallback" },
     },
 
+    cmdline = {
+      enabled = true,
+      completion = {
+        menu = {
+          auto_show = true
+        }
+      },
+      keymap = {
+        preset = "default",
+        ["<C-k>"] = { "select_prev", "fallback" },
+        ["<C-j>"] = { "select_next", "fallback" },
+        ["<C-l>"] = { "select_and_accept" },
+        -- ["("] = { "select_and_accept", "fallback" },
+        ["<C-p>"] = { "fallback" },
+        ["<C-n>"] = { "fallback" },
+      },
+    },
+
     appearance = {
       -- Sets the fallback highlight groups to nvim-cmp's highlight groups
       -- Useful for when your theme doesn't support blink.cmp
