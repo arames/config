@@ -180,6 +180,9 @@ nmap <unique> <Leader>? <Plug>MarkSearchAnyPrev
 " Git integration.
 Plugin 'tpope/vim-fugitive'
 
+" Quick operations on "sorrounding" characters, e.g. `()`.
+Plugin "machakann/vim-sandwich"
+
 " Python pep8 partial formatting.
 Plug 'smbl64/vim-black-macchiato'
 autocmd FileType python vnoremap <buffer> gq <plug>(BlackMacchiatoSelection)
@@ -202,8 +205,6 @@ endif
 Plugin 'mbbill/undotree'
 
 " Under Testing ========================================{{{2
-
-Plugin "machakann/vim-sandwich"
 
 " Plugin "rafi/awesome-vim-colorschemes"
 
