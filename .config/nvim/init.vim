@@ -30,11 +30,12 @@ set encoding=utf-8
 set mouse=nvi             " Enable the mouse (e.g. for resizing).
 set ignorecase            " Ignore case in search by default,
 set smartcase             " but be case sensitive when using uppercase.
-set wildmenu              " Command-line completion in an enhanced mode.
-set wildmode=list:longest " Complete longest common string, then list.
 set noerrorbells          " No bells.
 set showcmd               " Display incomplete commands.
 set noerrorbells          " No bells.
+set wildmenu              " Command-line completion in an enhanced mode.
+set wildmode=longest:full,full " Complete longest common string, then list.
+set wildoptions=fuzzy,pum
 
 nnoremap <Space> <Nop>
 let mapleader = " "
@@ -112,7 +113,9 @@ autocmd BufRead,BufNewFile *.h.inc set filetype=cpp
 
 " Display a menu, insert the longest common prefix but don't select the first
 " entry, and display some additional information if available.
-set completeopt=menu,menuone,noselect,longest
+set completeopt=menu,menuone,noselect,longest,fuzzy
+inoremap <expr> <C-l> pumvisible() ? (complete_selected() == -1 ? "\<C-n>\<C-y>" : "\<C-y>") : "\<C-l>"
+
 
 " Indentation =========================================={{{2
 
