@@ -1,5 +1,5 @@
 " init.vim
-" by Alexandre Rames <alexandre.rames@uop.re>
+" by Alexandre Rames <alexandre.rames@gmail.com>
 "
 " The configuration is targeted at and has only been tested on terminal
 " vim/nvim. The primary target is now `nvim`, but backward compatibility with
@@ -56,7 +56,7 @@ set number                         " Display line numbers.
 set cursorline                     " Highlight the line number...
 set cursorlineopt=number           " ...for the current line.
 
-colorscheme quiet
+" colorscheme quiet
 
 " Load/Save and Automatic Backup ==========================================={{{1
 
@@ -114,7 +114,11 @@ autocmd BufRead,BufNewFile *.h.inc set filetype=cpp
 " Display a menu, insert the longest common prefix but don't select the first
 " entry, and display some additional information if available.
 set completeopt=menu,menuone,noselect,longest,fuzzy
-inoremap <expr> <C-l> pumvisible() ? (complete_selected() == -1 ? "\<C-n>\<C-y>" : "\<C-y>") : "\<C-l>"
+" `<C-l>` acts as the key to start completion and accept completion.
+inoremap <expr> <C-l> pumvisible() ? (get(complete_info(), "selected", -1) < 0 ? "\<C-n>\<C-y>" : "\<C-y>") : "\<C-x>\<C-o>"
+" Map `<C-j>` and `<C-k>` to `Down` and `Up` when the popup menu is visible.
+inoremap <expr> <C-j> pumvisible() ?  "\<Down>" : "\<C-j>"
+inoremap <expr> <C-k> pumvisible() ?  "\<Up>" : "\<C-k>"
 
 
 " Indentation =========================================={{{2
@@ -139,9 +143,15 @@ cabbr <expr> $$ fnameescape(expand("%"))
 cabbr <expr> %%f fnameescape(expand("%:hp"))
 cabbr <expr> $$f fnameescape(expand("%:p"))
 
-" Make <C-N> and <C-P> take the beginning of the line into account.
-cnoremap <C-n> <Down>
-cnoremap <C-p> <Up>
+" Make <C-n> and <C-p> take the beginning of the line into account.
+cnoremap <expr> <C-p> pumvisible() ?  "\<C-p>" : "\<Up>"
+cnoremap <expr> <C-n> pumvisible() ?  "\<C-n>" : "\<Down>"
+" Similarly to insert mode, `<C-l>` is used to trigger completion.
+" TODO: Also use it to accept completion.
+" set wildchar=
+" And `<C-j>` and `<C-k>` can be used to navigate.
+cnoremap <expr> <C-j> pumvisible() ?  "\<C-n>" : "\<C-j>"
+cnoremap <expr> <C-k> pumvisible() ?  "\<C-p>" : "\<C-k>"
 
 " Plugins =================================================================={{{1
 
