@@ -56,8 +56,6 @@ set number                         " Display line numbers.
 set cursorline                     " Highlight the line number...
 set cursorlineopt=number           " ...for the current line.
 
-" colorscheme quiet
-
 " Load/Save and Automatic Backup ==========================================={{{1
 
 " Backup files.

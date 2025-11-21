@@ -101,17 +101,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 --})
 
 local function setup_signs()
-  local signs = {
-    Error = "\u{2717}",
-    Warn = "\u{26A0}",
-    Hint = "!",
-    Info = "\u{1F6C8}"
-  }
-  for type, icon in pairs(signs) do
-    local hl = "DiagnosticSign" .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-  end
-
   vim.diagnostic.config({
     virtual_text = true,
     virtual_lines = true,
@@ -119,6 +108,16 @@ local function setup_signs()
     update_in_insert = false,
     underline = true,
     severity_sort = true,
+      signs = {
+    active = true, -- Ensure signs are enabled
+    text = {
+      [vim.diagnostic.severity.ERROR] =  "\u{2717}",
+      [vim.diagnostic.severity.WARN]  = "\u{26A0}",
+      [vim.diagnostic.severity.INFO]  = "!",
+      [vim.diagnostic.severity.HINT]  = "\u{1F6C8}"
+    },
+  },
+
   })
 end
 setup_signs()
