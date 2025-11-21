@@ -100,9 +100,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
 --  end,
 --})
 
+signs = {
+  [vim.diagnostic.severity.ERROR] =  "\u{2717}",
+  [vim.diagnostic.severity.WARN]  = "\u{26A0}",
+  [vim.diagnostic.severity.INFO]  = "!",
+  [vim.diagnostic.severity.HINT]  = "\u{1F6C8}"
+}
 local function setup_signs()
   vim.diagnostic.config({
-    virtual_text = true,
+    virtual_text = {
+      prefix = function(diag, i, total)
+        return signs[diag.severity]
+      end
+    },
     virtual_lines = true,
     signs = true,
     update_in_insert = false,
@@ -110,12 +120,7 @@ local function setup_signs()
     severity_sort = true,
       signs = {
     active = true, -- Ensure signs are enabled
-    text = {
-      [vim.diagnostic.severity.ERROR] =  "\u{2717}",
-      [vim.diagnostic.severity.WARN]  = "\u{26A0}",
-      [vim.diagnostic.severity.INFO]  = "!",
-      [vim.diagnostic.severity.HINT]  = "\u{1F6C8}"
-    },
+    text = signs,
   },
 
   })
