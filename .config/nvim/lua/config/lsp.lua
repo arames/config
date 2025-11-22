@@ -3,10 +3,9 @@ vim.lsp.config.clangd = {
   filetypes = { "c", "cpp", "objc", "objcpp" },
 }
 
-vim.lsp.enable({"clangd", "basedpyright"})
-
 -- Define or modify the 'basedpyright' LSP configuration
 vim.lsp.config('basedpyright', {
+  filetypes = { "python", "py" },
   -- This table contains the settings passed to the language server
   settings = {
     basedpyright = {
@@ -27,9 +26,8 @@ vim.lsp.config('basedpyright', {
   },
 })
 
--- Enable the 'basedpyright' language server configuration
--- This should be called after defining the config
-vim.lsp.enable('basedpyright')
+vim.lsp.enable({"clangd", "basedpyright"})
+
 
 
 -- Enable auto-triggering completion on LSP attach

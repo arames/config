@@ -43,7 +43,7 @@ let mapleader = " "
 " Presentation ============================================================={{{1
 
 set termguicolors                  " Use gui colors in the terminal.
-"" TODO: colorscheme quiet
+" colorscheme quiet
 set winminheight=0              " Minimum size of splits is 0.
 set nowrap                      " Do not wrap lines.
 set scrolloff=5                    " Show at least 5 lines around the cursor.
