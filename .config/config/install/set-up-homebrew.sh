@@ -3,15 +3,19 @@
 # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
 brew install \
+basedpyright \
 cmake \
 ctags \
 fzf \
 git \
 htop \
+luarocks \
 ninja \
 nvim \
+ripgrep \
 stgit \
 tmux \
+tree-sitter-cli \
 zsh \
 
 # Install and symlink a few LLVM/Clang utilties.
