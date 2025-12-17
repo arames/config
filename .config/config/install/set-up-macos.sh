@@ -3,6 +3,16 @@
 # Strongly inspired by and copy-pasting from
 # https://github.com/mathiasbynens/dotfiles/blob/main/.macos.
 
+# Some settings require full disk access.
+#!/usr/bin/env bash
+PROTECTED_SETTINGS="$HOME/Library/Containers/com.apple.Safari/Data/Library/Preferences/com.apple.Safari.plist"
+[ -r "$PROTECTED_SETTINGS" ] \
+  || {
+    echo "Full Disk Access is NOT enabled for this terminal."
+    echo "Grant it in: System Settings → Privacy & Security → Full Disk Access"
+    exit 1
+  }
+
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we are about to change.
 osascript -e 'tell application "System Preferences" to quit'
