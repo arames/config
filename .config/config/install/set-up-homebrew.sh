@@ -11,6 +11,7 @@ git \
 htop \
 luarocks \
 ninja \
+npm \
 nvim \
 ripgrep \
 stgit \
@@ -26,14 +27,14 @@ zsh \
 #  ln -s "$llvm_bins/$bin" /usr/local/bin/$bin
 #done
 
-# Install yabai.
-# https://github.com/koekeishiya/yabai
-brew install koekeishiya/formulae/yabai
-sudo yabai --install-sa
-brew services start yabai
-killall Dock
-
-# Install skhd.
-# https://github.com/koekeishiya/skhd
-brew install koekeishiya/formulae/skhd
-brew services start skhd
+## Install yabai.
+## https://github.com/koekeishiya/yabai
+#brew install koekeishiya/formulae/yabai
+#sudo yabai --install-sa
+#brew services start yabai
+#killall Dock
+#
+## Install skhd.
+## https://github.com/koekeishiya/skhd
+#brew install koekeishiya/formulae/skhd
+#brew services start skhd

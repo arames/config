@@ -23,9 +23,14 @@ sudo -v
 # Keep-alive: update existing `sudo` time stamp until this script has finished.
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
+set -e
+
 ################################################################################
 # General UI/UX                                                                #
 ################################################################################
+
+# Disable "Automatically rearrange Spaces based on most recent use".
+defaults write com.apple.dock "mru-spaces" -bool "false"
 
 # Expand save panel by default.
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
@@ -34,6 +39,7 @@ defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
 # Clock
 # Display date and 24-hour time.
 defaults write com.apple.menuextra.clock DateFormat -string "EEE d MMM  H:mm"
+
 
 ################################################################################
 # Keyboard                                                                     #
@@ -96,9 +102,9 @@ defaults write com.apple.dock autohide -bool true
 # Do not show recent applications in Dock.
 defaults write com.apple.dock show-recents -bool false
 
-###############################################################################
-# Safari                                                                      #
-###############################################################################
+################################################################################
+# Safari                                                                       #
+################################################################################
 
 # Prevent Safari from opening ‘safe’ files automatically after downloading.
 defaults write com.apple.Safari AutoOpenSafeDownloads -bool false
@@ -110,5 +116,11 @@ defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebK
 
 # Enable “Do Not Track”.
 defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true
+
+
+
+# Restart Apps that need to be updated.
+killall Dock
+killall Spotlight
 
 echo "Done. Note that some of these changes require a logout/restart to take effect."
