@@ -11,6 +11,15 @@ safe() {
 }
 
 echo "Installing the plugin manager (tpm)."
-safe git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+if [ -d ~/.tmux/plugins/tpm ]; then
+	echo "tpm already installed, updating..."
+	safe git -C ~/.tmux/plugins/tpm pull
+else
+	safe git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
+echo "Installing tmux plugins..."
+safe ~/.tmux/plugins/tpm/bin/install_plugins
+
 
 echo "Done."
