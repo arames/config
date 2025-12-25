@@ -1,6 +1,7 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
+  branch = "master",
+  --dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
   version = false, -- last release is way too old and doesn't work on Windows
   enable = true,
   build = ":TSUpdate",
