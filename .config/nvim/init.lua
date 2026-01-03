@@ -164,7 +164,7 @@ vim.cmd("IndentLLVM") -- Default to LLVM-style indentation.
 -- Command line ============================================================{{{1
 
 -- Pressing shift-; takes too much time!
-vim.keymap.set("n", ";", ":", { noremap = true })
+vim.keymap.set({"n", "v"}, ";", ":", { noremap = true })
 
 -- Command-line shortcuts that expand to the path of the current file.
 vim.cmd([[
