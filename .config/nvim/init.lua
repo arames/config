@@ -203,4 +203,8 @@ end, { expr = true })
 
 require("config.lazy")
 
+-- LSP ======================================================================{{{1
+
+require("config.lsp")
+
 -- nvim: set foldmethod=marker:
