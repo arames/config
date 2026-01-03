@@ -20,7 +20,7 @@ require("lazy").setup({
   spec = {
     { import = "plugins" },
   },
-  checker = { enabled = true },
+  install = { colorscheme = { "habamax" } },
   performance = {
     rtp = {
       disabled_plugins = {
@@ -31,5 +31,6 @@ require("lazy").setup({
         "zipPlugin",
       }
     },
-  }
+  },
+  checker = { enabled = true },
 })

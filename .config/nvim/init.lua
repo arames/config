@@ -14,7 +14,6 @@ vim.g.mapleader = " "
 -- Presentation ============================================================{{{1
 
 vim.opt.termguicolors = true              -- Use gui colors in the terminal.
--- colorscheme quiet
 vim.opt.winminheight = 0               -- Minimum size of splits is 0.
 vim.opt.wrap = false                   -- Do not wrap lines.
 vim.opt.scrolloff = 5                  -- Show at least 5 lines around the cursor.
@@ -31,6 +30,7 @@ vim.opt.cursorlineopt = "number"       -- ...for the current line.
 
 -- Backup files.
 vim.opt.backup = true
+vim.opt.backupdir = vim.fn.stdpath("state") .. "/nvim/backup//"
 -- Keep a history of the edits so changes from a previous session can be
 -- undone.
 vim.opt.undofile = true
