@@ -117,7 +117,26 @@ defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebK
 # Enable “Do Not Track”.
 defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true
 
+################################################################################
+# Fonts                                                                        #
+################################################################################
 
+FONT_NAME="Hack"
+FONT_VERSION="v3.003"
+DOWNLOAD_URL="https://github.com/source-foundry/Hack/releases/download/${FONT_VERSION}/Hack-${FONT_VERSION}-ttf.zip"
+TEMP_DIR=$(mktemp -d)
+FONT_DIR="$HOME/Library/Fonts"
+
+echo "Downloading ${FONT_NAME}..."
+curl -L -o "${TEMP_DIR}/hack.zip" "${DOWNLOAD_URL}"
+echo "Extracting archive..."
+unzip -q "${TEMP_DIR}/hack.zip" -d "${TEMP_DIR}"
+echo "Installing fonts to ${FONT_DIR}..."
+mkdir -p "${FONT_DIR}"
+cp "${TEMP_DIR}"/ttf/*.ttf "${FONT_DIR}/"
+echo "Cleaning up..."
+rm -rf "${TEMP_DIR}"
+echo "${FONT_NAME} font installed successfully!"
 
 # Restart Apps that need to be updated.
 killall Dock
