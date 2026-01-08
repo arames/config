@@ -19,6 +19,11 @@ tmux \
 tree-sitter-cli \
 zsh \
 
+# Install the hack nerd font to support unicode characters, e.g. in nvim.
+brew tap homebrew/cask-fonts
+brew install font-hack-nerd-font
+
+
 # Install and symlink a few LLVM/Clang utilties.
 #brew install llvm
 #llvm=$(ls -d /usr/local/Cellar/llvm/* | head -n1)
