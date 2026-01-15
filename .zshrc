@@ -147,7 +147,7 @@ autoload -Uz stgpatches
 
 export XDG_CONFIG_HOME=~/.config
 
-export PATH=$PATH:~/bin
+export PATH=$PATH:~/.local/bin
 
 # rust cargo location
 export CARGO_HOME=$XDG_CONFIG_HOME/cargo
