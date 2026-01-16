@@ -2,8 +2,8 @@
 
 # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
-brew install \
 basedpyright \
+brew install \
 cmake \
 ctags \
 fzf \
@@ -16,6 +16,7 @@ nvim \
 ripgrep \
 stgit \
 tmux \
+tree \
 tree-sitter-cli \
 zsh \
 
