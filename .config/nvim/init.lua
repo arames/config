@@ -103,7 +103,9 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 
 -- Display a menu, insert the longest common prefix but don't select the first
 -- entry, and display some additional information if available.
-vim.opt.completeopt = "menu,menuone,noselect,longest,fuzzy"
+-- `longest` causes issues with LSP completion, where characters typed too fast are erased.
+--vim.opt.completeopt = "menu,menuone,noselect,longest,fuzzy"
+vim.opt.completeopt = "menu,menuone,noselect,fuzzy"
 -- `<C-l>` acts as the key to start completion and accept completion.
 vim.keymap.set("i", "<C-l>", function()
   if vim.fn.pumvisible() == 1 then
