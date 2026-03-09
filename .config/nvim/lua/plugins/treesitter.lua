@@ -10,7 +10,10 @@ return {
   opts = {
     highlight = { enable = true },
     indent = { enable = true },
-    ensure_installed = {
+  },
+  config = function(_, opts)
+    require("nvim-treesitter").setup(opts)
+    require'nvim-treesitter'.install {
       "bash",
       "c",
       "cpp",
@@ -36,10 +39,7 @@ return {
       "vimdoc",
       "xml",
       "yaml",
-    },
-  },
-  config = function(_, opts)
-    require("nvim-treesitter").setup(opts)
+    }
 
     vim.api.nvim_create_autocmd("FileType", {
       group = vim.api.nvim_create_augroup("treesitter_settings", { clear = true }),
