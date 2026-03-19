@@ -1,54 +1,54 @@
-#!/usr/bin/zsh
+#\!/usr/bin/zsh
 
-if [ ! -n "$ZSH_BACKUP_DIR" ]; then
-	ZSH_BACKUP_DIR=$HOME/backup
-	mkdir -p "$ZSH_BACKUP_DIR"
-	echo "WARNING: ZSH_BACKUP_DIR is not set. Using default $ZSH_BACKUP_DIR."
-	echo "         You can set \$ZSH_BACKUP_DIR in your .zshrc to configure this statically."
+if [ \! -n "$ZSH_BACKUP_DIR" ]; then
+    ZSH_BACKUP_DIR=$HOME/backup
+    mkdir -p "$ZSH_BACKUP_DIR"
+    echo "WARNING: ZSH_BACKUP_DIR is not set. Using default $ZSH_BACKUP_DIR."
+    echo "         You can set \$ZSH_BACKUP_DIR in your .zshrc to configure this statically."
 fi
 
-if [ ! -d "$ZSH_BACKUP_DIR" ]; then
-	mkdir -p "$ZSH_BACKUP_DIR"
-	if [ $? ]; then
-		echo "WARNING: ZSH_BACKUP_DIR $ZSH_BACKUP_DIR does not exist and could not be created."
-		echo "         Using default $ZSH_BACKUP_DIR instead."
-		ZSH_BACKUP_DIR=$HOME/backup
-		mkdir -p "$ZSH_BACKUP_DIR"
-	fi
+if [ \! -d "$ZSH_BACKUP_DIR" ]; then
+    mkdir -p "$ZSH_BACKUP_DIR"
+    if [ $? -ne 0 ]; then
+        echo "WARNING: ZSH_BACKUP_DIR $ZSH_BACKUP_DIR does not exist and could not be created."
+        echo "         Using default $ZSH_BACKUP_DIR instead."
+        ZSH_BACKUP_DIR=$HOME/backup
+        mkdir -p "$ZSH_BACKUP_DIR"
+    fi
 fi
 
 function usage {
-	echo Usage: $(basename "$0") "[-h/--help]"
-	echo "Must be run from a git branch initialized with stgit. Export the"
-	echo "current series of patches and back it up."
-	echo "Options:"
-	echo "  -h,--help   Print this message."
+    echo Usage: $(basename "$0") "[-h/--help]"
+    echo "Must be run from a git branch initialized with stgit. Export the"
+    echo "current series of patches and back it up."
+    echo "Options:"
+    echo "  -h,--help   Print this message."
 }
 
 zparseopts h=opt_help -help=opt_help
 
 [[ -n $opt_help ]] && usage && return 0
 
-[[ $# -eq 0 ]] || (usage && return 1)
+[[ $# -eq 0 ]] || { usage; return 1; }
 
 backup_dir=$ZSH_BACKUP_DIR
 
-if [ -e $backup_dir ] && [ ! -d $backup_dir ]; then
-	echo "ERROR: $backup_dir exists and is not a directory."
-	return 1
+if [ -e $backup_dir ] && [ \! -d $backup_dir ]; then
+    echo "ERROR: $backup_dir exists and is not a directory."
+    return 1
 fi
 [[ -d $backup_dir ]] || mkdir $backup_dir
 
 
-date_tag=`date +%Y/%m/%d/%H-%M-%S`
-repo_name=$(basename `git rev-parse --show-toplevel`)
+date_tag=$(date +%Y/%m/%d/%H-%M-%S)
+repo_name=$(basename $(git rev-parse --show-toplevel))
 [[ $? -eq 0 ]] || usage
-branch_name=`git rev-parse --abbrev-ref HEAD`
+branch_name=$(git rev-parse --abbrev-ref HEAD)
 [[ $? -eq 0 ]] || usage
 
 
 backup_target=${backup_dir}/${date_tag}_${repo_name}.${branch_name}
-echo stg export --numbered --dir $backup_target
-stg export --numbered --dir $backup_target
-echo "Patches applied on top of " > $backup_target/NOTES
-git log --oneline -n10 HEAD~$(stg series --applied | wc -l) >> $backup_target/NOTES
+echo stg export --numbered --dir "$backup_target"
+stg export --numbered --dir "$backup_target"
+echo "Patches applied on top of " > "$backup_target/NOTES"
+git log --oneline -n10 HEAD~$(( $(stg series --applied | wc -l) )) >> "$backup_target/NOTES"
