@@ -1,0 +1,18 @@
+local abbrevs=(
+  "ser:series"
+  "ref:refresh"
+)
+
+local cmd="$1"
+shift
+
+for entry in "${abbrevs[@]}"; do
+  local abbrev="${entry%%:*}"
+  local full="${entry##*:}"
+  if [[ "$cmd" == "$abbrev" ]]; then
+    command stg "$full" "$@"
+    return
+  fi
+done
+
+command stg "$cmd" "$@"

@@ -138,6 +138,7 @@ source $ZSH_CUSTOM/completion.zsh
 fpath=( $ZSH_CUSTOM/functions/ "${fpath[@]}" )
 # List the functions to autoload. Use the '--help' option for details.
 autoload -Uz backup_files
+autoload -Uz stg
 autoload -Uz stgb
 autoload -Uz stgpatches
 
