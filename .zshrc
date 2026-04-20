@@ -111,7 +111,7 @@ export LS_COLORS='rs=0:di=34:ln=36:mh=00:pi=40;33:so=35:do=35:bd=40;33:cd=40;33:
 
 alias vim='nvim'
 alias -g ds='| diffstat'
-alias -g v-='| vim -'
+alias -g v-='2>&1 | vim -'
 
 if [[ "$platform" == 'linux' ]]; then
 	alias pbcopy='xclip -selection clipboard'
